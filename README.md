@@ -29,4 +29,22 @@
 
 ## Getting Started
 
-To get started
+To get started, clone the
+[sbv2-aptos](https://github.com/switchboard-xyz/sbv2-aptos) repository.
+
+```bash
+git clone https://github.com/switchboard-xyz/sbv2-aptos
+```
+
+Then install the dependencies
+
+```bash
+cd sbv2-aptos
+pnpm install
+```
+
+## Program IDs
+
+| **Network** | **Program ID**                                                       |
+| ----------- | -------------------------------------------------------------------- |
+| Mainnet     | `0x7d7e436f0b2aafde60774efb26ccc432cf

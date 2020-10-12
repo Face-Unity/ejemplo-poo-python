@@ -47,4 +47,15 @@ pnpm install
 
 | **Network** | **Program ID**                                                       |
 | ----------- | -------------------------------------------------------------------- |
-| Mainnet     | `0x7d7e436f0b2aafde60774efb26ccc432cf
+| Mainnet     | `0x7d7e436f0b2aafde60774efb26ccc432cf881b677aca7faaf2a01879bd19fb8`  |
+| Testnet     | `0xb91d3fef0eeb4e685dc85e739c7d3e2968784945be4424e92e2f86e2418bf271` |
+
+See [switchboard.xyz/explorer](https://switchboard.xyz/explorer) for a list of
+feeds deployed on Aptos.
+
+See [app.switchboard.xyz](https://app.switchboard.xyz) to create your own Aptos
+feeds.
+
+## Libraries
+
+| **Lang** | **Name**                                                                                                                                          

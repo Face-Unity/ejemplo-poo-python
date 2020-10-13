@@ -60,4 +60,9 @@ feeds.
 
 | **Lang** | **Name**                                                                                                                                                                                            | **Description**                                            |
 | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| Move     | [switchboard](/move/switchboard/)                                                      
+| Move     | [switchboard](/move/switchboard/)                                                                                                                                                                   | Move module to deserialize and read Switchboard data feeds |
+| JS       | [@switchboard-xyz/aptos.js](/javascript/aptos.js/) <br />[[npmjs](https://www.npmjs.com/package/@switchboard-xyz/aptos.js), [Typedocs](https://docs.switchboard.xyz/api/@switchboard-xyz/aptos.js)] | Typescript package to interact with Switchboard V2         |
+
+## Example Programs
+
+- [feed-parser](/programs/feed-parser/): Read a Swi

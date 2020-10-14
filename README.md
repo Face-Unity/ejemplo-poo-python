@@ -65,4 +65,20 @@ feeds.
 
 ## Example Programs
 
-- [feed-parser](/programs/feed-parser/): Read a Swi
+- [feed-parser](/programs/feed-parser/): Read a Switchboard feed on Aptos
+
+## Troubleshooting
+
+1. File a
+   [GitHub Issue](https://github.com/switchboard-xyz/sbv2-aptos/issues/new)
+2. Ask a question in
+   [Discord #dev-support](https://discord.com/channels/841525135311634443/984343400377647144)
+
+<!--
+
+
+## Live Deployment:
+
+We're currently on Aptos Testnet and Devnet at address `0x34e2eead0aefbc3d0af13c0522be94b002658f4bef8e0740a21086d22236ad77`. For the simplest way to create and manage Switchboard feeds on Aptos, check out our [publisher](https://app.switchboard.xyz).
+
+Our 

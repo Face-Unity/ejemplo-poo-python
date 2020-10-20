@@ -81,4 +81,29 @@ feeds.
 
 We're currently on Aptos Testnet and Devnet at address `0x34e2eead0aefbc3d0af13c0522be94b002658f4bef8e0740a21086d22236ad77`. For the simplest way to create and manage Switchboard feeds on Aptos, check out our [publisher](https://app.switchboard.xyz).
 
-Our 
+Our automated updates will be live again by Monday (Oct 3).
+
+## Install
+
+```
+npm i --save @switchboard-xyz/aptos.js
+```
+
+## Creating Feeds
+
+```ts
+import { Buffer } from "buffer";
+import { AptosClient, AptosAccount, FaucetClient, HexString } from "aptos";
+import {
+  AptosEvent,
+  EventCallback,
+  OracleJob,
+  createFeed,
+} from "@switchboard-xyz/aptos.js";
+import Big from "big.js";
+
+const NODE_URL = "https://fullnode.devnet.aptoslabs.com/v1";
+const FAUCET_URL = "https://faucet.devnet.aptoslabs.com";
+
+const SWITCHBOARD_ADDRESS =
+  "0x

@@ -106,4 +106,19 @@ const NODE_URL = "https://fullnode.devnet.aptoslabs.com/v1";
 const FAUCET_URL = "https://faucet.devnet.aptoslabs.com";
 
 const SWITCHBOARD_ADDRESS =
-  "0x
+  "0x34e2eead0aefbc3d0af13c0522be94b002658f4bef8e0740a21086d22236ad77";
+
+const SWITCHBOARD_QUEUE_ADDRESS =
+  "0x34e2eead0aefbc3d0af13c0522be94b002658f4bef8e0740a21086d22236ad77";
+
+const SWITCHBOARD_CRANK_ADDRESS =
+  "0x34e2eead0aefbc3d0af13c0522be94b002658f4bef8e0740a21086d22236ad77";
+
+const client = new AptosClient(NODE_URL);
+const faucetClient = new FaucetClient(NODE_URL, FAUCET_URL);
+
+// create new user
+let user = new AptosAccount();
+
+await faucetClient.fundAccount(user.address(), 50000);
+c

@@ -143,4 +143,14 @@ const serializedJob = Buffer.from(
   ).finish()
 );
 
-const [aggregator,
+const [aggregator, createFeedTx] = await createFeed(
+  client,
+  user,
+  {
+    authority: user.address(),
+    queueAddress: SWITCHBOARD_QUEUE_ADDRESS, // account with OracleQueue resource
+    crankAddress: SWITCHBOARD_CRANK_ADDRESS, // account with Crank resource
+    batchSize: 1, // number of oracles to respond to each round
+    minJobResults: 1, // minimum # of jobs that need to return a result
+    minOracleResults: 1, // minumum # of oracles that need to respond for a result
+    minUpdateDelaySeconds: 5, // minimum de

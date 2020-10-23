@@ -153,4 +153,21 @@ const [aggregator, createFeedTx] = await createFeed(
     batchSize: 1, // number of oracles to respond to each round
     minJobResults: 1, // minimum # of jobs that need to return a result
     minOracleResults: 1, // minumum # of oracles that need to respond for a result
-    minUpdateDelaySeconds: 5, // minimum de
+    minUpdateDelaySeconds: 5, // minimum delay between rounds
+    coinType: "0x1::aptos_coin::AptosCoin", // CoinType of the queue (now only AptosCoin)
+    initialLoadAmount: 1000, // load of the lease
+    jobs: [
+      {
+        name: "BTC/USD",
+        metadata: "binance",
+        authority: user.address().hex(),
+        data: serializedJob.toString("base64"), // jobs need to be base64 encoded strings
+        weight: 1,
+      },
+    ],
+  },
+  SWITCHBOARD_ADDRESS
+);
+
+console.log(
+  `Created Aggregator and Lease resources at account address ${aggregator.a

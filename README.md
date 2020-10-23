@@ -121,4 +121,26 @@ const faucetClient = new FaucetClient(NODE_URL, FAUCET_URL);
 let user = new AptosAccount();
 
 await faucetClient.fundAccount(user.address(), 50000);
-c
+console.log(`User account ${user.address().hex()} created + funded.`);
+
+// Make Job data for btc price
+const serializedJob = Buffer.from(
+  OracleJob.encodeDelimited(
+    OracleJob.create({
+      tasks: [
+        {
+          httpTask: {
+            url: "https://www.binance.us/api/v3/ticker/price?symbol=BTCUSD",
+          },
+        },
+        {
+          jsonParseTask: {
+            path: "$.price",
+          },
+        },
+      ],
+    })
+  ).finish()
+);
+
+const [aggregator,

@@ -170,4 +170,33 @@ const [aggregator, createFeedTx] = await createFeed(
 );
 
 console.log(
-  `Created Aggregator and Lease resources at account address ${aggregator.a
+  `Created Aggregator and Lease resources at account address ${aggregator.address}. Tx hash ${createFeedTx}`
+);
+
+// Manually trigger an update
+await aggregator.openRound(user);
+```
+
+### Listening to Updates
+
+```ts
+/**
+ * Listen to Aggregator Updates Off-Chain
+ */
+
+// create event listener
+const onAggregatorUpdate = (
+  client: AptosClient,
+  callback: EventCallback,
+  pollIntervalMs: number = 1000
+) Promise<AptosEvent> => {
+  return AggregatorAccount.watch(
+    client,
+    SWITCHBOARD_ADDRESS,
+    callback,Yeah
+    pollIntervalMs
+  );
+};
+
+// initialize event listener
+const updatePoller = await onAggreg

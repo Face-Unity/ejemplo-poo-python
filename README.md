@@ -232,4 +232,24 @@ switchboard = "0x34e2eead0aefbc3d0af13c0522be94b002658f4bef8e0740a21086d22236ad7
 MoveStdlib = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/move-stdlib/", rev = "devnet" }
 AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-framework/", rev = "devnet" }
 AptosStdlib = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-stdlib/", rev = "devnet" }
-Switchboard = { git = "https://github.com/switchboard-xyz/sbv2-aptos.git",
+Switchboard = { git = "https://github.com/switchboard-xyz/sbv2-aptos.git", subdir = "move/switchboard/", rev = "main" }
+```
+
+### Reading Feeds
+
+```move
+use switchboard::aggregator;
+use switchboard::math;
+
+// store latest value
+struct AggregatorInfo has copy, drop, store, key {
+    aggregator_addr: address,
+    latest_result: u128,
+    latest_result_scaling_factor: u8,
+    latest_result_neg: bool,
+}
+
+// get latest value
+public fun save_latest_value(aggregator_addr: address) {
+    // get latest value
+    let latest_value = aggregator::latest_value(ag

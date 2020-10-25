@@ -199,4 +199,31 @@ const onAggregatorUpdate = (
 };
 
 // initialize event listener
-const updatePoller = await onAggreg
+const updatePoller = await onAggregatorUpdate(client, async (e) => {
+  if (aggregator.address == e.data.aggregator_address) {
+    console.log(`NEW RESULT:`, e.data);
+  }
+});
+```
+
+### Reading Feeds
+
+```ts
+import { AggregatorAccount } from "@switchboard-xyz/aptos.js";
+
+const aggregatorAccount: AggregatorAccount = new AggregatorAccount(
+  client,
+  aggregator_address,
+  SWITCHBOARD_ADDRESS
+);
+
+console.log(await aggregatorAccount.loadData());
+```
+
+# Aptos
+
+### Move.toml
+
+```toml
+[addresses]
+switchboard = "0x34e2eead0aefbc3d0af13c0522be94b002658f4bef

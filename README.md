@@ -269,4 +269,16 @@ use aptos_framework::block;
 #[test_only]
 use aptos_framework::timestamp;
 // some testing that uses aggregator test utility functions
-#[test(apt
+#[test(aptos_framework = @0x1, account = @0x123)]
+public entry fun test_aggregator(aptos_framework: &signer, account: &signer) {
+    account::create_account_for_test(signer::address_of(aptos_framework));
+    block::initialize_for_test(aptos_framework, 1);
+    timestamp::set_time_has_started_for_testing(aptos_framework);
+
+    // creates test aggregator with data
+    aggregator::new_test(account, 100, 0, false);
+
+    // print out value
+    std::debug::print(&aggregator::latest_value(signer::address_of(account)));
+}
+``` -->

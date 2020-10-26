@@ -252,4 +252,21 @@ struct AggregatorInfo has copy, drop, store, key {
 // get latest value
 public fun save_latest_value(aggregator_addr: address) {
     // get latest value
-    let latest_value = aggregator::latest_value(ag
+    let latest_value = aggregator::latest_value(aggregator_addr);
+    let (value, scaling_factor, neg) = math::unpack(latest_value);
+    move_to(account, AggregatorInfo {
+        aggregator_addr: aggregator_addr,
+        latest_result: value,
+        latest_result_scaling_factor: scaling_factor,
+        latest_result_neg: neg,
+    });
+}
+
+#[test_only]
+use aptos_framework::account;
+#[test_only]
+use aptos_framework::block;
+#[test_only]
+use aptos_framework::timestamp;
+// some testing that uses aggregator test utility functions
+#[test(apt

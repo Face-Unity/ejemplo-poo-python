@@ -25,4 +25,20 @@ import {
 import { OracleJob } from "@switchboard-xyz/common";
 
 export const CHECK_ICON = chalk.green("\u2714");
-export
+export const FAILED_ICON = chalk.red("\u2717");
+
+yargs(hideBin(process.argv))
+  .scriptName("sbv2-aptos")
+  .command(
+    "create-account",
+    "create an Aptos account and save to fs",
+    (y: any) => {
+      return y;
+    },
+    async function (argv: any) {
+      const { rpcUrl, faucetUrl, keypair, pid, stateAddress } = argv;
+
+      const client = new AptosClient(rpcUrl);
+      const faucet = new FaucetClient(
+        "https://fullnode.devnet.aptoslabs.com/v1",
+        "https://f

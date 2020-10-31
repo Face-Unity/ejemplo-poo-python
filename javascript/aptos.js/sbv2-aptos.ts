@@ -41,4 +41,23 @@ yargs(hideBin(process.argv))
       const client = new AptosClient(rpcUrl);
       const faucet = new FaucetClient(
         "https://fullnode.devnet.aptoslabs.com/v1",
-        "https://f
+        "https://faucet.devnet.aptoslabs.com"
+      );
+
+      const account = new AptosAccount();
+
+      await faucet.fundAccount(account.address(), 5000);
+
+      console.log(`Account: ${account.address()}`);
+      console.log(`Balance: ${await loadBalance(client, account.address())}`);
+
+      saveAptosAccount(account, keypair, true);
+
+      process.exit(0);
+    }
+  )
+  .command(
+    "print-aggregator [aggregatorHex]",
+    "print an aggregator account",
+    (y: any) => {
+      return y.position

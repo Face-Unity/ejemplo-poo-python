@@ -78,4 +78,25 @@ yargs(hideBin(process.argv))
         keypair
       );
 
-      const aggregatorHexString = new HexString(
+      const aggregatorHexString = new HexString(aggregatorHex);
+      const aggregator = new AggregatorAccount(
+        client,
+        aggregatorHexString,
+        pid,
+        stateAddress
+      );
+      const aggregatorState = await aggregator.loadData();
+
+      process.exit(0);
+    }
+  )
+  .command(
+    "address",
+    "print the hex address of the keypair",
+    (y: any) => {
+      return y;
+    },
+    async function (argv: any) {
+      const { rpcUrl, faucetUrl, keypair, numAirdrops } = argv;
+      const client = new AptosClient(rpcUrl);
+      const account

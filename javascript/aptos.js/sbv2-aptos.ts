@@ -60,4 +60,22 @@ yargs(hideBin(process.argv))
     "print-aggregator [aggregatorHex]",
     "print an aggregator account",
     (y: any) => {
-      return y.position
+      return y.positional("aggregatorHex", {
+        type: "string",
+        describe: "hexString of the aggregator to print",
+        required: true,
+      });
+    },
+    async function (argv: any) {
+      const { rpcUrl, faucetUrl, keypair, aggregatorHex, pid, stateAddress } =
+        argv;
+
+      const { client, faucet, account, state } = await loadCli(
+        rpcUrl,
+        faucetUrl,
+        pid,
+        stateAddress,
+        keypair
+      );
+
+      const aggregatorHexString = new HexString(

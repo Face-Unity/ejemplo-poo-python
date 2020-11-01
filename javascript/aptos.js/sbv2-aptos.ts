@@ -117,4 +117,22 @@ yargs(hideBin(process.argv))
       });
     },
     async function (argv: any) {
-      const {
+      const { rpcUrl, faucetUrl, keypair, numAirdrops, pid, stateAddress } =
+        argv;
+
+      const { client, faucet, account, state } = await loadCli(
+        rpcUrl,
+        faucetUrl,
+        pid,
+        stateAddress,
+        keypair
+      );
+
+      for await (const _ of new Array(numAirdrops)) {
+        await faucet.fundAccount(account.address(), 50_000);
+      }
+
+      console.log(`Address: ${account.address()}`);
+      console.log(`Balance: ${await loadBalance(client, account.address())}`);
+
+   

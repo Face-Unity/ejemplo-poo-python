@@ -99,4 +99,22 @@ yargs(hideBin(process.argv))
     async function (argv: any) {
       const { rpcUrl, faucetUrl, keypair, numAirdrops } = argv;
       const client = new AptosClient(rpcUrl);
-      const account
+      const account = loadAptosAccount(keypair);
+      console.log(`Address: ${account.address()}`);
+      console.log(`Balance: ${await loadBalance(client, account.address())}`);
+      process.exit(0);
+    }
+  )
+  .command(
+    "airdrop",
+    "request from faucet",
+    (y: any) => {
+      return y.option("numAirdrops", {
+        type: "number",
+        describe: "number of airdrops to request",
+        demand: false,
+        default: 2,
+      });
+    },
+    async function (argv: any) {
+      const {

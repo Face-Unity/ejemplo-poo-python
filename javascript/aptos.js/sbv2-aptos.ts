@@ -156,4 +156,17 @@ yargs(hideBin(process.argv))
       );
 
       const stateAccount = new AptosAccount();
-      await faucet.fundAccount(stateAccount.address(
+      await faucet.fundAccount(stateAccount.address(), 10000);
+      await faucet.fundAccount(stateAccount.address(), 10000);
+      await faucet.fundAccount(stateAccount.address(), 10000);
+      console.log(
+        `Balance: ${await loadBalance(client, stateAccount.address())}`
+      );
+
+      const [state, sig] = await StateAccount.init(client, stateAccount, pid);
+      console.log(`Signature: ${sig}`);
+      console.log(`State: ${stateAccount.address()}`);
+
+      saveAptosAccount(
+        stateAccount,
+        `state-${new Date().toJSON().sl

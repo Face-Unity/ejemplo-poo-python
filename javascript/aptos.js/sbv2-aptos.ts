@@ -135,4 +135,25 @@ yargs(hideBin(process.argv))
       console.log(`Address: ${account.address()}`);
       console.log(`Balance: ${await loadBalance(client, account.address())}`);
 
-   
+      process.exit(0);
+    }
+  )
+  .command(
+    "create-state",
+    "create a state account",
+    (y: any) => {
+      return y;
+    },
+    async function (argv: any) {
+      const { rpcUrl, faucetUrl, keypair, pid, stateAddress } = argv;
+
+      const { client, faucet, account } = await loadCli(
+        rpcUrl,
+        faucetUrl,
+        pid,
+        stateAddress,
+        keypair
+      );
+
+      const stateAccount = new AptosAccount();
+      await faucet.fundAccount(stateAccount.address(

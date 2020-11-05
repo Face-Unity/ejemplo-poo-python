@@ -169,4 +169,26 @@ yargs(hideBin(process.argv))
 
       saveAptosAccount(
         stateAccount,
-        `state-${new Date().toJSON().sl
+        `state-${new Date().toJSON().slice(0, 10)}-${stateAccount.address}.json`
+      );
+
+      console.log(`stateAccount: ${stateAccount.address()}`);
+
+      try {
+        const stateData = await state.loadData();
+        console.log(JSON.stringify(stateData, undefined, 2));
+      } catch (error) {
+        console.error(`Error fetching state data: ${error}`);
+      }
+
+      process.exit(0);
+    }
+  )
+  .command(
+    "create-queue",
+    "create an oracle queue",
+    (y: any) => {
+      return y;
+    },
+    async function (argv: any) {
+      c

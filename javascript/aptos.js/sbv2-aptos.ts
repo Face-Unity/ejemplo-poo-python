@@ -208,4 +208,20 @@ yargs(hideBin(process.argv))
       const [queue, sig] = await OracleQueueAccount.init(
         client,
         queueAccount,
-     
+        {
+          name: "queue",
+          metadata: "",
+          authority: account.address().hex(),
+          oracleTimeout: 180,
+          reward: 0,
+          minStake: 0,
+          slashingEnabled: false,
+          varianceToleranceMultiplierValue: 0,
+          varianceToleranceMultiplierScale: 0,
+          feedProbationPeriod: 0,
+          consecutiveFeedFailureLimit: 0,
+          consecutiveOracleFailureLimit: 0,
+          unpermissionedFeedsEnabled: true,
+          unpermissionedVrfEnabled: true,
+          lockLeaseFunding: false,
+          enableBufferRel

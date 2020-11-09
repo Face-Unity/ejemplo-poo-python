@@ -224,4 +224,24 @@ yargs(hideBin(process.argv))
           unpermissionedFeedsEnabled: true,
           unpermissionedVrfEnabled: true,
           lockLeaseFunding: false,
-          enableBufferRel
+          enableBufferRelayers: false,
+          maxSize: 10,
+          coinType: "0x1::aptos_coin::AptosCoin",
+        },
+        pid
+      );
+
+      console.log(`Signature: ${sig}`);
+      console.log(`Queue: ${queue.address}`);
+
+      saveAptosAccount(
+        queueAccount,
+        `queue-${new Date().toJSON().slice(0, 10)}-${queueAccount.address}.json`
+      );
+
+      console.log(`queueAccount: ${queueAccount.address()}`);
+
+      try {
+        const queueData = await queue.loadData();
+        console.log(JSON.stringify(queueData, undefined, 2));
+      }

@@ -244,4 +244,24 @@ yargs(hideBin(process.argv))
       try {
         const queueData = await queue.loadData();
         console.log(JSON.stringify(queueData, undefined, 2));
+      } catch (error) {
+        console.error(`Error fetching queue data: ${error}`);
       }
+
+      process.exit(0);
+    }
+  )
+  .command(
+    "create-oracle [queueHex]",
+    "action",
+    (y: any) => {
+      return y.positional("queueHex", {
+        type: "string",
+        describe: "hexString of the oracle queue to join",
+        required: true,
+      });
+    },
+    async function (argv: any) {
+      const { rpcUrl, faucetUrl, keypair, queueHex, pid, stateAddress } = argv;
+
+      const { client, faucet, account, state } = await loadCli

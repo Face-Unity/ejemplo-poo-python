@@ -264,4 +264,24 @@ yargs(hideBin(process.argv))
     async function (argv: any) {
       const { rpcUrl, faucetUrl, keypair, queueHex, pid, stateAddress } = argv;
 
-      const { client, faucet, account, state } = await loadCli
+      const { client, faucet, account, state } = await loadCli(
+        rpcUrl,
+        faucetUrl,
+        pid,
+        stateAddress,
+        keypair
+      );
+
+      const queueHexString = new HexString(queueHex);
+      const queue = new OracleQueueAccount(
+        client,
+        queueHexString,
+        pid,
+        stateAddress
+      );
+      const oracleAccount = new AptosAccount();
+      await faucet.fundAccount(oracleAccount.address(), 5000);
+
+      console.log(`authority = ${account.address()}`);
+
+      const [oracle, sig] = await OracleAccount.init

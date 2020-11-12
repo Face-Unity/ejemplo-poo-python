@@ -284,4 +284,24 @@ yargs(hideBin(process.argv))
 
       console.log(`authority = ${account.address()}`);
 
-      const [oracle, sig] = await OracleAccount.init
+      const [oracle, sig] = await OracleAccount.init(
+        client,
+        oracleAccount,
+        {
+          name: "TestOracle",
+          metadata: "Testing123",
+          authority: account.address(),
+          queue: queueHexString,
+          coinType: "0x1::aptos_coin::AptosCoin",
+        },
+        pid
+      );
+
+      console.log(`Signature: ${sig}`);
+      console.log(`Oracle: ${oracle.address}`);
+      console.log(`oracleAccount: ${oracleAccount.address()}`);
+
+      saveAptosAccount(
+        oracleAccount,
+        `oracle-${new Date()
+       

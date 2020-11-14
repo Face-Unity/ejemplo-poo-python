@@ -346,4 +346,21 @@ yargs(hideBin(process.argv))
         pid,
         stateAddress
       );
-      const crankAccount 
+      const crankAccount = new AptosAccount();
+      await faucet.fundAccount(crankAccount.address(), 5000);
+
+      console.log(`authority = ${account.address()}`);
+
+      const [crank, sig] = await CrankAccount.init(
+        client,
+        crankAccount,
+        {
+          queueAddress: HexString.ensure(queueHexString),
+          coinType: "0x1::aptos_coin::AptosCoin",
+        },
+        pid
+      );
+
+      console.log(`Signature: ${sig}`);
+      console.log(`Crank: ${crank.address}`);
+      console.log(`crankAccount: ${crankAccount.addre

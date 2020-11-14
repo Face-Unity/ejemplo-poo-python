@@ -304,4 +304,25 @@ yargs(hideBin(process.argv))
       saveAptosAccount(
         oracleAccount,
         `oracle-${new Date()
-       
+          .toJSON()
+          .slice(0, 10)}-${oracleAccount.address()}.json`
+      );
+
+      try {
+        const oracleData = await oracle.loadData();
+        console.log(JSON.stringify(oracleData, undefined, 2));
+      } catch (error) {
+        console.error(`Error fetching oracle data: ${error}`);
+      }
+
+      process.exit(0);
+    }
+  )
+  .command(
+    "create-crank [queueHex]",
+    "action",
+    (y: any) => {
+      return y.positional("queueHex", {
+        type: "string",
+        describe: "hexString of the oracle queue to join",
+        required: t

@@ -325,4 +325,25 @@ yargs(hideBin(process.argv))
       return y.positional("queueHex", {
         type: "string",
         describe: "hexString of the oracle queue to join",
-        required: t
+        required: true,
+      });
+    },
+    async function (argv: any) {
+      const { rpcUrl, faucetUrl, keypair, queueHex, pid, stateAddress } = argv;
+
+      const { client, faucet, account, state } = await loadCli(
+        rpcUrl,
+        faucetUrl,
+        pid,
+        stateAddress,
+        keypair
+      );
+
+      const queueHexString = new HexString(queueHex);
+      const queue = new OracleQueueAccount(
+        client,
+        queueHexString,
+        pid,
+        stateAddress
+      );
+      const crankAccount 

@@ -363,4 +363,26 @@ yargs(hideBin(process.argv))
 
       console.log(`Signature: ${sig}`);
       console.log(`Crank: ${crank.address}`);
-      console.log(`crankAccount: ${crankAccount.addre
+      console.log(`crankAccount: ${crankAccount.address()}`);
+
+      saveAptosAccount(
+        crankAccount,
+        `crank-${new Date()
+          .toJSON()
+          .slice(0, 10)}-${crankAccount.address()}.json`
+      );
+
+      try {
+        const crankData = await crank.loadData();
+        console.log(JSON.stringify(crankData, undefined, 2));
+      } catch (error) {
+        console.error(`Error fetching crank data: ${error}`);
+      }
+
+      process.exit(0);
+    }
+  )
+  .command(
+    "crank-push [crankHex] [aggregatorHex]",
+    "action",
+    (y: any) => 

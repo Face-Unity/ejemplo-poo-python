@@ -406,4 +406,21 @@ yargs(hideBin(process.argv))
         keypair,
         crankHex,
         aggregatorHex,
-    
+        pid,
+        stateAddress,
+      } = argv;
+
+      const { client, faucet, account, state } = await loadCli(
+        rpcUrl,
+        faucetUrl,
+        pid,
+        stateAddress,
+        keypair
+      );
+
+      const crankHexString = new HexString(crankHex);
+      const crank = new CrankAccount(client, crankHexString, pid, stateAddress);
+      const aggregatorHexString = new HexString(aggregatorHex);
+      const payer = new AptosAccount();
+      await faucet.fundAccount(payer.address(), 10000);
+      const aggre

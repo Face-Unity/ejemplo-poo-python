@@ -385,4 +385,25 @@ yargs(hideBin(process.argv))
   .command(
     "crank-push [crankHex] [aggregatorHex]",
     "action",
-    (y: any) => 
+    (y: any) => {
+      return [
+        y.positional("crankHex", {
+          type: "string",
+          describe: "hexString of the crank",
+          required: true,
+        }),
+        y.positional("aggregatorHex", {
+          type: "string",
+          describe: "hexString of the aggregator",
+          required: true,
+        }),
+      ];
+    },
+    async function (argv: any) {
+      const {
+        rpcUrl,
+        faucetUrl,
+        keypair,
+        crankHex,
+        aggregatorHex,
+    

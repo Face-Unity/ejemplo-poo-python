@@ -423,4 +423,25 @@ yargs(hideBin(process.argv))
       const aggregatorHexString = new HexString(aggregatorHex);
       const payer = new AptosAccount();
       await faucet.fundAccount(payer.address(), 10000);
-      const aggre
+      const aggregator = new AggregatorAccount(
+        client,
+        aggregatorHexString,
+        pid,
+        stateAddress
+      );
+      const sig = await crank.push(payer, {
+        aggregatorAddress: HexString.ensure(aggregator.address).hex(),
+      });
+      console.log(sig);
+      process.exit(0);
+    }
+  )
+  .command(
+    "create-aggregator [queueHex]",
+    "action",
+    (y: any) => {
+      return y.positional("queueHex", {
+        type: "string",
+        describe: "hexString of the oracle queue to join",
+        required: true,
+      })

@@ -444,4 +444,26 @@ yargs(hideBin(process.argv))
         type: "string",
         describe: "hexString of the oracle queue to join",
         required: true,
-      })
+      });
+    },
+    async function (argv: any) {
+      const { rpcUrl, faucetUrl, keypair, queueHex, pid, stateAddress } = argv;
+
+      const { client, faucet, account, state } = await loadCli(
+        rpcUrl,
+        faucetUrl,
+        pid,
+        stateAddress,
+        keypair
+      );
+
+      const queueHexString = new HexString(queueHex);
+      const queue = new OracleQueueAccount(
+        client,
+        queueHexString,
+        pid,
+        stateAddress
+      );
+
+      const aggregatorAccount = new AptosAccount();
+      await faucet.

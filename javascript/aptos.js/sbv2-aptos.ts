@@ -466,4 +466,19 @@ yargs(hideBin(process.argv))
       );
 
       const aggregatorAccount = new AptosAccount();
-      await faucet.
+      await faucet.fundAccount(aggregatorAccount.address(), 15000);
+
+      const [aggregator, aggregatorSig] = await AggregatorAccount.init(
+        client,
+        aggregatorAccount,
+        {
+          authority: account.address(),
+          name: "BTC/USD",
+          metadata: "Switchboard BTC/USD Feed",
+          queueAddress: queue.address,
+          crankAddress: SWITCHBOARD_DEVNET_ADDRESS, // same as testnetA
+          batchSize: 1,
+          minOracleResults: 1,
+          minJobResults: 3,
+          minUpdateDelaySeconds: 8,
+          coinType: "0x1

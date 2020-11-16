@@ -481,4 +481,26 @@ yargs(hideBin(process.argv))
           minOracleResults: 1,
           minJobResults: 3,
           minUpdateDelaySeconds: 8,
-          coinType: "0x1
+          coinType: "0x1::aptos_coin::AptosCoin",
+        },
+        pid
+      );
+      console.log(`Aggregator Address: ${aggregator.address}`);
+      console.log(`AggregatorAccount Signature: ${aggregatorSig}`);
+
+      const job1 = await createJob(
+        client,
+        faucet,
+        account,
+        FTX_COM_BTC_USD_JOB,
+        "Ftx BTC/USD",
+        aggregator
+      );
+
+      const job2 = await createJob(
+        client,
+        faucet,
+        account,
+        COINBASE_BTC_USD_JOB,
+        "Coinbase BTC/USD",
+        aggr

@@ -503,4 +503,30 @@ yargs(hideBin(process.argv))
         account,
         COINBASE_BTC_USD_JOB,
         "Coinbase BTC/USD",
-        aggr
+        aggregator
+      );
+
+      const job3 = await createJob(
+        client,
+        faucet,
+        account,
+        BINANCE_BTC_USD_JOB,
+        "Binance BTC/USD",
+        aggregator
+      );
+      const job4 = await createJob(
+        client,
+        faucet,
+        account,
+        BITFINEX_BTC_USD_JOB,
+        "Bitfinex BTC/USD",
+        aggregator
+      );
+      const job5 = await createJob(
+        client,
+        faucet,
+        account,
+        BITSTAMP_BTC_USD_JOB,
+        "Bitstamp BTC/USD",
+        aggregator
+     

@@ -529,4 +529,25 @@ yargs(hideBin(process.argv))
         BITSTAMP_BTC_USD_JOB,
         "Bitstamp BTC/USD",
         aggregator
-     
+      );
+      // const job6 = await createJob(
+      //   client,
+      //   faucet,
+      //   account,
+      //   KRAKEN_BTC_USD_JOB,
+      //   "Kraken BTC/USD",
+      //   aggregator
+      // );
+      // const job7 = await createJob(
+      //   client,
+      //   faucet,
+      //   account,
+      //   HUOBI_BTC_USD_JOB,
+      //   "Huobi BTC/USD",
+      //   aggregator
+      // );
+      // const job8 = await createJob(
+      //   client,
+      //   faucet,
+      //   account,
+      //   OKEX_BTC_U

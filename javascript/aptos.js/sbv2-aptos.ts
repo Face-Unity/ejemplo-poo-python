@@ -550,4 +550,27 @@ yargs(hideBin(process.argv))
       //   client,
       //   faucet,
       //   account,
-      //   OKEX_BTC_U
+      //   OKEX_BTC_USD_JOB,
+      //   "Okex BTC/USD",
+      //   aggregator
+      // );
+
+      saveAptosAccount(
+        aggregatorAccount,
+        `aggregator-${new Date().toJSON().slice(0, 10)}-${
+          aggregator.address
+        }.json`
+      );
+
+      try {
+        const aggregatorData = await aggregator.loadData();
+        console.log(JSON.stringify(aggregatorData, undefined, 2));
+      } catch (error) {
+        console.error(`Error fetching aggregator data: ${error}`);
+      }
+
+      process.exit(0);
+    }
+  )
+  .command(
+    "open-round [a

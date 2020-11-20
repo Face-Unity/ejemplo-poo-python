@@ -650,4 +650,22 @@ yargs(hideBin(process.argv))
   .options({
     keypair: {
       type: "string",
-      al
+      alias: "k",
+      describe: "filesystem path to an AptosAccount keypair file",
+      required: true,
+    },
+    rpcUrl: {
+      type: "string",
+      alias: "u",
+      describe: "Alternative RPC URL",
+      default: "https://fullnode.devnet.aptoslabs.com/v1/",
+    },
+    faucetUrl: {
+      type: "string",
+      describe: "Alternative Faucet URL",
+      default: "https://faucet.devnet.aptoslabs.com",
+    },
+    pid: {
+      type: "string",
+      describe: "devnet program ID",
+      d

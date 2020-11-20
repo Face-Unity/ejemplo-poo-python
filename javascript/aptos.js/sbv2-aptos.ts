@@ -591,4 +591,24 @@ yargs(hideBin(process.argv))
         faucetUrl,
         pid,
         stateAddress,
-       
+        keypair
+      );
+
+      const aggregatorHexString = new HexString(aggregatorHex);
+      const aggregator = new AggregatorAccount(
+        client,
+        aggregatorHexString,
+        pid,
+        stateAddress
+      );
+
+      const payer = new AptosAccount();
+      await faucet.fundAccount(payer.address(), 5000);
+      const openRoundSig = await aggregator.openRound(payer);
+      console.log(`OpenRound Signature: ${openRoundSig}`);
+
+      process.exit(0);
+    }
+  )
+  .command(
+    "watch-aggr

@@ -611,4 +611,22 @@ yargs(hideBin(process.argv))
     }
   )
   .command(
-    "watch-aggr
+    "watch-aggregator [aggregatorHex]",
+    "action",
+    (y: any) => {
+      return y.positional("aggregatorHex", {
+        type: "string",
+        describe: "hexString of the aggregator to call open round for",
+        required: true,
+      });
+    },
+    async function (argv: any) {
+      const { rpcUrl, faucetUrl, keypair, aggregatorHex, pid, stateAddress } =
+        argv;
+
+      const { client, faucet, account, state } = await loadCli(
+        rpcUrl,
+        faucetUrl,
+        pid,
+        stateAddress
+      

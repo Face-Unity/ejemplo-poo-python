@@ -629,4 +629,25 @@ yargs(hideBin(process.argv))
         faucetUrl,
         pid,
         stateAddress
-      
+      );
+
+      const aggregatorHexString = new HexString(aggregatorHex);
+      const aggregator = new AggregatorAccount(
+        client,
+        aggregatorHexString,
+        pid,
+        stateAddress
+      );
+
+      const event = await aggregator.watch(async (event) => {
+        console.log(`AggregatorAccount Updated @ ${Date.now()}`);
+        console.log(JSON.stringify(event, undefined, 2));
+      });
+
+      // process.exit(0);
+    }
+  )
+  .options({
+    keypair: {
+      type: "string",
+      al

@@ -685,4 +685,20 @@ function loadAptosAccount(keypairPath: string): AptosAccount {
       .trim()
       .replace(/\n/g, "")
       .replace(/\s/g, "");
-    const bytesRegex = /^\[(\s)?[0-9]
+    const bytesRegex = /^\[(\s)?[0-9]+((\s)?,(\s)?[0-9]+){31,}\]/g;
+    if (bytesRegex.test(parsedFileString)) {
+      return new AptosAccount(new Uint8Array(JSON.parse(parsedFileString)));
+    }
+
+    // check if hex
+    const hexRegex = /^(0x|0X)?[a-fA-F0-9]{64}/g;
+    if (hexRegex.test(parsedFileString)) {
+      return new AptosAccount(
+        new Uint8Array(HexString.ensure(parsedFileString).toUint8Array())
+      );
+    }
+
+    // check if base64 encoded
+    const base64Regex =
+      /^(?:[A-Za-z\d+\/]{4})*(?:[A-Za-z\d+\/]{3}=|[A-Za-z\d+\/]{2}==)?/g;
+   

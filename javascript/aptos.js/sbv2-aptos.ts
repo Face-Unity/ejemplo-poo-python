@@ -668,4 +668,21 @@ yargs(hideBin(process.argv))
     pid: {
       type: "string",
       describe: "devnet program ID",
-      d
+      default: SWITCHBOARD_DEVNET_ADDRESS,
+    },
+    stateAddress: {
+      type: "string",
+      describe: "state address",
+      default: SWITCHBOARD_DEVNET_ADDRESS,
+    },
+  })
+  .help().argv;
+
+function loadAptosAccount(keypairPath: string): AptosAccount {
+  const parseKeypairString = (fileString: string): AptosAccount => {
+    // check if bytes
+    const parsedFileString = fileString
+      .trim()
+      .replace(/\n/g, "")
+      .replace(/\s/g, "");
+    const bytesRegex = /^\[(\s)?[0-9]

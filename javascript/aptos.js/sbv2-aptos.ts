@@ -701,4 +701,21 @@ function loadAptosAccount(keypairPath: string): AptosAccount {
     // check if base64 encoded
     const base64Regex =
       /^(?:[A-Za-z\d+\/]{4})*(?:[A-Za-z\d+\/]{3}=|[A-Za-z\d+\/]{2}==)?/g;
-   
+    if (base64Regex.test(parsedFileString)) {
+      return new AptosAccount(
+        new Uint8Array(Buffer.from(parsedFileString, "base64"))
+      );
+    }
+
+    // check if yaml file
+
+    throw new Error(`Failed to derive secret key from input file`);
+  };
+
+  // if file extension ends with yaml
+  if (keypairPath.endsWith(".yaml")) {
+    try {
+      const parsedYaml = YAML.parse(fs.readFileSync(keypairPath, "utf8"));
+      if (
+        "profiles" in parsedYaml &&
+        "default" in parsedYaml.profiles &&

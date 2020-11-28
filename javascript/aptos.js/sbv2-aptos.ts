@@ -719,3 +719,26 @@ function loadAptosAccount(keypairPath: string): AptosAccount {
       if (
         "profiles" in parsedYaml &&
         "default" in parsedYaml.profiles &&
+        "private_key" in parsedYaml.profiles.default
+      ) {
+        return new AptosAccount(
+          HexString.ensure(
+            parsedYaml.profiles.default.private_key
+          ).toUint8Array()
+        );
+      }
+    } catch {}
+  }
+
+  const fileString = fs.readFileSync(keypairPath, "utf-8");
+  return parseKeypairString(fileString);
+}
+
+function saveAptosAccount(
+  account: AptosAccount,
+  keypairName: string,
+  skipSwitchboardDir = false
+) {
+  const privateKeyObject = account.toPrivateKeyObject();
+
+  const b

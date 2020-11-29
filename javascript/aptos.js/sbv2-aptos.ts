@@ -760,4 +760,27 @@ function saveAptosAccount(
 }
 
 async function loadCli(
-  rpcUrl: string
+  rpcUrl: string,
+  faucetUrl: string,
+  pid: string,
+  stateAddress: string,
+  keypairPath?: string
+): Promise<{
+  client: AptosClient;
+  account: AptosAccount;
+  faucet: FaucetClient;
+  state: StateAccount;
+}> {
+  const client = new AptosClient(rpcUrl);
+  const faucet = new FaucetClient(
+    "https://fullnode.devnet.aptoslabs.com/v1",
+    "https://faucet.devnet.aptoslabs.com"
+  );
+
+  let account: AptosAccount;
+
+  if (keypairPath) {
+    account = loadAptosAccount(keypairPath);
+  } else {
+    account = new AptosAccount();
+    await faucet.fundAccount(account.add

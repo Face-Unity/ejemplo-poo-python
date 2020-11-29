@@ -741,4 +741,23 @@ function saveAptosAccount(
 ) {
   const privateKeyObject = account.toPrivateKeyObject();
 
-  const b
+  const buffer = Buffer.from(privateKeyObject.privateKeyHex.slice(2), "hex");
+  if (buffer.byteLength === 0) {
+    throw new Error("buffer empty");
+  }
+
+  const outputDir = skipSwitchboardDir
+    ? process.cwd()
+    : path.join(process.cwd(), ".switchboard");
+
+  fs.mkdirSync(outputDir, { recursive: true });
+
+  fs.writeFileSync(
+    path.join(outputDir, keypairName),
+    `[${new Uint8Array(buffer).map((i) => Number(i)).toString()}]`,
+    "utf-8"
+  );
+}
+
+async function loadCli(
+  rpcUrl: string

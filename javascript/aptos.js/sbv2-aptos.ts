@@ -783,4 +783,34 @@ async function loadCli(
     account = loadAptosAccount(keypairPath);
   } else {
     account = new AptosAccount();
-    await faucet.fundAccount(account.add
+    await faucet.fundAccount(account.address(), 5000);
+  }
+
+  const state = new StateAccount(client, stateAddress, account, pid);
+
+  return {
+    client,
+    faucet,
+    account,
+    state,
+  };
+}
+
+async function loadBalance(
+  client: AptosClient,
+  addr: HexString
+): Promise<string> {
+  return (
+    (
+      await client.getAccountResource(
+        addr,
+        "0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>"
+      )
+    ).data as any
+  ).coin.value;
+}
+
+async function createAggregatorAccountFromJson(
+  client: AptosClient,
+  faucet: FaucetClient,
+  authority: Apt

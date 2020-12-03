@@ -813,4 +813,22 @@ async function loadBalance(
 async function createAggregatorAccountFromJson(
   client: AptosClient,
   faucet: FaucetClient,
-  authority: Apt
+  authority: AptosAccount,
+  jsonFilePath: string
+) {}
+
+async function createJob(
+  client: AptosClient,
+  faucet: FaucetClient,
+  authority: AptosAccount,
+  oracleJob: OracleJob,
+  name: string,
+  aggregator: AggregatorAccount
+): Promise<JobAccount> {
+  const jobAccount = new AptosAccount();
+  await faucet.fundAccount(authority.address(), 5000);
+  await faucet.fundAccount(jobAccount.address(), 5000);
+  // await faucet.fundAccount(jobAccount.address(), 5000);
+
+  const serializedJob = Buffer.from(
+    OracleJob.encodeDelimited(oracleJob

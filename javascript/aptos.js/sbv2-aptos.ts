@@ -874,4 +874,31 @@ const FTX_COM_BTC_USD_JOB = OracleJob.create({
       },
     },
     {
-      media
+      medianTask: {
+        tasks: [
+          {
+            jsonParseTask: {
+              path: "$.data.bid",
+            },
+          },
+          {
+            jsonParseTask: {
+              path: "$.data.ask",
+            },
+          },
+          {
+            jsonParseTask: {
+              path: "$.data.last",
+            },
+          },
+        ],
+      },
+    },
+  ],
+});
+
+const COINBASE_BTC_USD_JOB = OracleJob.create({
+  tasks: [
+    {
+      websocketTask: {
+        url: "wss://ws-feed.pro.

@@ -851,4 +851,27 @@ async function createJob(
   const addJobSig = await aggregator.addJob(authority, {
     job: job.address,
   });
-  console.log(`Add Job Signature (${name}): ${addJobSig}
+  console.log(`Add Job Signature (${name}): ${addJobSig}`);
+
+  saveAptosAccount(
+    jobAccount,
+    `job-${new Date().toJSON().slice(0, 10)}-${job.address}.json`
+  );
+
+  return job;
+}
+
+const FTX_COM_BTC_USD_JOB = OracleJob.create({
+  tasks: [
+    {
+      websocketTask: {
+        url: "wss://ftx.com/ws/",
+        subscription:
+          '{"op":"subscribe","channel":"ticker","market":"BTC/USD"}',
+        maxDataAgeSeconds: 15,
+        filter:
+          "$[?(@.type == 'update' && @.channel == 'ticker' && @.market == 'BTC/USD')]",
+      },
+    },
+    {
+      media

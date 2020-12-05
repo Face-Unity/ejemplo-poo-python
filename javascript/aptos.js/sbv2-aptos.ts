@@ -831,4 +831,24 @@ async function createJob(
   // await faucet.fundAccount(jobAccount.address(), 5000);
 
   const serializedJob = Buffer.from(
-    OracleJob.encodeDelimited(oracleJob
+    OracleJob.encodeDelimited(oracleJob).finish()
+  );
+
+  const [job, jobSig] = await JobAccount.init(
+    client,
+    jobAccount,
+    {
+      name: name,
+      metadata: name,
+      authority: authority.address(),
+      data: serializedJob.toString("hex"),
+    },
+    aggregator.switchboardAddress
+  );
+  console.log(`Job Address (${name}): ${job.address}`);
+  console.log(`Job Signature (${name}): ${jobSig}`);
+
+  const addJobSig = await aggregator.addJob(authority, {
+    job: job.address,
+  });
+  console.log(`Add Job Signature (${name}): ${addJobSig}

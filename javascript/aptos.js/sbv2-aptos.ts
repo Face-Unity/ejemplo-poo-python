@@ -920,4 +920,32 @@ const BINANCE_BTC_USD_JOB = OracleJob.create({
   tasks: [
     {
       httpTask: {
-        url: "https://www.binance.com/api/v3/ticker/price?s
+        url: "https://www.binance.com/api/v3/ticker/price?symbol=BTCUSDT",
+      },
+    },
+    {
+      jsonParseTask: {
+        path: "$.price",
+      },
+    },
+    {
+      multiplyTask: {
+        aggregatorPubkey: "ETAaeeuQBwsh9mC2gCov9WdhJENZuffRMXY2HgjCcSL9",
+      },
+    },
+  ],
+});
+
+const BITFINEX_BTC_USD_JOB = OracleJob.create({
+  tasks: [
+    {
+      httpTask: {
+        url: "https://api-pub.bitfinex.com/v2/tickers?symbols=tBTCUSD",
+      },
+    },
+    {
+      medianTask: {
+        tasks: [
+          {
+            jsonParseTask: {
+ 

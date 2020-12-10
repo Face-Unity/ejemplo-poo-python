@@ -901,4 +901,23 @@ const COINBASE_BTC_USD_JOB = OracleJob.create({
   tasks: [
     {
       websocketTask: {
-        url: "wss://ws-feed.pro.
+        url: "wss://ws-feed.pro.coinbase.com",
+        subscription:
+          '{"type":"subscribe","product_ids":["BTC-USD"],"channels":["ticker",{"name":"ticker","product_ids":["BTC-USD"]}]}',
+        maxDataAgeSeconds: 15,
+        filter: "$[?(@.type == 'ticker' && @.product_id == 'BTC-USD')]",
+      },
+    },
+    {
+      jsonParseTask: {
+        path: "$.price",
+      },
+    },
+  ],
+});
+
+const BINANCE_BTC_USD_JOB = OracleJob.create({
+  tasks: [
+    {
+      httpTask: {
+        url: "https://www.binance.com/api/v3/ticker/price?s

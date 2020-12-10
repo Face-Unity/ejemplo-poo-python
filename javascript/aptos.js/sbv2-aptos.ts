@@ -948,4 +948,34 @@ const BITFINEX_BTC_USD_JOB = OracleJob.create({
         tasks: [
           {
             jsonParseTask: {
- 
+              path: "$[0][1]",
+            },
+          },
+          {
+            jsonParseTask: {
+              path: "$[0][3]",
+            },
+          },
+          {
+            jsonParseTask: {
+              path: "$[0][7]",
+            },
+          },
+        ],
+      },
+    },
+  ],
+});
+
+const HUOBI_BTC_USD_JOB = OracleJob.create({
+  tasks: [
+    {
+      httpTask: {
+        url: "https://api.huobi.pro/market/detail/merged?symbol=btcusdt",
+      },
+    },
+    {
+      medianTask: {
+        tasks: [
+          {
+            jsonParse

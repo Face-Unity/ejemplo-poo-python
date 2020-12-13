@@ -1002,4 +1002,35 @@ const BITSTAMP_BTC_USD_JOB = OracleJob.create({
   tasks: [
     {
       httpTask: {
-        url: "https://www.bitstamp.net/api/v2/ticker/btc
+        url: "https://www.bitstamp.net/api/v2/ticker/btcusd",
+      },
+    },
+    {
+      medianTask: {
+        tasks: [
+          {
+            jsonParseTask: {
+              path: "$.ask",
+            },
+          },
+          {
+            jsonParseTask: {
+              path: "$.bid",
+            },
+          },
+          {
+            jsonParseTask: {
+              path: "$.last",
+            },
+          },
+        ],
+      },
+    },
+  ],
+});
+
+const KRAKEN_BTC_USD_JOB = OracleJob.create({
+  tasks: [
+    {
+      httpTask: {
+        url:

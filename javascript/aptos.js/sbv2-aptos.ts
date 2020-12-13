@@ -1054,4 +1054,23 @@ const KRAKEN_BTC_USD_JOB = OracleJob.create({
               path: "$.result.XXBTZUSD.c[0]",
             },
           },
-        ]
+        ],
+      },
+    },
+  ],
+});
+
+const OKEX_BTC_USD_JOB = OracleJob.create({
+  tasks: [
+    {
+      websocketTask: {
+        url: "wss://ws.okex.com:8443/ws/v5/public",
+        subscription:
+          '{"op":"subscribe","args":[{"channel":"tickers","instId":"BTC-USDT"}]}',
+        maxDataAgeSeconds: 15,
+        filter:
+          "$[?(@.event != 'subscribe' && @.arg.channel == 'tickers' && @.arg.instId == 'BTC-USDT' && @.data[0].instType == 'SPOT' && @.data[0].instId == 'BTC-USDT')]",
+      },
+    },
+    {
+      media

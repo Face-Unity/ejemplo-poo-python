@@ -1033,4 +1033,25 @@ const KRAKEN_BTC_USD_JOB = OracleJob.create({
   tasks: [
     {
       httpTask: {
-        url:
+        url: "https://api.kraken.com/0/public/Ticker?pair=XXBTZUSD",
+      },
+    },
+    {
+      medianTask: {
+        tasks: [
+          {
+            jsonParseTask: {
+              path: "$.result.XXBTZUSD.a[0]",
+            },
+          },
+          {
+            jsonParseTask: {
+              path: "$.result.XXBTZUSD.b[0]",
+            },
+          },
+          {
+            jsonParseTask: {
+              path: "$.result.XXBTZUSD.c[0]",
+            },
+          },
+        ]

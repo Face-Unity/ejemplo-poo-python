@@ -978,4 +978,28 @@ const HUOBI_BTC_USD_JOB = OracleJob.create({
       medianTask: {
         tasks: [
           {
-            jsonParse
+            jsonParseTask: {
+              path: "$.tick.bid[0]",
+            },
+          },
+          {
+            jsonParseTask: {
+              path: "$.tick.ask[0]",
+            },
+          },
+        ],
+      },
+    },
+    {
+      multiplyTask: {
+        aggregatorPubkey: "ETAaeeuQBwsh9mC2gCov9WdhJENZuffRMXY2HgjCcSL9",
+      },
+    },
+  ],
+});
+
+const BITSTAMP_BTC_USD_JOB = OracleJob.create({
+  tasks: [
+    {
+      httpTask: {
+        url: "https://www.bitstamp.net/api/v2/ticker/btc

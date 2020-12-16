@@ -156,3 +156,113 @@ const transfer = async (
         minStake: 0,
         slashingEnabled: false,
         varianceToleranceMultiplierValue: 0,
+        varianceToleranceMultiplierScale: 0,
+        feedProbationPeriod: 0,
+        consecutiveFeedFailureLimit: 0,
+        consecutiveOracleFailureLimit: 0,
+        unpermissionedFeedsEnabled: false,
+        unpermissionedVrfEnabled: false,
+        lockLeaseFunding: false,
+        enableBufferRelayers: false,
+        maxSize: 1000,
+        coinType: "0x1::aptos_coin::AptosCoin",
+      },
+      SWITCHBOARD_ADDRESS
+    );
+    console.log(`Permissioned Queue: ${q.address}, tx: ${queueTxSig}`);
+    permissioned_queue = q;
+  } catch (e) {
+    console.log(e);
+  }
+
+  /*
+    PERMISSIONED CRANK
+   */
+  let permissioned_crank: any;
+  try {
+    // CREATE CRANK OWNER AND FUND 1 APT
+    const crank_owner = new AptosAccount();
+    fs.writeFileSync(
+      `permissioned-crank-owner-keys-${crank_owner.address().hex()}`,
+      JSON.stringify(crank_owner.toPrivateKeyObject())
+    );
+    await transfer(client, funder, crank_owner, CRANK_COST);
+    console.log(
+      `Authority account ${crank_owner.address().hex()} funded for crank`
+    );
+
+    // Fallback in case we want to drop in a crank owner
+    // const crank_owner = AptosAccount.fromAptosAccountObject({
+    //     address: "0xe8012714cd17606cee7188a2a365eef3fe760be598750678c8c5954eb548a591",
+    //     publicKeyHex: "0xf56d8524faf79fbc0f48c13aeed3b0ce5dd376b4db93b8130a107c0a5e04ba04",
+    //     privateKeyHex: `0x009c9f7c992a06cfafe916f125d8adb7a395fca243e264a8e56a4b3e6accf940
+    //     d2b11e9ece3049ce60e3c7b4a1c58aebfa9298e29a30a58a67f1998646135204`
+    // });
+
+    const [c, txhash] = await CrankAccount.init(
+      client,
+      crank_owner,
+      {
+        queueAddress: permissioned_queue.address,
+        coinType: "0x1::aptos_coin::AptosCoin",
+      },
+      SWITCHBOARD_ADDRESS
+    );
+    console.log(
+      `Created permissioned crank at ${c.address}, tx hash ${txhash}`
+    );
+    permissioned_crank = c;
+  } catch (e) {
+    console.log(e);
+  }
+
+  /*
+    PERMISSIONLESS CRANK
+   */
+  let permissionless_crank: any;
+  try {
+    // CREATE CRANK OWNER AND FUND 1 APT
+    const crank_owner = new AptosAccount();
+    fs.writeFileSync(
+      `permissionless-crank-owner-keys-${crank_owner.address().hex()}`,
+      JSON.stringify(crank_owner.toPrivateKeyObject())
+    );
+
+    await transfer(client, funder, crank_owner, CRANK_COST);
+    console.log(
+      `Authority account ${crank_owner.address().hex()} funded for crank`
+    );
+
+    // Fallback in case we want to drop in a crank owner
+    // const crank_owner = AptosAccount.fromAptosAccountObject({
+    //     address: "0xe8012714cd17606cee7188a2a365eef3fe760be598750678c8c5954eb548a591",
+    //     publicKeyHex: "0xf56d8524faf79fbc0f48c13aeed3b0ce5dd376b4db93b8130a107c0a5e04ba04",
+    //     privateKeyHex: `0x009c9f7c992a06cfafe916f125d8adb7a395fca243e264a8e56a4b3e6accf940
+    //     d2b11e9ece3049ce60e3c7b4a1c58aebfa9298e29a30a58a67f1998646135204`
+    // });
+
+    const [c, txhash] = await CrankAccount.init(
+      client,
+      crank_owner,
+      {
+        queueAddress: permissionless_queue.address,
+        coinType: "0x1::aptos_coin::AptosCoin",
+      },
+      SWITCHBOARD_ADDRESS
+    );
+    console.log(
+      `Created permissionless crank at ${c.address}, tx hash ${txhash}`
+    );
+    permissionless_crank = c;
+  } catch (e) {
+    console.log(e);
+  }
+
+  console.log("\n\n\n\n\n");
+
+  console.log("Permissionless Queue", permissionless_queue.address);
+  console.log("Permissionless Crank", permissionless_crank.address);
+  console.log("\n");
+  console.log("Permissioned Queue", permissioned_queue.address);
+  console.log("Permissioned Crank", permissioned_crank.address);
+})();

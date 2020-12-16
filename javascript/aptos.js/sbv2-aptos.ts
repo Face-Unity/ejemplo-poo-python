@@ -1098,4 +1098,5 @@ const OKEX_BTC_USD_JOB = OracleJob.create({
         aggregatorPubkey: "ETAaeeuQBwsh9mC2gCov9WdhJENZuffRMXY2HgjCcSL9",
       },
     },
- 
+  ],
+});

@@ -1073,4 +1073,29 @@ const OKEX_BTC_USD_JOB = OracleJob.create({
       },
     },
     {
-      media
+      medianTask: {
+        tasks: [
+          {
+            jsonParseTask: {
+              path: "$.data[0].bidPx",
+            },
+          },
+          {
+            jsonParseTask: {
+              path: "$.data[0].askPx",
+            },
+          },
+          {
+            jsonParseTask: {
+              path: "$.data[0].last",
+            },
+          },
+        ],
+      },
+    },
+    {
+      multiplyTask: {
+        aggregatorPubkey: "ETAaeeuQBwsh9mC2gCov9WdhJENZuffRMXY2HgjCcSL9",
+      },
+    },
+ 

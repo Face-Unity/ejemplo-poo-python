@@ -60,3 +60,22 @@ const SWITCHBOARD_CRANK_ADDRESS =
     HexString.ensure(parsedYaml.profiles.default.private_key).toUint8Array()
   );
   const program = new AptosAccount(
+    HexString.ensure(parsedYaml.profiles.default.private_key).toUint8Array()
+  );
+  // const permissioned = new AptosAccount(
+  // HexString.ensure(
+  // parsedYaml.profiles.permissioned.private_key
+  // ).toUint8Array()
+  // );
+  // const permissionless = new AptosAccount(
+  // HexString.ensure(
+  // parsedYaml.profiles.permissioned.private_key
+  // ).toUint8Array()
+  // );
+
+  const FEED_KEY_1 = generateResourceAccountAddress(
+    user.address(),
+    bcsAddressToBytes(HexString.ensure("0x1"))
+  );
+
+  const FEED_KEY_2 = generateRe

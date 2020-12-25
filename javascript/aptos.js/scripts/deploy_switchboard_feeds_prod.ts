@@ -78,4 +78,29 @@ const SWITCHBOARD_CRANK_ADDRESS =
     bcsAddressToBytes(HexString.ensure("0x1"))
   );
 
-  const FEED_KEY_2 = generateRe
+  const FEED_KEY_2 = generateResourceAccountAddress(
+    user.address(),
+    bcsAddressToBytes(HexString.ensure("0x2"))
+  );
+
+  const FEED_KEY_3 = generateResourceAccountAddress(
+    user.address(),
+    bcsAddressToBytes(HexString.ensure("0x3"))
+  );
+
+  const FEED_KEY_4 = generateResourceAccountAddress(
+    user.address(),
+    bcsAddressToBytes(HexString.ensure("0x4"))
+  );
+
+  const FEED_KEY_5 = generateResourceAccountAddress(
+    user.address(),
+    bcsAddressToBytes(HexString.ensure("0x5"))
+  );
+
+  /**
+   * BTC
+   */
+
+  try {
+    const

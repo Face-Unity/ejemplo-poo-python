@@ -42,4 +42,21 @@ const SWITCHBOARD_ADDRESS =
   "0x7d7e436f0b2aafde60774efb26ccc432cf881b677aca7faaf2a01879bd19fb8";
 
 const SWITCHBOARD_QUEUE_ADDRESS =
-  "0x11fb
+  "0x11fbd91e4a718066891f37958f0b68d10e720f2edf8d57854fb20c299a119a8c";
+
+const SWITCHBOARD_CRANK_ADDRESS =
+  "0xbc9576fedda51d33e8129b5f122ef4707c2079dfb11cd836e86adcb168cbd473";
+
+// run it all at once
+(async () => {
+  // INFRA ------
+  const client = new AptosClient(NODE_URL);
+
+  // if file extension ends with yaml
+  const parsedYaml = YAML.parse(
+    fs.readFileSync("../.aptos/config.yaml", "utf8")
+  );
+  const user = new AptosAccount(
+    HexString.ensure(parsedYaml.profiles.default.private_key).toUint8Array()
+  );
+  const program = new AptosAccount(

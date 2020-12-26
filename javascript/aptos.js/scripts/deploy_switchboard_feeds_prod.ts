@@ -119,4 +119,21 @@ const SWITCHBOARD_CRANK_ADDRESS =
         coinType: "0x1::aptos_coin::AptosCoin",
         crankAddress: SWITCHBOARD_CRANK_ADDRESS,
         initialLoadAmount: 0,
-        seed
+        seed: "0x1",
+        jobs: [
+          {
+            name: "BTC/USD binance",
+            metadata: "binance",
+            authority: user.address().hex(),
+            data: btcBinance.toString("base64"),
+            weight: 1,
+          },
+          {
+            name: "BTC/USD bitfinex",
+            metadata: "bitfinex",
+            authority: user.address().hex(),
+            data: btcBitfinex.toString("base64"),
+            weight: 1,
+          },
+          {
+            name: "B

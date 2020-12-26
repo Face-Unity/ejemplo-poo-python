@@ -103,4 +103,20 @@ const SWITCHBOARD_CRANK_ADDRESS =
    */
 
   try {
-    const
+    const [aggregator, createFeedTx] = await createFeed(
+      client,
+      user,
+      {
+        name: "BTC/USD",
+        authority: user.address(),
+        queueAddress: SWITCHBOARD_QUEUE_ADDRESS,
+        batchSize: 3,
+        minJobResults: 2,
+        minOracleResults: 3,
+        minUpdateDelaySeconds: 10,
+        varianceThreshold: new Big(1),
+        forceReportPeriod: 180,
+        coinType: "0x1::aptos_coin::AptosCoin",
+        crankAddress: SWITCHBOARD_CRANK_ADDRESS,
+        initialLoadAmount: 0,
+        seed

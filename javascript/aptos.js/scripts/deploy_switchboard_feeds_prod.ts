@@ -152,4 +152,27 @@ const SWITCHBOARD_CRANK_ADDRESS =
           {
             name: "BTC/USD kraken",
             metadata: "kraken",
-            authority: 
+            authority: user.address().hex(),
+            data: btcKraken.toString("base64"),
+            weight: 1,
+          },
+        ],
+      },
+      SWITCHBOARD_ADDRESS
+    );
+    console.log("made btc feed", aggregator.address);
+  } catch (e) {
+    console.log(`couldn't make btc feed`, e);
+  }
+
+  /**
+   * ETH
+   */
+  try {
+    const [aggregator, createFeedTx] = await createFeed(
+      client,
+      user,
+      {
+        name: "ETH/USD",
+        authority: user.address(),
+        queueAddress: SWITCHBOARD_QUE

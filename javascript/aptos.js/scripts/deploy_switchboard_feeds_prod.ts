@@ -136,4 +136,20 @@ const SWITCHBOARD_CRANK_ADDRESS =
             weight: 1,
           },
           {
-            name: "B
+            name: "BTC/USD coinbase",
+            metadata: "coinbase",
+            authority: user.address().hex(),
+            data: btcCoinbase.toString("base64"),
+            weight: 1,
+          },
+          {
+            name: "BTC/USD ftx",
+            metadata: "ftx",
+            authority: user.address().hex(),
+            data: btcFtx.toString("base64"),
+            weight: 1,
+          },
+          {
+            name: "BTC/USD kraken",
+            metadata: "kraken",
+            authority: 

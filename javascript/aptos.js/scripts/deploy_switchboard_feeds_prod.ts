@@ -210,3 +210,22 @@ const SWITCHBOARD_CRANK_ADDRESS =
           },
           {
             name: "ETH/USD ftx",
+            metadata: "ftx",
+            authority: user.address().hex(),
+            data: ethFtx.toString("base64"),
+            weight: 1,
+          },
+          {
+            name: "ETH/USD Kraken",
+            metadata: "kraken",
+            authority: user.address().hex(),
+            data: ethKraken.toString("base64"),
+            weight: 1,
+          },
+        ],
+      },
+      SWITCHBOARD_ADDRESS
+    );
+    console.log("made eth feed", aggregator.address);
+  } catch (e) {
+    console.l

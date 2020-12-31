@@ -175,4 +175,20 @@ const SWITCHBOARD_CRANK_ADDRESS =
       {
         name: "ETH/USD",
         authority: user.address(),
-        queueAddress: SWITCHBOARD_QUE
+        queueAddress: SWITCHBOARD_QUEUE_ADDRESS,
+        batchSize: 3,
+        minJobResults: 2,
+        minOracleResults: 3,
+        minUpdateDelaySeconds: 10,
+        varianceThreshold: new Big(1),
+        forceReportPeriod: 180,
+        coinType: "0x1::aptos_coin::AptosCoin",
+        crankAddress: SWITCHBOARD_CRANK_ADDRESS,
+        initialLoadAmount: 0,
+        seed: "0x2",
+        jobs: [
+          {
+            name: "ETH/USD binance",
+            metadata: "binance",
+            authority: user.address().hex(),
+            data: ethBinance.toString("base6

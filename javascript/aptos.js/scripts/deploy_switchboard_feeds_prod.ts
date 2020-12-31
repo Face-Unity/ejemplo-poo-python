@@ -191,4 +191,22 @@ const SWITCHBOARD_CRANK_ADDRESS =
             name: "ETH/USD binance",
             metadata: "binance",
             authority: user.address().hex(),
-            data: ethBinance.toString("base6
+            data: ethBinance.toString("base64"),
+            weight: 1,
+          },
+          {
+            name: "ETH/USD bitfinex",
+            metadata: "bitfinex",
+            authority: user.address().hex(),
+            data: ethBitfinex.toString("base64"),
+            weight: 1,
+          },
+          {
+            name: "ETH/USD coinbase",
+            metadata: "coinbase",
+            authority: user.address().hex(),
+            data: ethCoinbase.toString("base64"),
+            weight: 1,
+          },
+          {
+            name: "ETH/USD ftx",

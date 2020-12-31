@@ -228,4 +228,24 @@ const SWITCHBOARD_CRANK_ADDRESS =
     );
     console.log("made eth feed", aggregator.address);
   } catch (e) {
-    console.l
+    console.log(`couldn't make eth feed`, e);
+  }
+
+  /**
+   * SOL
+   */
+  try {
+    const [aggregator, createFeedTx] = await createFeed(
+      client,
+      user,
+      {
+        authority: user.address(),
+        queueAddress: SWITCHBOARD_QUEUE_ADDRESS,
+        batchSize: 3,
+        minJobResults: 2,
+        minOracleResults: 3,
+        minUpdateDelaySeconds: 10,
+        varianceThreshold: new Big(1),
+        forceReportPeriod: 180,
+        coinType: "0x1::aptos_coin::AptosCoin",
+        crankAddress: SWITCHBOARD_CRANK_ADDRES

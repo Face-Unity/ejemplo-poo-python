@@ -266,4 +266,24 @@ const SWITCHBOARD_CRANK_ADDRESS =
             data: solBitfinex.toString("base64"),
             weight: 1,
           },
-     
+          {
+            name: "SOL/USD ftx",
+            metadata: "ftx",
+            authority: user.address().hex(),
+            data: solFtx.toString("base64"),
+            weight: 1,
+          },
+          {
+            name: "SOL/USD ftx us",
+            metadata: "ftx us",
+            authority: user.address().hex(),
+            data: solFtxus.toString("base64"),
+            weight: 1,
+          },
+        ],
+      },
+      SWITCHBOARD_ADDRESS
+    );
+    console.log("made sol feed", aggregator.address);
+  } catch (e) {
+    co

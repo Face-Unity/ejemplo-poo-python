@@ -248,4 +248,22 @@ const SWITCHBOARD_CRANK_ADDRESS =
         varianceThreshold: new Big(1),
         forceReportPeriod: 180,
         coinType: "0x1::aptos_coin::AptosCoin",
-        crankAddress: SWITCHBOARD_CRANK_ADDRES
+        crankAddress: SWITCHBOARD_CRANK_ADDRESS,
+        initialLoadAmount: 0,
+        seed: "0x3",
+        jobs: [
+          {
+            name: "SOL/USD binance",
+            metadata: "binance",
+            authority: user.address().hex(),
+            data: solBinance.toString("base64"),
+            weight: 1,
+          },
+          {
+            name: "SOL/USD bitfinex",
+            metadata: "bitfinex",
+            authority: user.address().hex(),
+            data: solBitfinex.toString("base64"),
+            weight: 1,
+          },
+     

@@ -286,4 +286,24 @@ const SWITCHBOARD_CRANK_ADDRESS =
     );
     console.log("made sol feed", aggregator.address);
   } catch (e) {
-    co
+    console.log(`couldn't make sol feed`, e);
+  }
+
+  /**
+   * USDC
+   */
+  try {
+    const [aggregator, createFeedTx] = await createFeed(
+      client,
+      user,
+      {
+        authority: user.address(),
+        queueAddress: SWITCHBOARD_QUEUE_ADDRESS,
+        batchSize: 3,
+        minJobResults: 2,
+        minOracleResults: 3,
+        minUpdateDelaySeconds: 10,
+        varianceThreshold: new Big(1),
+        forceReportPeriod: 180,
+        coinType: "0x1::aptos_coin::AptosCoin",
+        crankAddress: SWITCHBOARD

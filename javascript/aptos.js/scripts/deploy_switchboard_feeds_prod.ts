@@ -324,3 +324,23 @@ const SWITCHBOARD_CRANK_ADDRESS =
             data: usdcBitstamp.toString("base64"),
             weight: 1,
           },
+          {
+            name: "USDC/USD bittrex",
+            metadata: "bittrex",
+            authority: user.address().hex(),
+            data: usdcBittrex.toString("base64"),
+            weight: 1,
+          },
+          {
+            name: "USDC/USD kraken",
+            metadata: "kraken",
+            authority: user.address().hex(),
+            data: usdcKraken.toString("base64"),
+            weight: 1,
+          },
+        ],
+      },
+      SWITCHBOARD_ADDRESS
+    );
+    console.log("made usdc feed", aggregator.address);
+  } catch

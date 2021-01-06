@@ -306,4 +306,21 @@ const SWITCHBOARD_CRANK_ADDRESS =
         varianceThreshold: new Big(1),
         forceReportPeriod: 180,
         coinType: "0x1::aptos_coin::AptosCoin",
-        crankAddress: SWITCHBOARD
+        crankAddress: SWITCHBOARD_CRANK_ADDRESS,
+        initialLoadAmount: 0,
+        seed: "0x4",
+        jobs: [
+          {
+            name: "USDC/USD binance",
+            metadata: "binance",
+            authority: user.address().hex(),
+            data: usdcBinance.toString("base64"),
+            weight: 1,
+          },
+          {
+            name: "USDC/USD bitstamp",
+            metadata: "bitstamp",
+            authority: user.address().hex(),
+            data: usdcBitstamp.toString("base64"),
+            weight: 1,
+          },

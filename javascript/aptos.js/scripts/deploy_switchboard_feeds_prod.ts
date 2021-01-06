@@ -343,4 +343,23 @@ const SWITCHBOARD_CRANK_ADDRESS =
       SWITCHBOARD_ADDRESS
     );
     console.log("made usdc feed", aggregator.address);
-  } catch
+  } catch (e) {
+    console.log(`couldn't make usdc feed`, e);
+  }
+
+  try {
+    const [aggregator, createFeedTx] = await createFeed(
+      client,
+      user,
+      {
+        name: "APT/USD",
+        authority: user.address(),
+        queueAddress: SWITCHBOARD_QUEUE_ADDRESS,
+        batchSize: 3,
+        minJobResults: 2,
+        minOracleResults: 3,
+        minUpdateDelaySeconds: 10,
+        varianceThreshold: new Big(0.5),
+        forceReportPeriod: 300,
+        coinType: "0x1::aptos_coin::AptosCoin",
+        crankAddress: SWITCHBOARD_CR

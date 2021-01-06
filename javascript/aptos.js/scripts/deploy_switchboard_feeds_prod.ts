@@ -362,4 +362,28 @@ const SWITCHBOARD_CRANK_ADDRESS =
         varianceThreshold: new Big(0.5),
         forceReportPeriod: 300,
         coinType: "0x1::aptos_coin::AptosCoin",
-        crankAddress: SWITCHBOARD_CR
+        crankAddress: SWITCHBOARD_CRANK_ADDRESS,
+        initialLoadAmount: 0,
+        seed: "0x5",
+        jobs: [
+          {
+            name: "APT/USDT binance",
+            metadata: "binance",
+            authority: user.address().hex(),
+            data: aptBinance.toString("base64"),
+            weight: 1,
+          },
+        ],
+      },
+      SWITCHBOARD_ADDRESS
+    );
+  } catch (e) {
+    console.log(`couldn't make APT feed`, e);
+  }
+
+  /**
+   * NEAR
+   */
+  // try {
+  // const [aggregator, createFeedTx] = await createFeed(
+  // client

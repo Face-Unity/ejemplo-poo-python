@@ -386,4 +386,24 @@ const SWITCHBOARD_CRANK_ADDRESS =
    */
   // try {
   // const [aggregator, createFeedTx] = await createFeed(
-  // client
+  // client,
+  // user,
+  // {
+  // authority: user.address(),
+  // queueAddress: SWITCHBOARD_QUEUE_ADDRESS,
+  // batchSize: 1,
+  // minJobResults: 2,
+  // minOracleResults: 1,
+  // minUpdateDelaySeconds: 10,
+  // varianceThreshold: new Big(0),
+  // forceReportPeriod: 180,
+  // coinType: "0x1::aptos_coin::AptosCoin",
+  // crankAddress: SWITCHBOARD_CRANK_ADDRESS,
+  // initialLoadAmount: 100_000,
+  // seed: "0x5",
+  // jobs: [
+  // {
+  // name: "NEAR/USD near",
+  // metadata: "near",
+  // authority: user.address().hex(),
+  // da

@@ -426,4 +426,21 @@ const SWITCHBOARD_CRANK_ADDRESS =
   // {
   // name: "NEAR/USD ftx",
   // metadata: "ftx",
-  
+  // authority: user.address().hex(),
+  // data: nearFtx.toString("base64"),
+  // weight: 1,
+  // },
+  // ],
+  // },
+  // SWITCHBOARD_ADDRESS
+  // );
+  // console.log("made near feed", aggregator.address);
+  // } catch (e) {
+  // console.log(`couldn't make near feed`, e);
+  // }
+
+  console.log("BTC / USD", FEED_KEY_1);
+  console.log("ETH / USD", FEED_KEY_2);
+  console.log("SOL / USD", FEED_KEY_3);
+  console.log("USDC / USD", FEED_KEY_4);
+  console.log("APT / USD", F

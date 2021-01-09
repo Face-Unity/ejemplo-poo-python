@@ -406,4 +406,24 @@ const SWITCHBOARD_CRANK_ADDRESS =
   // name: "NEAR/USD near",
   // metadata: "near",
   // authority: user.address().hex(),
-  // da
+  // data: nearBinance.toString("base64"),
+  // weight: 1,
+  // },
+  // {
+  // name: "NEAR/USD bitfinex",
+  // metadata: "bitfinex",
+  // authority: user.address().hex(),
+  // data: nearBitfinex.toString("base64"),
+  // weight: 1,
+  // },
+  // {
+  // name: "NEAR/USD coinbase",
+  // metadata: "coinbase",
+  // authority: user.address().hex(),
+  // data: nearCoinbase.toString("base64"),
+  // weight: 1,
+  // },
+  // {
+  // name: "NEAR/USD ftx",
+  // metadata: "ftx",
+  

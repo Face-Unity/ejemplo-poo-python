@@ -443,4 +443,6 @@ const SWITCHBOARD_CRANK_ADDRESS =
   console.log("ETH / USD", FEED_KEY_2);
   console.log("SOL / USD", FEED_KEY_3);
   console.log("USDC / USD", FEED_KEY_4);
-  console.log("APT / USD", F
+  console.log("APT / USD", FEED_KEY_5);
+  // console.log("NEAR / USD", FEED_KEY_5);
+})();

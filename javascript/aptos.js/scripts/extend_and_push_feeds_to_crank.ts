@@ -58,4 +58,25 @@ const feeds = [
       const lease = new LeaseAccount(client, feed, SWITCHBOARD_ADDRESS);
 
       const aggregatorBalance = await lease.loadData(QUEUE_ADDRESS);
-      const balanceInOctas = aggregato
+      const balanceInOctas = aggregatorBalance.escrow.value;
+      console.log(`feed ${feed} balance ${balanceInOctas}`);
+
+      // if balance < 1 APT
+      if (balanceInOctas < 100_000_000) {
+        console.log(`extending lease for ${feed} 2 APT`);
+        await lease.extend(funder, {
+          queueAddress: QUEUE_ADDRESS,
+          loadAmount: 200_000_000, // then extend 2 APT
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  // push to crank
+  for (let feed of feeds) {
+    try {
+      const aggregator = new AggregatorAccount(
+        client,
+        

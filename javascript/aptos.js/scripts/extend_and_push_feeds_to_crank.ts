@@ -79,4 +79,20 @@ const feeds = [
     try {
       const aggregator = new AggregatorAccount(
         client,
-        
+        feed,
+        SWITCHBOARD_ADDRESS
+      );
+      const aggregatorData = await aggregator.loadData();
+      const crank = new CrankAccount(
+        client,
+        aggregatorData.crankAddr,
+        SWITCHBOARD_ADDRESS
+      );
+      await crank.push(funder, {
+        aggregatorAddress: feed,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+})();

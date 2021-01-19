@@ -149,3 +149,146 @@ const onAggregatorOpenRound = (
       OracleJob.create({
         tasks: [
           {
+            httpTask: {
+              url: "https://www.binance.us/api/v3/ticker/price?symbol=BTCUSD",
+            },
+          },
+          {
+            jsonParseTask: {
+              path: "$.price",
+            },
+          },
+        ],
+      })
+    ).finish()
+  );
+
+  const [aggregator, createFeedTx] = await createFeed(
+    client,
+    user,
+    {
+      authority: user.address(),
+      queueAddress: queue.address,
+      batchSize: 1,
+      minJobResults: 1,
+      minOracleResults: 1,
+      minUpdateDelaySeconds: 5,
+      startAfter: 0,
+      varianceThreshold: new Big(0),
+      forceReportPeriod: 0,
+      expiration: 0,
+      coinType: "0x1::aptos_coin::AptosCoin",
+      crankAddress: user.address().hex(),
+      initialLoadAmount: 1000,
+      jobs: [
+        {
+          name: "BTC/USD",
+          metadata: "binance",
+          authority: user.address().hex(),
+          data: serializedJob1.toString("base64"),
+          weight: 1,
+        },
+      ],
+    },
+    SWITCHBOARD_ADDRESS
+  );
+
+  console.log(
+    `Created AggregatorAccount and LeaseAccount resources at account address ${aggregator.address}. Tx hash ${createFeedTx}`
+  );
+
+  const updatePoller = onAggregatorUpdate(client, async (e) => {
+    console.log(`NEW RESULT:`, e.data);
+  });
+
+  const onOpenRoundPoller = onAggregatorOpenRound(client, async (e) => {
+    console.log(e);
+    try {
+      // only handle updates for this aggregator
+      if (e.data.aggregator_address !== aggregator.address) {
+        return;
+      }
+
+      const agg = new AggregatorAccount(
+        client,
+        e.data.aggregator_address,
+        SWITCHBOARD_ADDRESS
+      );
+
+      const aggregatorData = await agg.loadData();
+
+      // The event data includes JobAccount Pubkeys, so grab the JobAccount Data
+      const jobs: OracleJob[] = await Promise.all(
+        e.data.job_keys.map(async (jobKey: string) => {
+          const job = new JobAccount(client, jobKey, SWITCHBOARD_ADDRESS);
+          const jobData = await job.loadJob().catch((e) => {
+            console.log(e);
+          });
+          return jobData;
+        })
+      );
+
+      // simulate a fetch
+      const response = await fetch(`https://api.switchboard.xyz/api/test`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ jobs }),
+      });
+
+      if (!response.ok) console.error(`[Task runner] Error testing jobs json.`);
+      try {
+        const json = await response.json();
+
+        // try save result
+        const tx = await oracle.saveManyResult(user, [
+          {
+            aggregatorAddress: aggregator.address,
+            oracleAddress: oracle.address,
+            oracleIdx: 0,
+            error: false,
+            value: new Big(json.result),
+            jobsChecksum: Buffer.from(aggregatorData.jobsChecksum).toString(
+              "hex"
+            ),
+            minResponse: new Big(json.result),
+            maxResponse: new Big(json.result),
+          },
+        ]);
+        console.log("save result tx:", tx);
+      } catch (e) {} // errors will happen when task runner returns them
+    } catch (e) {
+      console.log("open round resp fail");
+    }
+  });
+
+  /**
+   * Log Data Objects
+   */
+  console.log("logging all data objects");
+  console.log(
+    "AggregatorAccount:",
+    JSON.stringify(await aggregator.loadData(), null, 2)
+  );
+  console.log(
+    "LeaseAccount:",
+    await new LeaseAccount(
+      client,
+      aggregator.address,
+      SWITCHBOARD_ADDRESS
+    ).loadData(queue.address)
+  );
+  console.log("Load aggregator jobs data", await aggregator.loadJobs());
+
+  console.log(
+    await fetchAggregators(client, user.address().hex(), SWITCHBOARD_ADDRESS)
+  );
+
+  setInterval(() => {
+    try {
+      aggregator.openRound(user);
+      console.log("opening round");
+    } catch (e) {
+      console.log("failed open round");
+    }
+  }, 10000);
+})();

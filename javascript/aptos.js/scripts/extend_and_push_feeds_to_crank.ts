@@ -38,4 +38,24 @@ const feeds = [
 
   // if file extension ends with yaml
   try {
-    const parsedYaml = YAML.par
+    const parsedYaml = YAML.parse(
+      fs.readFileSync("../.aptos/config.yaml", "utf8")
+    );
+    funder = new AptosAccount(
+      HexString.ensure(parsedYaml.profiles.wallet.private_key).toUint8Array()
+    );
+  } catch (e) {
+    console.log(e);
+  }
+
+  if (!funder) {
+    throw new Error("Could not get funder account.");
+  }
+
+  // extend leases
+  for (let feed of feeds) {
+    try {
+      const lease = new LeaseAccount(client, feed, SWITCHBOARD_ADDRESS);
+
+      const aggregatorBalance = await lease.loadData(QUEUE_ADDRESS);
+      const balanceInOctas = aggregato

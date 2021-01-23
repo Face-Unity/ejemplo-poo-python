@@ -27,4 +27,29 @@ const transfer = async (
   amount: number
 ) => {
   const payload = {
-    type: "entry_fu
+    type: "entry_function_payload",
+    function: "0x1::aptos_account::transfer",
+    type_arguments: [],
+    arguments: [to, amount],
+  };
+  await sendAptosTx(
+    client,
+    from,
+    payload.function,
+    payload.arguments,
+    payload.type_arguments
+  );
+};
+/*
+  CREATE 1 ORACLE AND WRITE OUT THE KEY
+ */
+(async () => {
+  const client = new AptosClient(NODE_URL);
+  let funder;
+  // if file extension ends with yaml
+  try {
+    const parsedYaml = YAML.parse(
+      fs.readFileSync("../.aptos/config.yaml", "utf8")
+    );
+    funder = new AptosAccount(
+      HexStrin

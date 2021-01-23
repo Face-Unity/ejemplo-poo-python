@@ -11,4 +11,20 @@ const SWITCHBOARD_ADDRESS =
   "0x7d7e436f0b2aafde60774efb26ccc432cf881b677aca7faaf2a01879bd19fb8";
 // TODO: MAKE THIS THE AUTHORITY THAT WILL OWN THE ORACLE
 const QUEUE_ADDRESS =
-  "0x11fbd91e4a718066891f37958f0b68d10e720f2edf8d57854fb20c299a119
+  "0x11fbd91e4a718066891f37958f0b68d10e720f2edf8d57854fb20c299a119a8c";
+// TODO: SET THIS PROPERLY
+const accounts = [
+  "0xf92bc956b9e25f38a2e4829b58f03ca9724233985cdda3f818bc3e62d6ed7d9c",
+  "0x1ac99ac3f4050a68dd37a7af88d9337893235ee3da7135e454258e86b44393c9",
+  "0xbe628dafb5f30cb7bc7f5994b998741151fddbb48264cd2e040d92f83b1be3fd",
+  // CRANK TURNER
+  // "0xca62eccbbdb22b5de18165d0bdf2d7127569b91498f0a7f6944028793cef8137",
+];
+const transfer = async (
+  client: AptosClient,
+  from: AptosAccount,
+  to: string,
+  amount: number
+) => {
+  const payload = {
+    type: "entry_fu

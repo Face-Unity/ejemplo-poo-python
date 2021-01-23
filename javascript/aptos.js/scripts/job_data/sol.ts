@@ -1,14 +1,14 @@
 
 import { OracleJob } from "../../lib/cjs";
 
-// Make Job data for near price
-export const nearBinance = Buffer.from(
+// Make Job data for sol price
+export const solBinance = Buffer.from(
   OracleJob.encodeDelimited(
     OracleJob.create({
       tasks: [
         {
           httpTask: {
-            url: "https://www.binance.us/api/v3/ticker/price?symbol=NEARUSD",
+            url: "https://www.binance.us/api/v3/ticker/price?symbol=SOLUSD",
           },
         },
         {
@@ -21,7 +21,26 @@ export const nearBinance = Buffer.from(
   ).finish()
 );
 
-export const nearFtx = Buffer.from(
+export const solFtxus = Buffer.from(
+  OracleJob.encodeDelimited(
+    OracleJob.create({
+      tasks: [
+        {
+          httpTask: {
+            url: "https://ftx.us/api/markets/sol/usd",
+          },
+        },
+        {
+          jsonParseTask: {
+            path: "$.result.price",
+          },
+        },
+      ],
+    })
+  ).finish()
+);
+
+export const solFtx = Buffer.from(
   OracleJob.encodeDelimited(
     OracleJob.create({
       tasks: [
@@ -29,10 +48,10 @@ export const nearFtx = Buffer.from(
           websocketTask: {
             url: "wss://ftx.com/ws/",
             subscription:
-              '{"op":"subscribe","channel":"ticker","market":"NEAR/USD"}',
+              '{"op":"subscribe","channel":"ticker","market":"SOL/USD"}',
             maxDataAgeSeconds: 15,
             filter:
-              "$[?(@.type == 'update' && @.channel == 'ticker' && @.market == 'NEAR/USD')]",
+              "$[?(@.type == 'update' && @.channel == 'ticker' && @.market == 'SOL/USD')]",
           },
         },
         {
@@ -61,36 +80,13 @@ export const nearFtx = Buffer.from(
   ).finish()
 );
 
-export const nearCoinbase = Buffer.from(
-  OracleJob.encodeDelimited(
-    OracleJob.create({
-      tasks: [
-        {
-          websocketTask: {
-            url: "wss://ws-feed.pro.coinbase.com",
-            subscription:
-              '{"type":"subscribe","product_ids":["NEAR-USD"],"channels":["ticker",{"name":"ticker","product_ids":["NEAR-USD"]}]}',
-            maxDataAgeSeconds: 15,
-            filter: "$[?(@.type == 'ticker' && @.product_id == 'NEAR-USD')]",
-          },
-        },
-        {
-          jsonParseTask: {
-            path: "$.price",
-          },
-        },
-      ],
-    })
-  ).finish()
-);
-
-export const nearBitfinex = Buffer.from(
+export const solBitfinex = Buffer.from(
   OracleJob.encodeDelimited(
     OracleJob.create({
       tasks: [
         {
           httpTask: {
-            url: "https://api-pub.bitfinex.com/v2/tickers?symbols=tNEARUSD",
+            url: "https://api-pub.bitfinex.com/v2/tickers?symbols=tSOLUSD",
           },
         },
         {

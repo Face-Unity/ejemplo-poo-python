@@ -1,14 +1,14 @@
 
 import { OracleJob } from "../../lib/cjs";
 
-// Make Job data for near price
-export const nearBinance = Buffer.from(
+// Make Job data for usdc price
+export const usdcBinance = Buffer.from(
   OracleJob.encodeDelimited(
     OracleJob.create({
       tasks: [
         {
           httpTask: {
-            url: "https://www.binance.us/api/v3/ticker/price?symbol=NEARUSD",
+            url: "https://www.binance.com/api/v3/ticker/price?symbol=USDCUSDT",
           },
         },
         {
@@ -16,23 +16,23 @@ export const nearBinance = Buffer.from(
             path: "$.price",
           },
         },
+        {
+          multiplyTask: {
+            aggregatorPubkey: "ETAaeeuQBwsh9mC2gCov9WdhJENZuffRMXY2HgjCcSL9",
+          },
+        },
       ],
     })
   ).finish()
 );
 
-export const nearFtx = Buffer.from(
+export const usdcBitstamp = Buffer.from(
   OracleJob.encodeDelimited(
     OracleJob.create({
       tasks: [
         {
-          websocketTask: {
-            url: "wss://ftx.com/ws/",
-            subscription:
-              '{"op":"subscribe","channel":"ticker","market":"NEAR/USD"}',
-            maxDataAgeSeconds: 15,
-            filter:
-              "$[?(@.type == 'update' && @.channel == 'ticker' && @.market == 'NEAR/USD')]",
+          httpTask: {
+            url: "https://www.bitstamp.net/api/v2/ticker/usdcusd",
           },
         },
         {
@@ -40,17 +40,17 @@ export const nearFtx = Buffer.from(
             tasks: [
               {
                 jsonParseTask: {
-                  path: "$.data.bid",
+                  path: "$.ask",
                 },
               },
               {
                 jsonParseTask: {
-                  path: "$.data.ask",
+                  path: "$.bid",
                 },
               },
               {
                 jsonParseTask: {
-                  path: "$.data.last",
+                  path: "$.last",
                 },
               },
             ],
@@ -61,36 +61,13 @@ export const nearFtx = Buffer.from(
   ).finish()
 );
 
-export const nearCoinbase = Buffer.from(
-  OracleJob.encodeDelimited(
-    OracleJob.create({
-      tasks: [
-        {
-          websocketTask: {
-            url: "wss://ws-feed.pro.coinbase.com",
-            subscription:
-              '{"type":"subscribe","product_ids":["NEAR-USD"],"channels":["ticker",{"name":"ticker","product_ids":["NEAR-USD"]}]}',
-            maxDataAgeSeconds: 15,
-            filter: "$[?(@.type == 'ticker' && @.product_id == 'NEAR-USD')]",
-          },
-        },
-        {
-          jsonParseTask: {
-            path: "$.price",
-          },
-        },
-      ],
-    })
-  ).finish()
-);
-
-export const nearBitfinex = Buffer.from(
+export const usdcBittrex = Buffer.from(
   OracleJob.encodeDelimited(
     OracleJob.create({
       tasks: [
         {
           httpTask: {
-            url: "https://api-pub.bitfinex.com/v2/tickers?symbols=tNEARUSD",
+            url: "https://api.bittrex.com/v3/markets/usdc-usd/ticker",
           },
         },
         {
@@ -98,17 +75,52 @@ export const nearBitfinex = Buffer.from(
             tasks: [
               {
                 jsonParseTask: {
-                  path: "$[0][1]",
+                  path: "$.askRate",
                 },
               },
               {
                 jsonParseTask: {
-                  path: "$[0][3]",
+                  path: "$.bidRate",
                 },
               },
               {
                 jsonParseTask: {
-                  path: "$[0][7]",
+                  path: "$.lastTradeRate",
+                },
+              },
+            ],
+          },
+        },
+      ],
+    })
+  ).finish()
+);
+
+export const usdcKraken = Buffer.from(
+  OracleJob.encodeDelimited(
+    OracleJob.create({
+      tasks: [
+        {
+          httpTask: {
+            url: "https://api.kraken.com/0/public/Ticker?pair=USDCUSD",
+          },
+        },
+        {
+          medianTask: {
+            tasks: [
+              {
+                jsonParseTask: {
+                  path: "$.result.USDCUSD.a[0]",
+                },
+              },
+              {
+                jsonParseTask: {
+                  path: "$.result.USDCUSD.b[0]",
+                },
+              },
+              {
+                jsonParseTask: {
+                  path: "$.result.USDCUSD.c[0]",
                 },
               },
             ],

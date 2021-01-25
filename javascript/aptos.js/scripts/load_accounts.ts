@@ -52,4 +52,21 @@ const transfer = async (
       fs.readFileSync("../.aptos/config.yaml", "utf8")
     );
     funder = new AptosAccount(
-      HexStrin
+      HexString.ensure(parsedYaml.profiles.default.private_key).toUint8Array()
+    );
+  } catch (e) {
+    console.log(e);
+  }
+  if (!funder) {
+    throw new Error("Could not get funder account.");
+  }
+  const coinClient = new CoinClient(client);
+  for (let account of accounts) {
+    try {
+      console.log(`checking ${account}`);
+      const balance = await coinClient.checkBalance(
+        new AptosAccount(undefined, account)
+      );
+      // if (Number(balance) < 20_000_000) {
+      console.log(`funding ${account}`);
+    

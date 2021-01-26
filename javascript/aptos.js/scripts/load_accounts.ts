@@ -69,4 +69,15 @@ const transfer = async (
       );
       // if (Number(balance) < 20_000_000) {
       console.log(`funding ${account}`);
-    
+      try {
+        transfer(client, funder, account, 200_000_000); // give them 1 APT if they're below 1
+      } catch (e) {
+        console.log(e);
+      }
+      // }
+    } catch (e) {
+      // transfer(client, funder, account, 100_000_000); // give them 1 APT if they're below 1
+      console.error(e);
+    }
+  }
+})();

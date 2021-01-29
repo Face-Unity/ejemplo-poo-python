@@ -24,3 +24,13 @@ export enum SwitchboardErrorEnum {
   OracleAlreadyResponded = "OracleAlreadyResponded",
   InvalidArgument = "InvalidArgument",
   CrankNotReady = "CrankNotReady",
+  CrankEmpty = "CrankEmpty",
+  LeaseInactive = "LeaseInactive",
+  AggregatorLocked = "AggregatorLocked",
+  InsufficientCoin = "InsufficientCoin",
+  LeaseInsufficientCoin = "LeaseInsufficientCoin",
+  OracleWalletInsufficientCoin = "OracleWalletInsufficientCoin",
+  AggregatorInvalidBatchSize = "AggregatorInvalidBatchSize",
+  AggregatorInvalidMinOracleResults = "AggregatorInvalidMinOracleResults",
+  AggregatorInvalidUpdateDelay = "AggregatorInvalidUpdateDelay",
+  AggregatorIllegalRoundOpenCall = "AggregatorIll

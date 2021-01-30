@@ -53,4 +53,25 @@ export type SwitchboardErrorType =
   | OracleAlreadyExists
   | JobAlreadyExists
   | CrankAlreadyExists
-  | Aggregato
+  | AggregatorAlreadyExists
+  | LeaseAlreadyExists
+  | OracleWalletAlreadyExists
+  | InvalidAuthority
+  | PermissionDenied
+  | CrankDisabled
+  | OracleMismatch
+  | JobsChecksumMismatch
+  | OracleAlreadyResponded
+  | InvalidArgument
+  | CrankNotReady
+  | CrankEmpty
+  | LeaseInactive
+  | AggregatorLocked
+  | InsufficientCoin
+  | LeaseInsufficientCoin
+  | OracleWalletInsufficientCoin
+  | AggregatorInvalidBatchSize
+  | AggregatorInvalidMinOracleResults
+  | AggregatorInvalidUpdateDelay
+  | AggregatorIllegalRoundOpenCall
+  | AggregatorQ

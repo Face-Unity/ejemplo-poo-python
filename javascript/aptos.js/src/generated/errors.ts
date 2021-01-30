@@ -33,4 +33,24 @@ export enum SwitchboardErrorEnum {
   AggregatorInvalidBatchSize = "AggregatorInvalidBatchSize",
   AggregatorInvalidMinOracleResults = "AggregatorInvalidMinOracleResults",
   AggregatorInvalidUpdateDelay = "AggregatorInvalidUpdateDelay",
-  AggregatorIllegalRoundOpenCall = "AggregatorIll
+  AggregatorIllegalRoundOpenCall = "AggregatorIllegalRoundOpenCall",
+  AggregatorQueueNotReady = "AggregatorQueueNotReady",
+  ResourceAlreadyExists = "ResourceAlreadyExists",
+  PermissionAlreadyExists = "PermissionAlreadyExists",
+}
+export type SwitchboardErrorType =
+  | Generic
+  | StateNotFound
+  | QueueNotFound
+  | OracleNotFound
+  | JobNotFound
+  | CrankNotFound
+  | AggregatorNotFound
+  | LeaseNotFound
+  | OracleWalletNotFound
+  | StateAlreadyExists
+  | QueueAlreadyExists
+  | OracleAlreadyExists
+  | JobAlreadyExists
+  | CrankAlreadyExists
+  | Aggregato

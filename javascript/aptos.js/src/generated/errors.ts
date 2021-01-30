@@ -74,4 +74,26 @@ export type SwitchboardErrorType =
   | AggregatorInvalidMinOracleResults
   | AggregatorInvalidUpdateDelay
   | AggregatorIllegalRoundOpenCall
-  | AggregatorQ
+  | AggregatorQueueNotReady
+  | ResourceAlreadyExists
+  | PermissionAlreadyExists;
+
+export abstract class SwitchboardError extends Error {
+  readonly logs?: string[];
+
+  constructor(
+    readonly code: number,
+    readonly hexCode: string,
+    readonly name: string,
+    readonly msg?: string,
+    logs?: string[]
+  ) {
+    super(`${code}: ${name}${msg ? " - " + msg : ""}`);
+    this.logs = logs;
+  }
+
+  static fromErrorType(
+    errorType: SwitchboardErrorEnum,
+    logs?: string[]
+  ): SwitchboardError {
+    switch (

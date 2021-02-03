@@ -96,4 +96,20 @@ export abstract class SwitchboardError extends Error {
     errorType: SwitchboardErrorEnum,
     logs?: string[]
   ): SwitchboardError {
-    switch (
+    switch (errorType) {
+      case "Generic":
+        return new Generic(logs);
+      case "StateNotFound":
+        return new StateNotFound(logs);
+      case "QueueNotFound":
+        return new QueueNotFound(logs);
+      case "OracleNotFound":
+        return new OracleNotFound(logs);
+      case "JobNotFound":
+        return new JobNotFound(logs);
+      case "CrankNotFound":
+        return new CrankNotFound(logs);
+      case "AggregatorNotFound":
+        return new AggregatorNotFound(logs);
+      case "LeaseNotFound":
+        re

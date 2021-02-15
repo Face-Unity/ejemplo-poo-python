@@ -112,4 +112,16 @@ export abstract class SwitchboardError extends Error {
       case "AggregatorNotFound":
         return new AggregatorNotFound(logs);
       case "LeaseNotFound":
-        re
+        return new LeaseNotFound(logs);
+      case "OracleWalletNotFound":
+        return new OracleWalletNotFound(logs);
+      case "StateAlreadyExists":
+        return new StateAlreadyExists(logs);
+      case "QueueAlreadyExists":
+        return new QueueAlreadyExists(logs);
+      case "OracleAlreadyExists":
+        return new OracleAlreadyExists(logs);
+      case "JobAlreadyExists":
+        return new JobAlreadyExists(logs);
+      case "CrankAlreadyExists":
+       

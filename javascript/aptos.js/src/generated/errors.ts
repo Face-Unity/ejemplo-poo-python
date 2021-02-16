@@ -124,4 +124,18 @@ export abstract class SwitchboardError extends Error {
       case "JobAlreadyExists":
         return new JobAlreadyExists(logs);
       case "CrankAlreadyExists":
-       
+        return new CrankAlreadyExists(logs);
+      case "AggregatorAlreadyExists":
+        return new AggregatorAlreadyExists(logs);
+      case "LeaseAlreadyExists":
+        return new LeaseAlreadyExists(logs);
+      case "OracleWalletAlreadyExists":
+        return new OracleWalletAlreadyExists(logs);
+      case "InvalidAuthority":
+        return new InvalidAuthority(logs);
+      case "PermissionDenied":
+        return new PermissionDenied(logs);
+      case "CrankDisabled":
+        return new CrankDisabled(logs);
+      case "OracleMismatch":
+ 

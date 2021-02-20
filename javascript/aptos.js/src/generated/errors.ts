@@ -138,4 +138,17 @@ export abstract class SwitchboardError extends Error {
       case "CrankDisabled":
         return new CrankDisabled(logs);
       case "OracleMismatch":
- 
+        return new OracleMismatch(logs);
+      case "JobsChecksumMismatch":
+        return new JobsChecksumMismatch(logs);
+      case "OracleAlreadyResponded":
+        return new OracleAlreadyResponded(logs);
+      case "InvalidArgument":
+        return new InvalidArgument(logs);
+      case "CrankNotReady":
+        return new CrankNotReady(logs);
+      case "CrankEmpty":
+        return new CrankEmpty(logs);
+      case "LeaseInactive":
+        return new LeaseInactive(logs);
+      case "AggregatorLocked":

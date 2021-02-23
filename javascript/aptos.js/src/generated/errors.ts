@@ -163,4 +163,20 @@ export abstract class SwitchboardError extends Error {
         return new AggregatorInvalidBatchSize(logs);
       case "AggregatorInvalidMinOracleResults":
         return new AggregatorInvalidMinOracleResults(logs);
-      case "AggregatorInvalidUpdat
+      case "AggregatorInvalidUpdateDelay":
+        return new AggregatorInvalidUpdateDelay(logs);
+      case "AggregatorIllegalRoundOpenCall":
+        return new AggregatorIllegalRoundOpenCall(logs);
+      case "AggregatorQueueNotReady":
+        return new AggregatorQueueNotReady(logs);
+      case "ResourceAlreadyExists":
+        return new ResourceAlreadyExists(logs);
+      case "PermissionAlreadyExists":
+        return new PermissionAlreadyExists(logs);
+      default:
+        return new Generic(logs);
+    }
+  }
+}
+export class Generic extends SwitchboardError {
+  static readonly co

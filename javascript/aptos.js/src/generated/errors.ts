@@ -152,3 +152,15 @@ export abstract class SwitchboardError extends Error {
       case "LeaseInactive":
         return new LeaseInactive(logs);
       case "AggregatorLocked":
+        return new AggregatorLocked(logs);
+      case "InsufficientCoin":
+        return new InsufficientCoin(logs);
+      case "LeaseInsufficientCoin":
+        return new LeaseInsufficientCoin(logs);
+      case "OracleWalletInsufficientCoin":
+        return new OracleWalletInsufficientCoin(logs);
+      case "AggregatorInvalidBatchSize":
+        return new AggregatorInvalidBatchSize(logs);
+      case "AggregatorInvalidMinOracleResults":
+        return new AggregatorInvalidMinOracleResults(logs);
+      case "AggregatorInvalidUpdat

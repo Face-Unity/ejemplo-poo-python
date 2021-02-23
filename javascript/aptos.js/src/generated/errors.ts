@@ -179,4 +179,25 @@ export abstract class SwitchboardError extends Error {
   }
 }
 export class Generic extends SwitchboardError {
-  static readonly co
+  static readonly code = 0;
+  static readonly hexCode = "0xb0000";
+
+  constructor(readonly logs?: string[]) {
+    super(0, "0xb0000", "Generic", undefined, logs);
+  }
+}
+
+export class StateNotFound extends SwitchboardError {
+  static readonly code = 1;
+  static readonly hexCode = "0x60001";
+
+  constructor(readonly logs?: string[]) {
+    super(1, "0x60001", "StateNotFound", undefined, logs);
+  }
+}
+
+export class QueueNotFound extends SwitchboardError {
+  static readonly code = 2;
+  static readonly hexCode = "0x60002";
+
+  constructor(readonly logs?: s

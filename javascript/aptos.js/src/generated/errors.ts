@@ -219,4 +219,26 @@ export class JobNotFound extends SwitchboardError {
   static readonly hexCode = "0x60004";
 
   constructor(readonly logs?: string[]) {
-    super(4, "0x60004", "JobNotFou
+    super(4, "0x60004", "JobNotFound", undefined, logs);
+  }
+}
+
+export class CrankNotFound extends SwitchboardError {
+  static readonly code = 5;
+  static readonly hexCode = "0x60005";
+
+  constructor(readonly logs?: string[]) {
+    super(5, "0x60005", "CrankNotFound", undefined, logs);
+  }
+}
+
+export class AggregatorNotFound extends SwitchboardError {
+  static readonly code = 6;
+  static readonly hexCode = "0x60006";
+
+  constructor(readonly logs?: string[]) {
+    super(6, "0x60006", "AggregatorNotFound", undefined, logs);
+  }
+}
+
+export class LeaseNotFound extends SwitchboardErr

@@ -241,4 +241,23 @@ export class AggregatorNotFound extends SwitchboardError {
   }
 }
 
-export class LeaseNotFound extends SwitchboardErr
+export class LeaseNotFound extends SwitchboardError {
+  static readonly code = 7;
+  static readonly hexCode = "0x60007";
+
+  constructor(readonly logs?: string[]) {
+    super(7, "0x60007", "LeaseNotFound", undefined, logs);
+  }
+}
+
+export class OracleWalletNotFound extends SwitchboardError {
+  static readonly code = 8;
+  static readonly hexCode = "0x60008";
+
+  constructor(readonly logs?: string[]) {
+    super(8, "0x60008", "OracleWalletNotFound", undefined, logs);
+  }
+}
+
+export class StateAlreadyExists extends SwitchboardError {
+  static readonly

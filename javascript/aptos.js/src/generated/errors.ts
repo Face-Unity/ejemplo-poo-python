@@ -200,4 +200,23 @@ export class QueueNotFound extends SwitchboardError {
   static readonly code = 2;
   static readonly hexCode = "0x60002";
 
-  constructor(readonly logs?: s
+  constructor(readonly logs?: string[]) {
+    super(2, "0x60002", "QueueNotFound", undefined, logs);
+  }
+}
+
+export class OracleNotFound extends SwitchboardError {
+  static readonly code = 3;
+  static readonly hexCode = "0x60003";
+
+  constructor(readonly logs?: string[]) {
+    super(3, "0x60003", "OracleNotFound", undefined, logs);
+  }
+}
+
+export class JobNotFound extends SwitchboardError {
+  static readonly code = 4;
+  static readonly hexCode = "0x60004";
+
+  constructor(readonly logs?: string[]) {
+    super(4, "0x60004", "JobNotFou

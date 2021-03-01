@@ -260,4 +260,23 @@ export class OracleWalletNotFound extends SwitchboardError {
 }
 
 export class StateAlreadyExists extends SwitchboardError {
-  static readonly
+  static readonly code = 9;
+  static readonly hexCode = "0x80009";
+
+  constructor(readonly logs?: string[]) {
+    super(9, "0x80009", "StateAlreadyExists", undefined, logs);
+  }
+}
+
+export class QueueAlreadyExists extends SwitchboardError {
+  static readonly code = 10;
+  static readonly hexCode = "0x8000a";
+
+  constructor(readonly logs?: string[]) {
+    super(10, "0x8000a", "QueueAlreadyExists", undefined, logs);
+  }
+}
+
+export class OracleAlreadyExists extends SwitchboardError {
+  static readonly code = 11;
+  static readonly hexCode = "0x800

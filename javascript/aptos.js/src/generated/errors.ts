@@ -333,4 +333,25 @@ export class OracleWalletAlreadyExists extends SwitchboardError {
 
 export class InvalidAuthority extends SwitchboardError {
   static readonly code = 17;
-  static readonly
+  static readonly hexCode = "0x50011";
+
+  constructor(readonly logs?: string[]) {
+    super(17, "0x50011", "InvalidAuthority", undefined, logs);
+  }
+}
+
+export class PermissionDenied extends SwitchboardError {
+  static readonly code = 18;
+  static readonly hexCode = "0x50012";
+
+  constructor(readonly logs?: string[]) {
+    super(18, "0x50012", "PermissionDenied", undefined, logs);
+  }
+}
+
+export class CrankDisabled extends SwitchboardError {
+  static readonly code = 19;
+  static readonly hexCode = "0x50013";
+
+  constructor(readonly logs?: string[]) {
+    s

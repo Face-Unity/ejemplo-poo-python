@@ -315,4 +315,22 @@ export class AggregatorAlreadyExists extends SwitchboardError {
 
 export class LeaseAlreadyExists extends SwitchboardError {
   static readonly code = 15;
-  static readonly hexCode = "0x8000f
+  static readonly hexCode = "0x8000f";
+
+  constructor(readonly logs?: string[]) {
+    super(15, "0x8000f", "LeaseAlreadyExists", undefined, logs);
+  }
+}
+
+export class OracleWalletAlreadyExists extends SwitchboardError {
+  static readonly code = 16;
+  static readonly hexCode = "0x80010";
+
+  constructor(readonly logs?: string[]) {
+    super(16, "0x80010", "OracleWalletAlreadyExists", undefined, logs);
+  }
+}
+
+export class InvalidAuthority extends SwitchboardError {
+  static readonly code = 17;
+  static readonly

@@ -279,4 +279,22 @@ export class QueueAlreadyExists extends SwitchboardError {
 
 export class OracleAlreadyExists extends SwitchboardError {
   static readonly code = 11;
-  static readonly hexCode = "0x800
+  static readonly hexCode = "0x8000b";
+
+  constructor(readonly logs?: string[]) {
+    super(11, "0x8000b", "OracleAlreadyExists", undefined, logs);
+  }
+}
+
+export class JobAlreadyExists extends SwitchboardError {
+  static readonly code = 12;
+  static readonly hexCode = "0x8000c";
+
+  constructor(readonly logs?: string[]) {
+    super(12, "0x8000c", "JobAlreadyExists", undefined, logs);
+  }
+}
+
+export class CrankAlreadyExists extends SwitchboardError {
+  static readonly code = 13;
+  static readonly hexCode = 

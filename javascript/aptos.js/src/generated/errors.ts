@@ -297,4 +297,22 @@ export class JobAlreadyExists extends SwitchboardError {
 
 export class CrankAlreadyExists extends SwitchboardError {
   static readonly code = 13;
-  static readonly hexCode = 
+  static readonly hexCode = "0x8000d";
+
+  constructor(readonly logs?: string[]) {
+    super(13, "0x8000d", "CrankAlreadyExists", undefined, logs);
+  }
+}
+
+export class AggregatorAlreadyExists extends SwitchboardError {
+  static readonly code = 14;
+  static readonly hexCode = "0x8000e";
+
+  constructor(readonly logs?: string[]) {
+    super(14, "0x8000e", "AggregatorAlreadyExists", undefined, logs);
+  }
+}
+
+export class LeaseAlreadyExists extends SwitchboardError {
+  static readonly code = 15;
+  static readonly hexCode = "0x8000f

@@ -354,4 +354,26 @@ export class CrankDisabled extends SwitchboardError {
   static readonly hexCode = "0x50013";
 
   constructor(readonly logs?: string[]) {
-    s
+    super(19, "0x50013", "CrankDisabled", undefined, logs);
+  }
+}
+
+export class OracleMismatch extends SwitchboardError {
+  static readonly code = 20;
+  static readonly hexCode = "0x10014";
+
+  constructor(readonly logs?: string[]) {
+    super(20, "0x10014", "OracleMismatch", undefined, logs);
+  }
+}
+
+export class JobsChecksumMismatch extends SwitchboardError {
+  static readonly code = 21;
+  static readonly hexCode = "0x10015";
+
+  constructor(readonly logs?: string[]) {
+    super(21, "0x10015", "JobsChecksumMismatch", undefined, logs);
+  }
+}
+
+export class OracleAl

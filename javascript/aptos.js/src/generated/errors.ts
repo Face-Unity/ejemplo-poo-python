@@ -376,4 +376,22 @@ export class JobsChecksumMismatch extends SwitchboardError {
   }
 }
 
-export class OracleAl
+export class OracleAlreadyResponded extends SwitchboardError {
+  static readonly code = 22;
+  static readonly hexCode = "0x10016";
+
+  constructor(readonly logs?: string[]) {
+    super(22, "0x10016", "OracleAlreadyResponded", undefined, logs);
+  }
+}
+
+export class InvalidArgument extends SwitchboardError {
+  static readonly code = 23;
+  static readonly hexCode = "0x10017";
+
+  constructor(readonly logs?: string[]) {
+    super(23, "0x10017", "InvalidArgument", undefined, logs);
+  }
+}
+
+export class CrankNotRea

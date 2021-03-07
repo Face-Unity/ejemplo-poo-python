@@ -412,4 +412,24 @@ export class CrankEmpty extends SwitchboardError {
   }
 }
 
-export class LeaseInactive extends SwitchboardErro
+export class LeaseInactive extends SwitchboardError {
+  static readonly code = 26;
+  static readonly hexCode = "0x3001a";
+
+  constructor(readonly logs?: string[]) {
+    super(26, "0x3001a", "LeaseInactive", undefined, logs);
+  }
+}
+
+export class AggregatorLocked extends SwitchboardError {
+  static readonly code = 27;
+  static readonly hexCode = "0x3001b";
+
+  constructor(readonly logs?: string[]) {
+    super(27, "0x3001b", "AggregatorLocked", undefined, logs);
+  }
+}
+
+export class InsufficientCoin extends SwitchboardError {
+  static readonly code = 28;
+  stat

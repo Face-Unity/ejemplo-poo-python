@@ -394,4 +394,22 @@ export class InvalidArgument extends SwitchboardError {
   }
 }
 
-export class CrankNotRea
+export class CrankNotReady extends SwitchboardError {
+  static readonly code = 24;
+  static readonly hexCode = "0x30018";
+
+  constructor(readonly logs?: string[]) {
+    super(24, "0x30018", "CrankNotReady", undefined, logs);
+  }
+}
+
+export class CrankEmpty extends SwitchboardError {
+  static readonly code = 25;
+  static readonly hexCode = "0x30019";
+
+  constructor(readonly logs?: string[]) {
+    super(25, "0x30019", "CrankEmpty", undefined, logs);
+  }
+}
+
+export class LeaseInactive extends SwitchboardErro

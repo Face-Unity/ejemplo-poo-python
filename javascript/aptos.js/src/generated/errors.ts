@@ -432,4 +432,22 @@ export class AggregatorLocked extends SwitchboardError {
 
 export class InsufficientCoin extends SwitchboardError {
   static readonly code = 28;
-  stat
+  static readonly hexCode = "0x9001c";
+
+  constructor(readonly logs?: string[]) {
+    super(28, "0x9001c", "InsufficientCoin", undefined, logs);
+  }
+}
+
+export class LeaseInsufficientCoin extends SwitchboardError {
+  static readonly code = 29;
+  static readonly hexCode = "0x9001d";
+
+  constructor(readonly logs?: string[]) {
+    super(29, "0x9001d", "LeaseInsufficientCoin", undefined, logs);
+  }
+}
+
+export class OracleWalletInsufficientCoin extends SwitchboardError {
+  static readonly code = 30;
+  stati

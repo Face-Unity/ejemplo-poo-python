@@ -450,4 +450,22 @@ export class LeaseInsufficientCoin extends SwitchboardError {
 
 export class OracleWalletInsufficientCoin extends SwitchboardError {
   static readonly code = 30;
-  stati
+  static readonly hexCode = "0x9001e";
+
+  constructor(readonly logs?: string[]) {
+    super(30, "0x9001e", "OracleWalletInsufficientCoin", undefined, logs);
+  }
+}
+
+export class AggregatorInvalidBatchSize extends SwitchboardError {
+  static readonly code = 31;
+  static readonly hexCode = "0x1001f";
+
+  constructor(readonly logs?: string[]) {
+    super(31, "0x1001f", "AggregatorInvalidBatchSize", undefined, logs);
+  }
+}
+
+export class AggregatorInvalidMinOracleResults extends SwitchboardError {
+  static readonly code = 32;
+  static readonl

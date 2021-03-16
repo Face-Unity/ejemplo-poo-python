@@ -484,4 +484,22 @@ export class AggregatorInvalidUpdateDelay extends SwitchboardError {
   }
 }
 
-export class AggregatorIllegalRoundOpenCall extends Switch
+export class AggregatorIllegalRoundOpenCall extends SwitchboardError {
+  static readonly code = 34;
+  static readonly hexCode = "0x10022";
+
+  constructor(readonly logs?: string[]) {
+    super(34, "0x10022", "AggregatorIllegalRoundOpenCall", undefined, logs);
+  }
+}
+
+export class AggregatorQueueNotReady extends SwitchboardError {
+  static readonly code = 35;
+  static readonly hexCode = "0x10023";
+
+  constructor(readonly logs?: string[]) {
+    super(35, "0x10023", "AggregatorQueueNotReady", undefined, logs);
+  }
+}
+
+export class ResourceAlready

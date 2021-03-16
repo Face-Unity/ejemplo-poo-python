@@ -502,4 +502,20 @@ export class AggregatorQueueNotReady extends SwitchboardError {
   }
 }
 
-export class ResourceAlready
+export class ResourceAlreadyExists extends SwitchboardError {
+  static readonly code = 36;
+  static readonly hexCode = "0x80024";
+
+  constructor(readonly logs?: string[]) {
+    super(36, "0x80024", "ResourceAlreadyExists", undefined, logs);
+  }
+}
+
+export class PermissionAlreadyExists extends SwitchboardError {
+  static readonly code = 37;
+  static readonly hexCode = "0x80025";
+
+  constructor(readonly logs?: string[]) {
+    super(37, "0x80025", "PermissionAlreadyExists", undefined, logs);
+  }
+}

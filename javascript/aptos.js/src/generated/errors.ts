@@ -468,4 +468,20 @@ export class AggregatorInvalidBatchSize extends SwitchboardError {
 
 export class AggregatorInvalidMinOracleResults extends SwitchboardError {
   static readonly code = 32;
-  static readonl
+  static readonly hexCode = "0x10020";
+
+  constructor(readonly logs?: string[]) {
+    super(32, "0x10020", "AggregatorInvalidMinOracleResults", undefined, logs);
+  }
+}
+
+export class AggregatorInvalidUpdateDelay extends SwitchboardError {
+  static readonly code = 33;
+  static readonly hexCode = "0x10021";
+
+  constructor(readonly logs?: string[]) {
+    super(33, "0x10021", "AggregatorInvalidUpdateDelay", undefined, logs);
+  }
+}
+
+export class AggregatorIllegalRoundOpenCall extends Switch

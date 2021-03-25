@@ -19,4 +19,21 @@ export interface AggregatorHistoryDataMoveStruct {
 }
 
 export class AggregatorHistoryData implements IAggregatorHistoryData {
-  readonly history: 
+  readonly history: Array<types.AggregatorHistoryRow>;
+  readonly historyWriteIdx: BN;
+
+  constructor(fields: IAggregatorHistoryData) {
+    this.history = fields.history;
+    this.historyWriteIdx = fields.historyWriteIdx;
+  }
+
+  toJSON(): AggregatorHistoryDataJSON {
+    return {
+      history: this.history.map((item) => item.toJSON()),
+      historyWriteIdx: this.historyWriteIdx.toString(),
+    };
+  }
+
+  static fromJSON(obj: AggregatorHistoryDataJSON) {
+    return new AggregatorHistoryData({
+      history: obj.history.

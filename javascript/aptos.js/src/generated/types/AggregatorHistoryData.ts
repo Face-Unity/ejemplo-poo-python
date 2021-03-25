@@ -36,4 +36,21 @@ export class AggregatorHistoryData implements IAggregatorHistoryData {
 
   static fromJSON(obj: AggregatorHistoryDataJSON) {
     return new AggregatorHistoryData({
-      history: obj.history.
+      history: obj.history.map((item) =>
+        types.AggregatorHistoryRow.fromJSON(item)
+      ),
+      historyWriteIdx: new BN(obj.historyWriteIdx),
+    });
+  }
+
+  toMoveStruct(): AggregatorHistoryDataMoveStruct {
+    return {
+      history: this.history.map((item) => item.toMoveStruct()),
+      history_write_idx: this.historyWriteIdx.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: AggregatorHistoryDataMoveStruct) {
+    return new AggregatorHistoryData({
+      history: obj.history.map((item) =>
+        types.AggregatorHistoryRow.

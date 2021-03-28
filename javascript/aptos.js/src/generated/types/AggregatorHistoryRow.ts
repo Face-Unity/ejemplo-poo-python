@@ -10,4 +10,23 @@ export interface IAggregatorHistoryRow {
 }
 
 export interface AggregatorHistoryRowJSON {
-  value: t
+  value: types.SwitchboardDecimalJSON;
+  timestamp: string;
+  roundId: string;
+}
+
+export interface AggregatorHistoryRowMoveStruct {
+  value: types.SwitchboardDecimalMoveStruct;
+  timestamp: string;
+  round_id: string;
+}
+
+export class AggregatorHistoryRow implements IAggregatorHistoryRow {
+  readonly value: types.SwitchboardDecimal;
+  readonly timestamp: BN;
+  readonly roundId: BN;
+
+  constructor(fields: IAggregatorHistoryRow) {
+    this.value = fields.value;
+    this.timestamp = fields.timestamp;
+    this.roundId = fields.

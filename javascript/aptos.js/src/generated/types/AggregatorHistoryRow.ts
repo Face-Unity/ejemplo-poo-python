@@ -29,4 +29,25 @@ export class AggregatorHistoryRow implements IAggregatorHistoryRow {
   constructor(fields: IAggregatorHistoryRow) {
     this.value = fields.value;
     this.timestamp = fields.timestamp;
-    this.roundId = fields.
+    this.roundId = fields.roundId;
+  }
+
+  toJSON(): AggregatorHistoryRowJSON {
+    return {
+      value: this.value.toJSON(),
+      timestamp: this.timestamp.toString(),
+      roundId: this.roundId.toString(),
+    };
+  }
+
+  static fromJSON(obj: AggregatorHistoryRowJSON) {
+    return new AggregatorHistoryRow({
+      value: types.SwitchboardDecimal.fromJSON(obj.value),
+      timestamp: new BN(obj.timestamp),
+      roundId: new BN(obj.roundId),
+    });
+  }
+
+  toMoveStruct(): AggregatorHistoryRowMoveStruct {
+    return {
+      value: this.value

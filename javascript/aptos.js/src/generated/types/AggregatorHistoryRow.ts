@@ -50,4 +50,17 @@ export class AggregatorHistoryRow implements IAggregatorHistoryRow {
 
   toMoveStruct(): AggregatorHistoryRowMoveStruct {
     return {
-      value: this.value
+      value: this.value.toMoveStruct(),
+      timestamp: this.timestamp.toString(),
+      round_id: this.roundId.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: AggregatorHistoryRowMoveStruct) {
+    return new AggregatorHistoryRow({
+      value: types.SwitchboardDecimal.fromMoveStruct(obj.value),
+      timestamp: new BN(obj.timestamp),
+      roundId: new BN(obj.round_id),
+    });
+  }
+}

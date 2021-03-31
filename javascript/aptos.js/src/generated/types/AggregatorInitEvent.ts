@@ -17,3 +17,24 @@ export interface AggregatorInitEventMoveStruct {
 
 export class AggregatorInitEvent implements IAggregatorInitEvent {
   readonly aggregatorAddress: HexString;
+
+  constructor(fields: IAggregatorInitEvent) {
+    this.aggregatorAddress = fields.aggregatorAddress;
+  }
+
+  toJSON(): AggregatorInitEventJSON {
+    return {
+      aggregatorAddress: this.aggregatorAddress.toString(),
+    };
+  }
+
+  static fromJSON(obj: AggregatorInitEventJSON) {
+    return new AggregatorInitEvent({
+      aggregatorAddress: HexString.ensure(obj.aggregatorAddress),
+    });
+  }
+
+  toMoveStruct(): AggregatorInitEventMoveStruct {
+    return {
+      aggregator_address: this.aggregatorAddress.toString(),
+  

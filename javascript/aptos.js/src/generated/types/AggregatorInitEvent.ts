@@ -37,4 +37,12 @@ export class AggregatorInitEvent implements IAggregatorInitEvent {
   toMoveStruct(): AggregatorInitEventMoveStruct {
     return {
       aggregator_address: this.aggregatorAddress.toString(),
-  
+    };
+  }
+
+  static fromMoveStruct(obj: AggregatorInitEventMoveStruct) {
+    return new AggregatorInitEvent({
+      aggregatorAddress: HexString.ensure(obj.aggregator_address),
+    });
+  }
+}

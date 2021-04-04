@@ -27,4 +27,21 @@ export class AggregatorJobData implements IAggregatorJobData {
   readonly jobsChecksum: Uint8Array;
 
   constructor(fields: IAggregatorJobData) {
-    this.j
+    this.jobKeys = fields.jobKeys;
+    this.jobWeights = fields.jobWeights;
+    this.jobsChecksum = fields.jobsChecksum;
+  }
+
+  toJSON(): AggregatorJobDataJSON {
+    return {
+      jobKeys: this.jobKeys.map((item) => item.toString()),
+      jobWeights: [...this.jobWeights],
+      jobsChecksum: [...this.jobsChecksum],
+    };
+  }
+
+  static fromJSON(obj: AggregatorJobDataJSON) {
+    return new AggregatorJobData({
+      jobKeys: obj.jobKeys.map((item) => HexString.ensure(item)),
+      jobWeights: new Uint8Array(obj.jobWeights),
+      j

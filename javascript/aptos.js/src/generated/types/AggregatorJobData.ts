@@ -60,4 +60,13 @@ export class AggregatorJobData implements IAggregatorJobData {
     return new AggregatorJobData({
       jobKeys: obj.job_keys.map((item) => HexString.ensure(item)),
       jobWeights:
-        typeof obj.jo
+        typeof obj.job_weights === "string"
+          ? new Uint8Array(Buffer.from(obj.job_weights.slice(2), "hex"))
+          : new Uint8Array(obj.job_weights),
+      jobsChecksum:
+        typeof obj.jobs_checksum === "string"
+          ? new Uint8Array(Buffer.from(obj.jobs_checksum.slice(2), "hex"))
+          : new Uint8Array(obj.jobs_checksum),
+    });
+  }
+}

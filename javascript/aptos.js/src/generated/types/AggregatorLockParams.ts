@@ -41,4 +41,8 @@ export class AggregatorLockParams implements IAggregatorLockParams {
   }
 
   static fromMoveStruct(obj: AggregatorLockParamsMoveStruct) {
-    return new AggregatorLo
+    return new AggregatorLockParams({
+      aggregatorAddr: HexString.ensure(obj.aggregator_addr),
+    });
+  }
+}

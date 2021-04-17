@@ -22,4 +22,23 @@ export class AggregatorLockParams implements IAggregatorLockParams {
     this.aggregatorAddr = fields.aggregatorAddr;
   }
 
- 
+  toJSON(): AggregatorLockParamsJSON {
+    return {
+      aggregatorAddr: this.aggregatorAddr.toString(),
+    };
+  }
+
+  static fromJSON(obj: AggregatorLockParamsJSON) {
+    return new AggregatorLockParams({
+      aggregatorAddr: HexString.ensure(obj.aggregatorAddr),
+    });
+  }
+
+  toMoveStruct(): AggregatorLockParamsMoveStruct {
+    return {
+      aggregator_addr: this.aggregatorAddr.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: AggregatorLockParamsMoveStruct) {
+    return new AggregatorLo

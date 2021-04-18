@@ -28,3 +28,20 @@ export interface AggregatorOpenRoundActuateParamsMoveStruct {
   job_keys: Array<string>;
   reward: string;
   open_round_reward: string;
+}
+
+export class AggregatorOpenRoundActuateParams
+  implements IAggregatorOpenRoundActuateParams
+{
+  readonly openRoundParams: types.AggregatorOpenRoundParams;
+  readonly queueAddr: HexString;
+  readonly batchSize: BN;
+  readonly jobKeys: Array<HexString>;
+  readonly reward: BN;
+  readonly openRoundReward: BN;
+
+  constructor(fields: IAggregatorOpenRoundActuateParams) {
+    this.openRoundParams = fields.openRoundParams;
+    this.queueAddr = fields.queueAddr;
+    this.batchSize = fields.batchSize;
+    this.j

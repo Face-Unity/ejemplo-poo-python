@@ -44,4 +44,17 @@ export class AggregatorOpenRoundActuateParams
     this.openRoundParams = fields.openRoundParams;
     this.queueAddr = fields.queueAddr;
     this.batchSize = fields.batchSize;
-    this.j
+    this.jobKeys = fields.jobKeys;
+    this.reward = fields.reward;
+    this.openRoundReward = fields.openRoundReward;
+  }
+
+  toJSON(): AggregatorOpenRoundActuateParamsJSON {
+    return {
+      openRoundParams: this.openRoundParams.toJSON(),
+      queueAddr: this.queueAddr.toString(),
+      batchSize: this.batchSize.toString(),
+      jobKeys: this.jobKeys.map((item) => item.toString()),
+      reward: this.reward.toString(),
+      openRoundReward: this.openRoundReward.toString(),
+  

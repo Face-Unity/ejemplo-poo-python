@@ -57,4 +57,20 @@ export class AggregatorOpenRoundActuateParams
       jobKeys: this.jobKeys.map((item) => item.toString()),
       reward: this.reward.toString(),
       openRoundReward: this.openRoundReward.toString(),
-  
+    };
+  }
+
+  static fromJSON(obj: AggregatorOpenRoundActuateParamsJSON) {
+    return new AggregatorOpenRoundActuateParams({
+      openRoundParams: types.AggregatorOpenRoundParams.fromJSON(
+        obj.openRoundParams
+      ),
+      queueAddr: HexString.ensure(obj.queueAddr),
+      batchSize: new BN(obj.batchSize),
+      jobKeys: obj.jobKeys.map((item) => HexString.ensure(item)),
+      reward: new BN(obj.reward),
+      openRoundReward: new BN(obj.openRoundReward),
+    });
+  }
+
+  toMoveStruct(): AggregatorOpenRoundActuateParamsMoveStruct {

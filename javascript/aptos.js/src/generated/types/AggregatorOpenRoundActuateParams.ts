@@ -74,3 +74,16 @@ export class AggregatorOpenRoundActuateParams
   }
 
   toMoveStruct(): AggregatorOpenRoundActuateParamsMoveStruct {
+    return {
+      open_round_params: this.openRoundParams.toMoveStruct(),
+      queue_addr: this.queueAddr.toString(),
+      batch_size: this.batchSize.toString(),
+      job_keys: this.jobKeys.map((item) => item.toString()),
+      reward: this.reward.toString(),
+      open_round_reward: this.openRoundReward.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: AggregatorOpenRoundActuateParamsMoveStruct) {
+    return new AggregatorOpenRoundActuateParams({
+      openRoundParams: types.Aggregator

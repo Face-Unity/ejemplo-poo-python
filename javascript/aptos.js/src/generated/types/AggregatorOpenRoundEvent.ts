@@ -21,4 +21,18 @@ export interface AggregatorOpenRoundEventMoveStruct {
   job_keys: Array<string>;
 }
 
-export class AggregatorOpenRoundEvent implements IAggregat
+export class AggregatorOpenRoundEvent implements IAggregatorOpenRoundEvent {
+  readonly aggregatorAddress: HexString;
+  readonly oracleKeys: Array<HexString>;
+  readonly jobKeys: Array<HexString>;
+
+  constructor(fields: IAggregatorOpenRoundEvent) {
+    this.aggregatorAddress = fields.aggregatorAddress;
+    this.oracleKeys = fields.oracleKeys;
+    this.jobKeys = fields.jobKeys;
+  }
+
+  toJSON(): AggregatorOpenRoundEventJSON {
+    return {
+      aggregatorAddress: this.aggregatorAddress.toString(),
+      oracleKeys: this.oracleKeys.map((it

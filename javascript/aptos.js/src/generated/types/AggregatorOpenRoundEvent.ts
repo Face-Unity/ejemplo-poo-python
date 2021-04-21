@@ -35,4 +35,19 @@ export class AggregatorOpenRoundEvent implements IAggregatorOpenRoundEvent {
   toJSON(): AggregatorOpenRoundEventJSON {
     return {
       aggregatorAddress: this.aggregatorAddress.toString(),
-      oracleKeys: this.oracleKeys.map((it
+      oracleKeys: this.oracleKeys.map((item) => item.toString()),
+      jobKeys: this.jobKeys.map((item) => item.toString()),
+    };
+  }
+
+  static fromJSON(obj: AggregatorOpenRoundEventJSON) {
+    return new AggregatorOpenRoundEvent({
+      aggregatorAddress: HexString.ensure(obj.aggregatorAddress),
+      oracleKeys: obj.oracleKeys.map((item) => HexString.ensure(item)),
+      jobKeys: obj.jobKeys.map((item) => HexString.ensure(item)),
+    });
+  }
+
+  toMoveStruct(): AggregatorOpenRoundEventMoveStruct {
+    return {
+      aggregator_address: this.aggregatorAddress.toStri

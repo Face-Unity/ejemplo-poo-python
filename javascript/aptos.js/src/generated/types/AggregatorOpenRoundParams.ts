@@ -13,4 +13,25 @@ export interface AggregatorOpenRoundParamsJSON {
   jitter: string;
 }
 
-export interface AggregatorOpenRoundParamsMov
+export interface AggregatorOpenRoundParamsMoveStruct {
+  aggregator_addr: string;
+  jitter: string;
+}
+
+export class AggregatorOpenRoundParams implements IAggregatorOpenRoundParams {
+  readonly aggregatorAddr: HexString;
+  readonly jitter: BN;
+
+  constructor(fields: IAggregatorOpenRoundParams) {
+    this.aggregatorAddr = fields.aggregatorAddr;
+    this.jitter = fields.jitter;
+  }
+
+  toJSON(): AggregatorOpenRoundParamsJSON {
+    return {
+      aggregatorAddr: this.aggregatorAddr.toString(),
+      jitter: this.jitter.toString(),
+    };
+  }
+
+  static fromJ

@@ -50,4 +50,17 @@ export class AggregatorOpenRoundEvent implements IAggregatorOpenRoundEvent {
 
   toMoveStruct(): AggregatorOpenRoundEventMoveStruct {
     return {
-      aggregator_address: this.aggregatorAddress.toStri
+      aggregator_address: this.aggregatorAddress.toString(),
+      oracle_keys: this.oracleKeys.map((item) => item.toString()),
+      job_keys: this.jobKeys.map((item) => item.toString()),
+    };
+  }
+
+  static fromMoveStruct(obj: AggregatorOpenRoundEventMoveStruct) {
+    return new AggregatorOpenRoundEvent({
+      aggregatorAddress: HexString.ensure(obj.aggregator_address),
+      oracleKeys: obj.oracle_keys.map((item) => HexString.ensure(item)),
+      jobKeys: obj.job_keys.map((item) => HexString.ensure(item)),
+    });
+  }
+}

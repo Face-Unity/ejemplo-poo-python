@@ -34,4 +34,20 @@ export class AggregatorOpenRoundParams implements IAggregatorOpenRoundParams {
     };
   }
 
-  static fromJ
+  static fromJSON(obj: AggregatorOpenRoundParamsJSON) {
+    return new AggregatorOpenRoundParams({
+      aggregatorAddr: HexString.ensure(obj.aggregatorAddr),
+      jitter: new BN(obj.jitter),
+    });
+  }
+
+  toMoveStruct(): AggregatorOpenRoundParamsMoveStruct {
+    return {
+      aggregator_addr: this.aggregatorAddr.toString(),
+      jitter: this.jitter.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: AggregatorOpenRoundParamsMoveStruct) {
+    return new AggregatorOpenRoundParams({
+      aggregatorAddr: HexStri

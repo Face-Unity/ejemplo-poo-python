@@ -50,4 +50,8 @@ export class AggregatorOpenRoundParams implements IAggregatorOpenRoundParams {
 
   static fromMoveStruct(obj: AggregatorOpenRoundParamsMoveStruct) {
     return new AggregatorOpenRoundParams({
-      aggregatorAddr: HexStri
+      aggregatorAddr: HexString.ensure(obj.aggregator_addr),
+      jitter: new BN(obj.jitter),
+    });
+  }
+}

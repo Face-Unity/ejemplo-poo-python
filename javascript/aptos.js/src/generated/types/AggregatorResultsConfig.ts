@@ -20,4 +20,19 @@ export interface AggregatorResultsConfigJSON {
 export interface AggregatorResultsConfigMoveStruct {
   variance_threshold: types.SwitchboardDecimalMoveStruct;
   force_report_period: string;
-  min_job_results:
+  min_job_results: string;
+  expiration: string;
+}
+
+export class AggregatorResultsConfig implements IAggregatorResultsConfig {
+  readonly varianceThreshold: types.SwitchboardDecimal;
+  readonly forceReportPeriod: BN;
+  readonly minJobResults: BN;
+  readonly expiration: BN;
+
+  constructor(fields: IAggregatorResultsConfig) {
+    this.varianceThreshold = fields.varianceThreshold;
+    this.forceReportPeriod = fields.forceReportPeriod;
+    this.minJobResults = fields.minJobResults;
+    this.expiration = fields.expiration;
+ 

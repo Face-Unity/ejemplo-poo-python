@@ -35,4 +35,20 @@ export class AggregatorResultsConfig implements IAggregatorResultsConfig {
     this.forceReportPeriod = fields.forceReportPeriod;
     this.minJobResults = fields.minJobResults;
     this.expiration = fields.expiration;
- 
+  }
+
+  toJSON(): AggregatorResultsConfigJSON {
+    return {
+      varianceThreshold: this.varianceThreshold.toJSON(),
+      forceReportPeriod: this.forceReportPeriod.toString(),
+      minJobResults: this.minJobResults.toString(),
+      expiration: this.expiration.toString(),
+    };
+  }
+
+  static fromJSON(obj: AggregatorResultsConfigJSON) {
+    return new AggregatorResultsConfig({
+      varianceThreshold: types.SwitchboardDecimal.fromJSON(
+        obj.varianceThreshold
+      ),
+      forceReportPeriod: new BN(obj.forceReportPeriod

@@ -51,4 +51,20 @@ export class AggregatorResultsConfig implements IAggregatorResultsConfig {
       varianceThreshold: types.SwitchboardDecimal.fromJSON(
         obj.varianceThreshold
       ),
-      forceReportPeriod: new BN(obj.forceReportPeriod
+      forceReportPeriod: new BN(obj.forceReportPeriod),
+      minJobResults: new BN(obj.minJobResults),
+      expiration: new BN(obj.expiration),
+    });
+  }
+
+  toMoveStruct(): AggregatorResultsConfigMoveStruct {
+    return {
+      variance_threshold: this.varianceThreshold.toMoveStruct(),
+      force_report_period: this.forceReportPeriod.toString(),
+      min_job_results: this.minJobResults.toString(),
+      expiration: this.expiration.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: AggregatorResultsConfigMoveStruct) {
+    return new Aggr

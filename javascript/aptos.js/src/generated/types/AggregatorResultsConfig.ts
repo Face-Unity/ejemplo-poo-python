@@ -67,4 +67,13 @@ export class AggregatorResultsConfig implements IAggregatorResultsConfig {
   }
 
   static fromMoveStruct(obj: AggregatorResultsConfigMoveStruct) {
-    return new Aggr
+    return new AggregatorResultsConfig({
+      varianceThreshold: types.SwitchboardDecimal.fromMoveStruct(
+        obj.variance_threshold
+      ),
+      forceReportPeriod: new BN(obj.force_report_period),
+      minJobResults: new BN(obj.min_job_results),
+      expiration: new BN(obj.expiration),
+    });
+  }
+}

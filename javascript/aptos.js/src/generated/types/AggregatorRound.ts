@@ -17,4 +17,19 @@ export interface IAggregatorRound {
   errorsFulfilled: Array<boolean>;
   numSuccess: BN;
   numError: BN;
-  isC
+  isClosed: boolean;
+  roundConfirmedTimestamp: BN;
+}
+
+export interface AggregatorRoundJSON {
+  id: string;
+  roundOpenTimestamp: string;
+  roundOpenBlockHeight: string;
+  result: types.SwitchboardDecimalJSON;
+  stdDeviation: types.SwitchboardDecimalJSON;
+  minResponse: types.SwitchboardDecimalJSON;
+  maxResponse: types.SwitchboardDecimalJSON;
+  oracleKeys: Array<string>;
+  medians: Array<types.SwitchboardDecimalJSON | undefined>;
+  currentPayout: Array<types.SwitchboardDecimalJSON>;
+  e

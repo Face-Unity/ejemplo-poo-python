@@ -32,4 +32,20 @@ export interface AggregatorRoundJSON {
   oracleKeys: Array<string>;
   medians: Array<types.SwitchboardDecimalJSON | undefined>;
   currentPayout: Array<types.SwitchboardDecimalJSON>;
-  e
+  errorsFulfilled: Array<boolean>;
+  numSuccess: string;
+  numError: string;
+  isClosed: boolean;
+  roundConfirmedTimestamp: string;
+}
+
+export interface AggregatorRoundMoveStruct {
+  id: string;
+  round_open_timestamp: string;
+  round_open_block_height: string;
+  result: types.SwitchboardDecimalMoveStruct;
+  std_deviation: types.SwitchboardDecimalMoveStruct;
+  min_response: types.SwitchboardDecimalMoveStruct;
+  max_response: types.SwitchboardDecimalMoveStruct;
+  oracle_keys: Array<string>;
+  medians: Array<types.OptionalMoveStruct<type

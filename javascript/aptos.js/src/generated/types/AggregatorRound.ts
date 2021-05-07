@@ -76,4 +76,17 @@ export class AggregatorRound implements IAggregatorRound {
 
   constructor(fields: IAggregatorRound) {
     this.id = fields.id;
-    this.roundOpenTimestamp = fields.roundO
+    this.roundOpenTimestamp = fields.roundOpenTimestamp;
+    this.roundOpenBlockHeight = fields.roundOpenBlockHeight;
+    this.result = fields.result;
+    this.stdDeviation = fields.stdDeviation;
+    this.minResponse = fields.minResponse;
+    this.maxResponse = fields.maxResponse;
+    this.oracleKeys = fields.oracleKeys;
+    this.medians = fields.medians;
+    this.currentPayout = fields.currentPayout;
+    this.errorsFulfilled = fields.errorsFulfilled;
+    this.numSuccess = fields.numSuccess;
+    this.numError = fields.numError;
+    this.isClosed = fields.isClosed;
+    this.ro

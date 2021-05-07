@@ -48,4 +48,19 @@ export interface AggregatorRoundMoveStruct {
   min_response: types.SwitchboardDecimalMoveStruct;
   max_response: types.SwitchboardDecimalMoveStruct;
   oracle_keys: Array<string>;
-  medians: Array<types.OptionalMoveStruct<type
+  medians: Array<types.OptionalMoveStruct<types.SwitchboardDecimalJSON>>;
+  current_payout: Array<types.SwitchboardDecimalMoveStruct>;
+  errors_fulfilled: Array<boolean>;
+  num_success: string;
+  num_error: string;
+  is_closed: boolean;
+  round_confirmed_timestamp: string;
+}
+
+export class AggregatorRound implements IAggregatorRound {
+  readonly id: BN;
+  readonly roundOpenTimestamp: BN;
+  readonly roundOpenBlockHeight: BN;
+  readonly result: types.SwitchboardDecimal;
+  readonly stdDeviation: types.SwitchboardDecimal;
+  re

@@ -63,4 +63,17 @@ export class AggregatorRound implements IAggregatorRound {
   readonly roundOpenBlockHeight: BN;
   readonly result: types.SwitchboardDecimal;
   readonly stdDeviation: types.SwitchboardDecimal;
-  re
+  readonly minResponse: types.SwitchboardDecimal;
+  readonly maxResponse: types.SwitchboardDecimal;
+  readonly oracleKeys: Array<HexString>;
+  readonly medians: Array<types.SwitchboardDecimal | undefined>;
+  readonly currentPayout: Array<types.SwitchboardDecimal>;
+  readonly errorsFulfilled: Array<boolean>;
+  readonly numSuccess: BN;
+  readonly numError: BN;
+  readonly isClosed: boolean;
+  readonly roundConfirmedTimestamp: BN;
+
+  constructor(fields: IAggregatorRound) {
+    this.id = fields.id;
+    this.roundOpenTimestamp = fields.roundO

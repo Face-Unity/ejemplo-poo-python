@@ -89,4 +89,17 @@ export class AggregatorRound implements IAggregatorRound {
     this.numSuccess = fields.numSuccess;
     this.numError = fields.numError;
     this.isClosed = fields.isClosed;
-    this.ro
+    this.roundConfirmedTimestamp = fields.roundConfirmedTimestamp;
+  }
+
+  toJSON(): AggregatorRoundJSON {
+    return {
+      id: this.id.toString(),
+      roundOpenTimestamp: this.roundOpenTimestamp.toString(),
+      roundOpenBlockHeight: this.roundOpenBlockHeight.toString(),
+      result: this.result.toJSON(),
+      stdDeviation: this.stdDeviation.toJSON(),
+      minResponse: this.minResponse.toJSON(),
+      maxResponse: this.maxResponse.toJSON(),
+      oracleKeys: this.oracleKeys.map((item) => item.toString()),
+      median

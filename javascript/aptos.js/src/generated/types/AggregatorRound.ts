@@ -102,4 +102,17 @@ export class AggregatorRound implements IAggregatorRound {
       minResponse: this.minResponse.toJSON(),
       maxResponse: this.maxResponse.toJSON(),
       oracleKeys: this.oracleKeys.map((item) => item.toString()),
-      median
+      medians: this.medians.map((item) => (item ? item.toJSON() : undefined)),
+      currentPayout: this.currentPayout.map((item) => item.toJSON()),
+      errorsFulfilled: this.errorsFulfilled.map((item) => item),
+      numSuccess: this.numSuccess.toString(),
+      numError: this.numError.toString(),
+      isClosed: this.isClosed,
+      roundConfirmedTimestamp: this.roundConfirmedTimestamp.toString(),
+    };
+  }
+
+  static fromJSON(obj: AggregatorRoundJSON) {
+    return new AggregatorRound({
+      id: new BN(obj.id),
+      roundOpenTimestam

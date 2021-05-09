@@ -115,4 +115,13 @@ export class AggregatorRound implements IAggregatorRound {
   static fromJSON(obj: AggregatorRoundJSON) {
     return new AggregatorRound({
       id: new BN(obj.id),
-      roundOpenTimestam
+      roundOpenTimestamp: new BN(obj.roundOpenTimestamp),
+      roundOpenBlockHeight: new BN(obj.roundOpenBlockHeight),
+      result: types.SwitchboardDecimal.fromJSON(obj.result),
+      stdDeviation: types.SwitchboardDecimal.fromJSON(obj.stdDeviation),
+      minResponse: types.SwitchboardDecimal.fromJSON(obj.minResponse),
+      maxResponse: types.SwitchboardDecimal.fromJSON(obj.maxResponse),
+      oracleKeys: obj.oracleKeys.map((item) => HexString.ensure(item)),
+      medians: Array.from(
+        obj.medians.map((item) =>
+        

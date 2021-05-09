@@ -124,4 +124,20 @@ export class AggregatorRound implements IAggregatorRound {
       oracleKeys: obj.oracleKeys.map((item) => HexString.ensure(item)),
       medians: Array.from(
         obj.medians.map((item) =>
-        
+          item ? types.SwitchboardDecimal.fromJSON(item) : undefined
+        )
+      ),
+      currentPayout: obj.currentPayout.map((item) =>
+        types.SwitchboardDecimal.fromJSON(item)
+      ),
+      errorsFulfilled: obj.errorsFulfilled.map((item) => item),
+      numSuccess: new BN(obj.numSuccess),
+      numError: new BN(obj.numError),
+      isClosed: obj.isClosed,
+      roundConfirmedTimestamp: new BN(obj.roundConfirmedTimestamp),
+    });
+  }
+
+  toMoveStruct(): AggregatorRoundMoveStruct {
+    return {
+      id: this.i

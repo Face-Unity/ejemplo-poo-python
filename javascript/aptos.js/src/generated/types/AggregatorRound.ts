@@ -149,4 +149,18 @@ export class AggregatorRound implements IAggregatorRound {
       max_response: this.maxResponse.toMoveStruct(),
       oracle_keys: this.oracleKeys.map((item) => item.toString()),
       medians: this.medians.map((item) =>
-        item ? { vec: [item.t
+        item ? { vec: [item.toMoveStruct()] } : null
+      ),
+      current_payout: this.currentPayout.map((item) => item.toMoveStruct()),
+      errors_fulfilled: this.errorsFulfilled.map((item) => item),
+      num_success: this.numSuccess.toString(),
+      num_error: this.numError.toString(),
+      is_closed: this.isClosed,
+      round_confirmed_timestamp: this.roundConfirmedTimestamp.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: AggregatorRoundMoveStruct) {
+    return new AggregatorRound({
+      id: new BN(obj.id),
+      roundOp

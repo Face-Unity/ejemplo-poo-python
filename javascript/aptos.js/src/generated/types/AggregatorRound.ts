@@ -163,4 +163,12 @@ export class AggregatorRound implements IAggregatorRound {
   static fromMoveStruct(obj: AggregatorRoundMoveStruct) {
     return new AggregatorRound({
       id: new BN(obj.id),
-      roundOp
+      roundOpenTimestamp: new BN(obj.round_open_timestamp),
+      roundOpenBlockHeight: new BN(obj.round_open_block_height),
+      result: types.SwitchboardDecimal.fromMoveStruct(obj.result),
+      stdDeviation: types.SwitchboardDecimal.fromMoveStruct(obj.std_deviation),
+      minResponse: types.SwitchboardDecimal.fromMoveStruct(obj.min_response),
+      maxResponse: types.SwitchboardDecimal.fromMoveStruct(obj.max_response),
+      oracleKeys: obj.oracle_keys.map((item) => HexString.ensure(item)),
+      medians: Array.from(
+        obj.med

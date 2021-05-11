@@ -140,4 +140,13 @@ export class AggregatorRound implements IAggregatorRound {
 
   toMoveStruct(): AggregatorRoundMoveStruct {
     return {
-      id: this.i
+      id: this.id.toString(),
+      round_open_timestamp: this.roundOpenTimestamp.toString(),
+      round_open_block_height: this.roundOpenBlockHeight.toString(),
+      result: this.result.toMoveStruct(),
+      std_deviation: this.stdDeviation.toMoveStruct(),
+      min_response: this.minResponse.toMoveStruct(),
+      max_response: this.maxResponse.toMoveStruct(),
+      oracle_keys: this.oracleKeys.map((item) => item.toString()),
+      medians: this.medians.map((item) =>
+        item ? { vec: [item.t

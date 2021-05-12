@@ -171,4 +171,20 @@ export class AggregatorRound implements IAggregatorRound {
       maxResponse: types.SwitchboardDecimal.fromMoveStruct(obj.max_response),
       oracleKeys: obj.oracle_keys.map((item) => HexString.ensure(item)),
       medians: Array.from(
-        obj.med
+        obj.medians.map((item) =>
+          item.vec.length > 0
+            ? types.SwitchboardDecimal.fromMoveStruct(item.vec[0])
+            : null
+        )
+      ),
+      currentPayout: obj.current_payout.map((item) =>
+        types.SwitchboardDecimal.fromMoveStruct(item)
+      ),
+      errorsFulfilled: obj.errors_fulfilled.map((item) => item),
+      numSuccess: new BN(obj.num_success),
+      numError: new BN(obj.num_error),
+      isClosed: obj.is_closed,
+      roundConfirmedTimestamp: new BN(obj.round_confirmed_timestamp),
+    });
+  }
+}

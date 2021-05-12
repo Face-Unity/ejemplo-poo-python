@@ -11,4 +11,21 @@ export interface IAggregatorSaveResultEvent {
 
 export interface AggregatorSaveResultEventJSON {
   aggregatorAddress: string;
-  oracleKey: 
+  oracleKey: string;
+  value: types.SwitchboardDecimalJSON;
+}
+
+export interface AggregatorSaveResultEventMoveStruct {
+  aggregator_address: string;
+  oracle_key: string;
+  value: types.SwitchboardDecimalMoveStruct;
+}
+
+export class AggregatorSaveResultEvent implements IAggregatorSaveResultEvent {
+  readonly aggregatorAddress: HexString;
+  readonly oracleKey: HexString;
+  readonly value: types.SwitchboardDecimal;
+
+  constructor(fields: IAggregatorSaveResultEvent) {
+    this.aggregatorAddress = fields.aggregatorAddress;
+    

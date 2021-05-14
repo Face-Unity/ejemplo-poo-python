@@ -28,4 +28,20 @@ export class AggregatorSaveResultEvent implements IAggregatorSaveResultEvent {
 
   constructor(fields: IAggregatorSaveResultEvent) {
     this.aggregatorAddress = fields.aggregatorAddress;
-    
+    this.oracleKey = fields.oracleKey;
+    this.value = fields.value;
+  }
+
+  toJSON(): AggregatorSaveResultEventJSON {
+    return {
+      aggregatorAddress: this.aggregatorAddress.toString(),
+      oracleKey: this.oracleKey.toString(),
+      value: this.value.toJSON(),
+    };
+  }
+
+  static fromJSON(obj: AggregatorSaveResultEventJSON) {
+    return new AggregatorSaveResultEvent({
+      aggregatorAddress: HexString.ensure(obj.aggregatorAddress),
+      oracleKey: HexString.ensure(obj.oracleKey),
+      value: types.

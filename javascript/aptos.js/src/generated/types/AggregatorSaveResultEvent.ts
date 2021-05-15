@@ -44,4 +44,19 @@ export class AggregatorSaveResultEvent implements IAggregatorSaveResultEvent {
     return new AggregatorSaveResultEvent({
       aggregatorAddress: HexString.ensure(obj.aggregatorAddress),
       oracleKey: HexString.ensure(obj.oracleKey),
-      value: types.
+      value: types.SwitchboardDecimal.fromJSON(obj.value),
+    });
+  }
+
+  toMoveStruct(): AggregatorSaveResultEventMoveStruct {
+    return {
+      aggregator_address: this.aggregatorAddress.toString(),
+      oracle_key: this.oracleKey.toString(),
+      value: this.value.toMoveStruct(),
+    };
+  }
+
+  static fromMoveStruct(obj: AggregatorSaveResultEventMoveStruct) {
+    return new AggregatorSaveResultEvent({
+      aggregatorAddress: HexString.ensure(obj.aggregator_address),
+      oracleKey: HexString.ensure(obj.oracl

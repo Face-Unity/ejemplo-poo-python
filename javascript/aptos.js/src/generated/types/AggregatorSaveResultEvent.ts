@@ -59,4 +59,8 @@ export class AggregatorSaveResultEvent implements IAggregatorSaveResultEvent {
   static fromMoveStruct(obj: AggregatorSaveResultEventMoveStruct) {
     return new AggregatorSaveResultEvent({
       aggregatorAddress: HexString.ensure(obj.aggregator_address),
-      oracleKey: HexString.ensure(obj.oracl
+      oracleKey: HexString.ensure(obj.oracle_key),
+      value: types.SwitchboardDecimal.fromMoveStruct(obj.value),
+    });
+  }
+}

@@ -42,4 +42,21 @@ export class Crank implements ICrank {
     this.heap = fields.heap;
     this.queueAddr = fields.queueAddr;
     this.createdAt = fields.createdAt;
-    this.ji
+    this.jitterModifier = fields.jitterModifier;
+    this.features = fields.features;
+    this._ebuf = fields._ebuf;
+  }
+
+  toJSON(): CrankJSON {
+    return {
+      heap: this.heap.map((item) => item.toJSON()),
+      queueAddr: this.queueAddr.toString(),
+      createdAt: this.createdAt.toString(),
+      jitterModifier: this.jitterModifier.toString(),
+      features: this.features.map((item) => item),
+      _ebuf: [...this._ebuf],
+    };
+  }
+
+  static fromJSON(obj: CrankJSON) {
+    re

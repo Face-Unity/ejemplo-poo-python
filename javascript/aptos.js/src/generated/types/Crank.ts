@@ -59,4 +59,18 @@ export class Crank implements ICrank {
   }
 
   static fromJSON(obj: CrankJSON) {
-    re
+    return new Crank({
+      heap: obj.heap.map((item) => types.CrankRow.fromJSON(item)),
+      queueAddr: HexString.ensure(obj.queueAddr),
+      createdAt: new BN(obj.createdAt),
+      jitterModifier: new BN(obj.jitterModifier),
+      features: obj.features.map((item) => item),
+      _ebuf: new Uint8Array(obj._ebuf),
+    });
+  }
+
+  toMoveStruct(): CrankMoveStruct {
+    return {
+      heap: this.heap.map((item) => item.toMoveStruct()),
+      queue_addr: this.queueAddr.toString(),
+      created_at: this.createdAt.toString(),

@@ -86,4 +86,11 @@ export class Crank implements ICrank {
       queueAddr: HexString.ensure(obj.queue_addr),
       createdAt: new BN(obj.created_at),
       jitterModifier: new BN(obj.jitter_modifier),
-      feat
+      features: obj.features.map((item) => item),
+      _ebuf:
+        typeof obj._ebuf === "string"
+          ? new Uint8Array(Buffer.from(obj._ebuf.slice(2), "hex"))
+          : new Uint8Array(obj._ebuf),
+    });
+  }
+}

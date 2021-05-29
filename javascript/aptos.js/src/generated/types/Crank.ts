@@ -74,3 +74,16 @@ export class Crank implements ICrank {
       heap: this.heap.map((item) => item.toMoveStruct()),
       queue_addr: this.queueAddr.toString(),
       created_at: this.createdAt.toString(),
+      jitter_modifier: this.jitterModifier.toString(),
+      features: this.features.map((item) => item),
+      _ebuf: Buffer.from(this._ebuf).toString("hex"),
+    };
+  }
+
+  static fromMoveStruct(obj: CrankMoveStruct) {
+    return new Crank({
+      heap: obj.heap.map((item) => types.CrankRow.fromMoveStruct(item)),
+      queueAddr: HexString.ensure(obj.queue_addr),
+      createdAt: new BN(obj.created_at),
+      jitterModifier: new BN(obj.jitter_modifier),
+      feat

@@ -4,4 +4,29 @@ import { HexString } from "aptos"; // eslint-disable-line @typescript-eslint/no-
 import BN from "bn.js"; // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export interface ICrankInitParams {
-  queue
+  queueAddr: HexString;
+}
+
+export interface CrankInitParamsJSON {
+  queueAddr: string;
+}
+
+export interface CrankInitParamsMoveStruct {
+  queue_addr: string;
+}
+
+export class CrankInitParams implements ICrankInitParams {
+  readonly queueAddr: HexString;
+
+  constructor(fields: ICrankInitParams) {
+    this.queueAddr = fields.queueAddr;
+  }
+
+  toJSON(): CrankInitParamsJSON {
+    return {
+      queueAddr: this.queueAddr.toString(),
+    };
+  }
+
+  static fromJSON(obj: CrankInitParamsJSON) {
+    return new CrankInitParams({

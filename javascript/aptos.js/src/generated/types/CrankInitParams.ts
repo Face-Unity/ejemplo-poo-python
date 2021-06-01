@@ -30,3 +30,19 @@ export class CrankInitParams implements ICrankInitParams {
 
   static fromJSON(obj: CrankInitParamsJSON) {
     return new CrankInitParams({
+      queueAddr: HexString.ensure(obj.queueAddr),
+    });
+  }
+
+  toMoveStruct(): CrankInitParamsMoveStruct {
+    return {
+      queue_addr: this.queueAddr.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: CrankInitParamsMoveStruct) {
+    return new CrankInitParams({
+      queueAddr: HexString.ensure(obj.queue_addr),
+    });
+  }
+}

@@ -38,4 +38,13 @@ export class CrankLeaseInsufficientFundsEvent
 
   toMoveStruct(): CrankLeaseInsufficientFundsEventMoveStruct {
     return {
-      aggregator_address: this.agg
+      aggregator_address: this.aggregatorAddress.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: CrankLeaseInsufficientFundsEventMoveStruct) {
+    return new CrankLeaseInsufficientFundsEvent({
+      aggregatorAddress: HexString.ensure(obj.aggregator_address),
+    });
+  }
+}

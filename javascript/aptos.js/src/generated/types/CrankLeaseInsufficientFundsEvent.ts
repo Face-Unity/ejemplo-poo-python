@@ -20,4 +20,22 @@ export class CrankLeaseInsufficientFundsEvent
 {
   readonly aggregatorAddress: HexString;
 
-  constructor(fields: ICrankLeaseInsufficie
+  constructor(fields: ICrankLeaseInsufficientFundsEvent) {
+    this.aggregatorAddress = fields.aggregatorAddress;
+  }
+
+  toJSON(): CrankLeaseInsufficientFundsEventJSON {
+    return {
+      aggregatorAddress: this.aggregatorAddress.toString(),
+    };
+  }
+
+  static fromJSON(obj: CrankLeaseInsufficientFundsEventJSON) {
+    return new CrankLeaseInsufficientFundsEvent({
+      aggregatorAddress: HexString.ensure(obj.aggregatorAddress),
+    });
+  }
+
+  toMoveStruct(): CrankLeaseInsufficientFundsEventMoveStruct {
+    return {
+      aggregator_address: this.agg

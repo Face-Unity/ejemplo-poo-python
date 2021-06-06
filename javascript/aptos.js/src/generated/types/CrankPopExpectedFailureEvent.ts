@@ -21,4 +21,25 @@ export class CrankPopExpectedFailureEvent
   readonly aggregatorAddress: HexString;
 
   constructor(fields: ICrankPopExpectedFailureEvent) {
-    this.aggregatorAddress = fields.aggre
+    this.aggregatorAddress = fields.aggregatorAddress;
+  }
+
+  toJSON(): CrankPopExpectedFailureEventJSON {
+    return {
+      aggregatorAddress: this.aggregatorAddress.toString(),
+    };
+  }
+
+  static fromJSON(obj: CrankPopExpectedFailureEventJSON) {
+    return new CrankPopExpectedFailureEvent({
+      aggregatorAddress: HexString.ensure(obj.aggregatorAddress),
+    });
+  }
+
+  toMoveStruct(): CrankPopExpectedFailureEventMoveStruct {
+    return {
+      aggregator_address: this.aggregatorAddress.toString(),
+    };
+  }
+
+  static fro

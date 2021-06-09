@@ -42,4 +42,9 @@ export class CrankPopExpectedFailureEvent
     };
   }
 
-  static fro
+  static fromMoveStruct(obj: CrankPopExpectedFailureEventMoveStruct) {
+    return new CrankPopExpectedFailureEvent({
+      aggregatorAddress: HexString.ensure(obj.aggregator_address),
+    });
+  }
+}

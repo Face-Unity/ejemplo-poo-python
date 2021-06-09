@@ -24,4 +24,25 @@ export class CrankPushParams implements ICrankPushParams {
 
   constructor(fields: ICrankPushParams) {
     this.crankAddr = fields.crankAddr;
-    this.aggregatorAddr = fields.aggregator
+    this.aggregatorAddr = fields.aggregatorAddr;
+  }
+
+  toJSON(): CrankPushParamsJSON {
+    return {
+      crankAddr: this.crankAddr.toString(),
+      aggregatorAddr: this.aggregatorAddr.toString(),
+    };
+  }
+
+  static fromJSON(obj: CrankPushParamsJSON) {
+    return new CrankPushParams({
+      crankAddr: HexString.ensure(obj.crankAddr),
+      aggregatorAddr: HexString.ensure(obj.aggregatorAddr),
+    });
+  }
+
+  toMoveStruct(): CrankPushParamsMoveStruct {
+    return {
+      crank_addr: this.crankAddr.toString(),
+      aggregator_addr: this.aggregatorAddr.toString(),
+    };

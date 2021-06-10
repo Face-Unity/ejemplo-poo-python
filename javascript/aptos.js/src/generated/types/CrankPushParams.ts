@@ -46,3 +46,12 @@ export class CrankPushParams implements ICrankPushParams {
       crank_addr: this.crankAddr.toString(),
       aggregator_addr: this.aggregatorAddr.toString(),
     };
+  }
+
+  static fromMoveStruct(obj: CrankPushParamsMoveStruct) {
+    return new CrankPushParams({
+      crankAddr: HexString.ensure(obj.crank_addr),
+      aggregatorAddr: HexString.ensure(obj.aggregator_addr),
+    });
+  }
+}

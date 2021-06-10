@@ -27,4 +27,25 @@ export class CrankRow implements ICrankRow {
     this.timestamp = fields.timestamp;
   }
 
-  toJSON(): CrankRo
+  toJSON(): CrankRowJSON {
+    return {
+      aggregatorAddr: this.aggregatorAddr.toString(),
+      timestamp: this.timestamp.toString(),
+    };
+  }
+
+  static fromJSON(obj: CrankRowJSON) {
+    return new CrankRow({
+      aggregatorAddr: HexString.ensure(obj.aggregatorAddr),
+      timestamp: new BN(obj.timestamp),
+    });
+  }
+
+  toMoveStruct(): CrankRowMoveStruct {
+    return {
+      aggregator_addr: this.aggregatorAddr.toString(),
+      timestamp: this.timestamp.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: CrankRowMoveS

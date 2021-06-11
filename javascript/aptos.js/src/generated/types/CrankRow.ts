@@ -48,4 +48,10 @@ export class CrankRow implements ICrankRow {
     };
   }
 
-  static fromMoveStruct(obj: CrankRowMoveS
+  static fromMoveStruct(obj: CrankRowMoveStruct) {
+    return new CrankRow({
+      aggregatorAddr: HexString.ensure(obj.aggregator_addr),
+      timestamp: new BN(obj.timestamp),
+    });
+  }
+}

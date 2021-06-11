@@ -24,4 +24,25 @@ export class EscrowManagerItem implements IEscrowManagerItem {
 
   toJSON(): EscrowManagerItemJSON {
     return {
-      handl
+      handle: this.handle.toString(),
+    };
+  }
+
+  static fromJSON(obj: EscrowManagerItemJSON) {
+    return new EscrowManagerItem({
+      handle: HexString.ensure(obj.handle),
+    });
+  }
+
+  toMoveStruct(): EscrowManagerItemMoveStruct {
+    return {
+      handle: this.handle.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: EscrowManagerItemMoveStruct) {
+    return new EscrowManagerItem({
+      handle: HexString.ensure(obj.handle),
+    });
+  }
+}

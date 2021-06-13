@@ -16,3 +16,22 @@ export interface FeedPermissionRevokedEventJSON {
 export interface FeedPermissionRevokedEventMoveStruct {
   aggregator_address: string;
   timestamp: string;
+}
+
+export class FeedPermissionRevokedEvent implements IFeedPermissionRevokedEvent {
+  readonly aggregatorAddress: HexString;
+  readonly timestamp: BN;
+
+  constructor(fields: IFeedPermissionRevokedEvent) {
+    this.aggregatorAddress = fields.aggregatorAddress;
+    this.timestamp = fields.timestamp;
+  }
+
+  toJSON(): FeedPermissionRevokedEventJSON {
+    return {
+      aggregatorAddress: this.aggregatorAddress.toString(),
+      timestamp: this.timestamp.toString(),
+    };
+  }
+
+  static from

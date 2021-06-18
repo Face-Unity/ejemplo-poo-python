@@ -34,4 +34,19 @@ export class FeedPermissionRevokedEvent implements IFeedPermissionRevokedEvent {
     };
   }
 
-  static from
+  static fromJSON(obj: FeedPermissionRevokedEventJSON) {
+    return new FeedPermissionRevokedEvent({
+      aggregatorAddress: HexString.ensure(obj.aggregatorAddress),
+      timestamp: new BN(obj.timestamp),
+    });
+  }
+
+  toMoveStruct(): FeedPermissionRevokedEventMoveStruct {
+    return {
+      aggregator_address: this.aggregatorAddress.toString(),
+      timestamp: this.timestamp.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: FeedPermissionRevokedEventMoveStruct) {
+    return new FeedPermissionRevok

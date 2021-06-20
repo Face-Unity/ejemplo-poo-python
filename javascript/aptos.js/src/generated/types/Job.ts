@@ -31,4 +31,30 @@ export interface JobJSON {
   totalSpent: string;
   createdAt: string;
   variables: Array<Array<number>>;
-  f
+  features: Array<boolean>;
+  _ebuf: Array<number>;
+}
+
+export interface JobMoveStruct {
+  addr: string;
+  name: string;
+  metadata: string;
+  authority: string;
+  expiration: string;
+  hash: string;
+  data: string;
+  reference_count: string;
+  total_spent: string;
+  created_at: string;
+  variables: Array<string>;
+  features: Array<boolean>;
+  _ebuf: string;
+}
+
+export class Job implements IJob {
+  readonly addr: HexString;
+  readonly name: Uint8Array;
+  readonly metadata: Uint8Array;
+  readonly authority: HexString;
+  readonly expiration: BN;
+  rea

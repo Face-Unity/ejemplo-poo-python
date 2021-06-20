@@ -57,4 +57,20 @@ export class Job implements IJob {
   readonly metadata: Uint8Array;
   readonly authority: HexString;
   readonly expiration: BN;
-  rea
+  readonly hash: Uint8Array;
+  readonly data: Uint8Array;
+  readonly referenceCount: BN;
+  readonly totalSpent: BN;
+  readonly createdAt: BN;
+  readonly variables: Array<Uint8Array>;
+  readonly features: Array<boolean>;
+  readonly _ebuf: Uint8Array;
+
+  constructor(fields: IJob) {
+    this.addr = fields.addr;
+    this.name = fields.name;
+    this.metadata = fields.metadata;
+    this.authority = fields.authority;
+    this.expiration = fields.expiration;
+    this.hash = fields.hash;
+    this.data = f

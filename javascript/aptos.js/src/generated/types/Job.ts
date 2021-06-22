@@ -73,4 +73,20 @@ export class Job implements IJob {
     this.authority = fields.authority;
     this.expiration = fields.expiration;
     this.hash = fields.hash;
-    this.data = f
+    this.data = fields.data;
+    this.referenceCount = fields.referenceCount;
+    this.totalSpent = fields.totalSpent;
+    this.createdAt = fields.createdAt;
+    this.variables = fields.variables;
+    this.features = fields.features;
+    this._ebuf = fields._ebuf;
+  }
+
+  toJSON(): JobJSON {
+    return {
+      addr: this.addr.toString(),
+      name: [...this.name],
+      metadata: [...this.metadata],
+      authority: this.authority.toString(),
+      expiration: this.expiration.toString(),
+      hash: [...thi

@@ -120,4 +120,15 @@ export class Job implements IJob {
 
   toMoveStruct(): JobMoveStruct {
     return {
-   
+      addr: this.addr.toString(),
+      name: Buffer.from(this.name).toString("hex"),
+      metadata: Buffer.from(this.metadata).toString("hex"),
+      authority: this.authority.toString(),
+      expiration: this.expiration.toString(),
+      hash: Buffer.from(this.hash).toString("hex"),
+      data: Buffer.from(this.data).toString("hex"),
+      reference_count: this.referenceCount.toString(),
+      total_spent: this.totalSpent.toString(),
+      created_at: this.createdAt.toString(),
+      variables: this.variables.map((item) =>
+        Buffer

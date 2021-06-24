@@ -89,4 +89,20 @@ export class Job implements IJob {
       metadata: [...this.metadata],
       authority: this.authority.toString(),
       expiration: this.expiration.toString(),
-      hash: [...thi
+      hash: [...this.hash],
+      data: [...this.data],
+      referenceCount: this.referenceCount.toString(),
+      totalSpent: this.totalSpent.toString(),
+      createdAt: this.createdAt.toString(),
+      variables: this.variables.map((item) => [...item]),
+      features: this.features.map((item) => item),
+      _ebuf: [...this._ebuf],
+    };
+  }
+
+  static fromJSON(obj: JobJSON) {
+    return new Job({
+      addr: HexString.ensure(obj.addr),
+      name: new Uint8Array(obj.name),
+      metadata: new Uint8Array(obj.metadata),
+    

@@ -105,4 +105,19 @@ export class Job implements IJob {
       addr: HexString.ensure(obj.addr),
       name: new Uint8Array(obj.name),
       metadata: new Uint8Array(obj.metadata),
-    
+      authority: HexString.ensure(obj.authority),
+      expiration: new BN(obj.expiration),
+      hash: new Uint8Array(obj.hash),
+      data: new Uint8Array(obj.data),
+      referenceCount: new BN(obj.referenceCount),
+      totalSpent: new BN(obj.totalSpent),
+      createdAt: new BN(obj.createdAt),
+      variables: obj.variables.map((item) => new Uint8Array(item)),
+      features: obj.features.map((item) => item),
+      _ebuf: new Uint8Array(obj._ebuf),
+    });
+  }
+
+  toMoveStruct(): JobMoveStruct {
+    return {
+   

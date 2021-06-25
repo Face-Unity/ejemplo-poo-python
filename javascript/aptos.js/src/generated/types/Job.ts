@@ -131,4 +131,20 @@ export class Job implements IJob {
       total_spent: this.totalSpent.toString(),
       created_at: this.createdAt.toString(),
       variables: this.variables.map((item) =>
-        Buffer
+        Buffer.from(item).toString("hex")
+      ),
+      features: this.features.map((item) => item),
+      _ebuf: Buffer.from(this._ebuf).toString("hex"),
+    };
+  }
+
+  static fromMoveStruct(obj: JobMoveStruct) {
+    return new Job({
+      addr: HexString.ensure(obj.addr),
+      name:
+        typeof obj.name === "string"
+          ? new Uint8Array(Buffer.from(obj.name.slice(2), "hex"))
+          : new Uint8Array(obj.name),
+      metadata:
+        typeof obj.metadata === "string"
+ 

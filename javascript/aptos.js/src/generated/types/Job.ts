@@ -158,4 +158,18 @@ export class Job implements IJob {
       data:
         typeof obj.data === "string"
           ? new Uint8Array(Buffer.from(obj.data.slice(2), "hex"))
-          
+          : new Uint8Array(obj.data),
+      referenceCount: new BN(obj.reference_count),
+      totalSpent: new BN(obj.total_spent),
+      createdAt: new BN(obj.created_at),
+      variables: obj.variables.map(
+        (item) => new Uint8Array(Buffer.from(item, "hex"))
+      ),
+      features: obj.features.map((item) => item),
+      _ebuf:
+        typeof obj._ebuf === "string"
+          ? new Uint8Array(Buffer.from(obj._ebuf.slice(2), "hex"))
+          : new Uint8Array(obj._ebuf),
+    });
+  }
+}

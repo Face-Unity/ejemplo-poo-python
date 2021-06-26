@@ -147,4 +147,15 @@ export class Job implements IJob {
           : new Uint8Array(obj.name),
       metadata:
         typeof obj.metadata === "string"
- 
+          ? new Uint8Array(Buffer.from(obj.metadata.slice(2), "hex"))
+          : new Uint8Array(obj.metadata),
+      authority: HexString.ensure(obj.authority),
+      expiration: new BN(obj.expiration),
+      hash:
+        typeof obj.hash === "string"
+          ? new Uint8Array(Buffer.from(obj.hash.slice(2), "hex"))
+          : new Uint8Array(obj.hash),
+      data:
+        typeof obj.data === "string"
+          ? new Uint8Array(Buffer.from(obj.data.slice(2), "hex"))
+          

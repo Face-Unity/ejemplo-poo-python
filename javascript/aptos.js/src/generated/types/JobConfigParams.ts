@@ -55,4 +55,19 @@ export class JobConfigParams implements IJobConfigParams {
     });
   }
 
-  toMoveStruct(): JobConfigPar
+  toMoveStruct(): JobConfigParamsMoveStruct {
+    return {
+      name: Buffer.from(this.name).toString("hex"),
+      metadata: Buffer.from(this.metadata).toString("hex"),
+      authority: this.authority.toString(),
+      data: Buffer.from(this.data).toString("hex"),
+    };
+  }
+
+  static fromMoveStruct(obj: JobConfigParamsMoveStruct) {
+    return new JobConfigParams({
+      name:
+        typeof obj.name === "string"
+          ? new Uint8Array(Buffer.from(obj.name.slice(2), "hex"))
+          : new Uint8Array(obj.name),
+      metadata:

@@ -34,4 +34,25 @@ export class JobConfigParams implements IJobConfigParams {
     this.name = fields.name;
     this.metadata = fields.metadata;
     this.authority = fields.authority;
-    this.data 
+    this.data = fields.data;
+  }
+
+  toJSON(): JobConfigParamsJSON {
+    return {
+      name: [...this.name],
+      metadata: [...this.metadata],
+      authority: this.authority.toString(),
+      data: [...this.data],
+    };
+  }
+
+  static fromJSON(obj: JobConfigParamsJSON) {
+    return new JobConfigParams({
+      name: new Uint8Array(obj.name),
+      metadata: new Uint8Array(obj.metadata),
+      authority: HexString.ensure(obj.authority),
+      data: new Uint8Array(obj.data),
+    });
+  }
+
+  toMoveStruct(): JobConfigPar

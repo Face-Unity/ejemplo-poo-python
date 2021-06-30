@@ -20,4 +20,22 @@ export interface LeaseExtendParamsMoveStruct {
 
 export class LeaseExtendParams implements ILeaseExtendParams {
   readonly aggregatorAddr: HexString;
-  readonly loadAmount: BN
+  readonly loadAmount: BN;
+
+  constructor(fields: ILeaseExtendParams) {
+    this.aggregatorAddr = fields.aggregatorAddr;
+    this.loadAmount = fields.loadAmount;
+  }
+
+  toJSON(): LeaseExtendParamsJSON {
+    return {
+      aggregatorAddr: this.aggregatorAddr.toString(),
+      loadAmount: this.loadAmount.toString(),
+    };
+  }
+
+  static fromJSON(obj: LeaseExtendParamsJSON) {
+    return new LeaseExtendParams({
+      aggregatorAddr: HexString.ensure(obj.aggregatorAddr),
+      loadAmount: new BN(obj.loadAmount),
+    })

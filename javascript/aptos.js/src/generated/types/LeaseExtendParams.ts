@@ -38,4 +38,20 @@ export class LeaseExtendParams implements ILeaseExtendParams {
     return new LeaseExtendParams({
       aggregatorAddr: HexString.ensure(obj.aggregatorAddr),
       loadAmount: new BN(obj.loadAmount),
-    })
+    });
+  }
+
+  toMoveStruct(): LeaseExtendParamsMoveStruct {
+    return {
+      aggregator_addr: this.aggregatorAddr.toString(),
+      load_amount: this.loadAmount.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: LeaseExtendParamsMoveStruct) {
+    return new LeaseExtendParams({
+      aggregatorAddr: HexString.ensure(obj.aggregator_addr),
+      loadAmount: new BN(obj.load_amount),
+    });
+  }
+}

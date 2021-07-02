@@ -24,4 +24,21 @@ export interface LeaseFundEventMoveStruct {
   timestamp: string;
 }
 
-export class LeaseFundEvent implemen
+export class LeaseFundEvent implements ILeaseFundEvent {
+  readonly leaseAddress: HexString;
+  readonly funder: HexString;
+  readonly amount: BN;
+  readonly timestamp: BN;
+
+  constructor(fields: ILeaseFundEvent) {
+    this.leaseAddress = fields.leaseAddress;
+    this.funder = fields.funder;
+    this.amount = fields.amount;
+    this.timestamp = fields.timestamp;
+  }
+
+  toJSON(): LeaseFundEventJSON {
+    return {
+      leaseAddress: this.leaseAddress.toString(),
+      funder: this.funder.toString(),
+      amount: this.

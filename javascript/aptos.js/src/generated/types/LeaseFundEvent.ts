@@ -60,4 +60,16 @@ export class LeaseFundEvent implements ILeaseFundEvent {
       lease_address: this.leaseAddress.toString(),
       funder: this.funder.toString(),
       amount: this.amount.toString(),
-  
+      timestamp: this.timestamp.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: LeaseFundEventMoveStruct) {
+    return new LeaseFundEvent({
+      leaseAddress: HexString.ensure(obj.lease_address),
+      funder: HexString.ensure(obj.funder),
+      amount: new BN(obj.amount),
+      timestamp: new BN(obj.timestamp),
+    });
+  }
+}

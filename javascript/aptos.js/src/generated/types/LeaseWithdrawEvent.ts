@@ -36,4 +36,20 @@ export class LeaseWithdrawEvent implements ILeaseWithdrawEvent {
 
   constructor(fields: ILeaseWithdrawEvent) {
     this.leaseAddress = fields.leaseAddress;
-    
+    this.destinationWallet = fields.destinationWallet;
+    this.previousAmount = fields.previousAmount;
+    this.newAmount = fields.newAmount;
+    this.timestamp = fields.timestamp;
+  }
+
+  toJSON(): LeaseWithdrawEventJSON {
+    return {
+      leaseAddress: this.leaseAddress.toString(),
+      destinationWallet: this.destinationWallet.toString(),
+      previousAmount: this.previousAmount.toString(),
+      newAmount: this.newAmount.toString(),
+      timestamp: this.timestamp.toString(),
+    };
+  }
+
+  static fromJSON(obj: LeaseWithdr

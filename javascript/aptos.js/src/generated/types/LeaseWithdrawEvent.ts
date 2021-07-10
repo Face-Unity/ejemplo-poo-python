@@ -52,4 +52,18 @@ export class LeaseWithdrawEvent implements ILeaseWithdrawEvent {
     };
   }
 
-  static fromJSON(obj: LeaseWithdr
+  static fromJSON(obj: LeaseWithdrawEventJSON) {
+    return new LeaseWithdrawEvent({
+      leaseAddress: HexString.ensure(obj.leaseAddress),
+      destinationWallet: HexString.ensure(obj.destinationWallet),
+      previousAmount: new BN(obj.previousAmount),
+      newAmount: new BN(obj.newAmount),
+      timestamp: new BN(obj.timestamp),
+    });
+  }
+
+  toMoveStruct(): LeaseWithdrawEventMoveStruct {
+    return {
+      lease_address: this.leaseAddress.toString(),
+      destination_wallet: this.destinationWallet.toString(),
+      p

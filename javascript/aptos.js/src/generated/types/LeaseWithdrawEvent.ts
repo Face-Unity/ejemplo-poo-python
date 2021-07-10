@@ -78,4 +78,7 @@ export class LeaseWithdrawEvent implements ILeaseWithdrawEvent {
       destinationWallet: HexString.ensure(obj.destination_wallet),
       previousAmount: new BN(obj.previous_amount),
       newAmount: new BN(obj.new_amount),
-      timestamp: new BN(obj.times
+      timestamp: new BN(obj.timestamp),
+    });
+  }
+}

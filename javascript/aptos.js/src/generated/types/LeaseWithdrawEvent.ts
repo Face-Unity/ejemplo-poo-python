@@ -66,4 +66,16 @@ export class LeaseWithdrawEvent implements ILeaseWithdrawEvent {
     return {
       lease_address: this.leaseAddress.toString(),
       destination_wallet: this.destinationWallet.toString(),
-      p
+      previous_amount: this.previousAmount.toString(),
+      new_amount: this.newAmount.toString(),
+      timestamp: this.timestamp.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: LeaseWithdrawEventMoveStruct) {
+    return new LeaseWithdrawEvent({
+      leaseAddress: HexString.ensure(obj.lease_address),
+      destinationWallet: HexString.ensure(obj.destination_wallet),
+      previousAmount: new BN(obj.previous_amount),
+      newAmount: new BN(obj.new_amount),
+      timestamp: new BN(obj.times

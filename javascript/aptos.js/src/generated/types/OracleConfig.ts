@@ -23,4 +23,26 @@ export class OracleConfig implements IOracleConfig {
   readonly queueAddr: HexString;
 
   constructor(fields: IOracleConfig) {
-    this.authority = fields.authority
+    this.authority = fields.authority;
+    this.queueAddr = fields.queueAddr;
+  }
+
+  toJSON(): OracleConfigJSON {
+    return {
+      authority: this.authority.toString(),
+      queueAddr: this.queueAddr.toString(),
+    };
+  }
+
+  static fromJSON(obj: OracleConfigJSON) {
+    return new OracleConfig({
+      authority: HexString.ensure(obj.authority),
+      queueAddr: HexString.ensure(obj.queueAddr),
+    });
+  }
+
+  toMoveStruct(): OracleConfigMoveStruct {
+    return {
+      authority: this.authority.toString(),
+      queue_addr: this.queueAddr.toString(),
+ 

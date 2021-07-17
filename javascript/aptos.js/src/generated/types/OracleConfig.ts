@@ -45,4 +45,13 @@ export class OracleConfig implements IOracleConfig {
     return {
       authority: this.authority.toString(),
       queue_addr: this.queueAddr.toString(),
- 
+    };
+  }
+
+  static fromMoveStruct(obj: OracleConfigMoveStruct) {
+    return new OracleConfig({
+      authority: HexString.ensure(obj.authority),
+      queueAddr: HexString.ensure(obj.queue_addr),
+    });
+  }
+}

@@ -8,4 +8,30 @@ export interface IOracleData {
   lastHeartbeat: BN;
 }
 
-export interface O
+export interface OracleDataJSON {
+  numRows: number;
+  lastHeartbeat: string;
+}
+
+export interface OracleDataMoveStruct {
+  num_rows: number;
+  last_heartbeat: string;
+}
+
+export class OracleData implements IOracleData {
+  readonly numRows: number;
+  readonly lastHeartbeat: BN;
+
+  constructor(fields: IOracleData) {
+    this.numRows = fields.numRows;
+    this.lastHeartbeat = fields.lastHeartbeat;
+  }
+
+  toJSON(): OracleDataJSON {
+    return {
+      numRows: this.numRows,
+      lastHeartbeat: this.lastHeartbeat.toString(),
+    };
+  }
+
+  static fromJSO

@@ -34,4 +34,24 @@ export class OracleData implements IOracleData {
     };
   }
 
-  static fromJSO
+  static fromJSON(obj: OracleDataJSON) {
+    return new OracleData({
+      numRows: obj.numRows,
+      lastHeartbeat: new BN(obj.lastHeartbeat),
+    });
+  }
+
+  toMoveStruct(): OracleDataMoveStruct {
+    return {
+      num_rows: this.numRows,
+      last_heartbeat: this.lastHeartbeat.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: OracleDataMoveStruct) {
+    return new OracleData({
+      numRows: obj.num_rows,
+      lastHeartbeat: new BN(obj.last_heartbeat),
+    });
+  }
+}

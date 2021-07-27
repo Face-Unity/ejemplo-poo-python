@@ -41,4 +41,8 @@ export class OracleHeartbeatParams implements IOracleHeartbeatParams {
   }
 
   static fromMoveStruct(obj: OracleHeartbeatParamsMoveStruct) {
-    return new OracleHeartbeat
+    return new OracleHeartbeatParams({
+      oracleAddr: HexString.ensure(obj.oracle_addr),
+    });
+  }
+}

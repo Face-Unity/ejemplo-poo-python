@@ -10,4 +10,25 @@ export interface IOracleInitParams {
   queueAddr: HexString;
 }
 
-export interface OracleIn
+export interface OracleInitParamsJSON {
+  name: Array<number>;
+  metadata: Array<number>;
+  oracleAuthority: string;
+  queueAddr: string;
+}
+
+export interface OracleInitParamsMoveStruct {
+  name: string;
+  metadata: string;
+  oracle_authority: string;
+  queue_addr: string;
+}
+
+export class OracleInitParams implements IOracleInitParams {
+  readonly name: Uint8Array;
+  readonly metadata: Uint8Array;
+  readonly oracleAuthority: HexString;
+  readonly queueAddr: HexString;
+
+  constructor(fields: IOracleInitParams) {
+    this.name

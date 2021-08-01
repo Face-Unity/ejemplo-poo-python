@@ -31,4 +31,21 @@ export class OracleInitParams implements IOracleInitParams {
   readonly queueAddr: HexString;
 
   constructor(fields: IOracleInitParams) {
-    this.name
+    this.name = fields.name;
+    this.metadata = fields.metadata;
+    this.oracleAuthority = fields.oracleAuthority;
+    this.queueAddr = fields.queueAddr;
+  }
+
+  toJSON(): OracleInitParamsJSON {
+    return {
+      name: [...this.name],
+      metadata: [...this.metadata],
+      oracleAuthority: this.oracleAuthority.toString(),
+      queueAddr: this.queueAddr.toString(),
+    };
+  }
+
+  static fromJSON(obj: OracleInitParamsJSON) {
+    return new OracleInitParams({
+      name: n

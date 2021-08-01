@@ -48,4 +48,18 @@ export class OracleInitParams implements IOracleInitParams {
 
   static fromJSON(obj: OracleInitParamsJSON) {
     return new OracleInitParams({
-      name: n
+      name: new Uint8Array(obj.name),
+      metadata: new Uint8Array(obj.metadata),
+      oracleAuthority: HexString.ensure(obj.oracleAuthority),
+      queueAddr: HexString.ensure(obj.queueAddr),
+    });
+  }
+
+  toMoveStruct(): OracleInitParamsMoveStruct {
+    return {
+      name: Buffer.from(this.name).toString("hex"),
+      metadata: Buffer.from(this.metadata).toString("hex"),
+      oracle_authority: this.oracleAuthority.toString(),
+      queue_addr: this.queueAddr.toString(),
+    };
+  

@@ -62,4 +62,17 @@ export class OracleInitParams implements IOracleInitParams {
       oracle_authority: this.oracleAuthority.toString(),
       queue_addr: this.queueAddr.toString(),
     };
-  
+  }
+
+  static fromMoveStruct(obj: OracleInitParamsMoveStruct) {
+    return new OracleInitParams({
+      name:
+        typeof obj.name === "string"
+          ? new Uint8Array(Buffer.from(obj.name.slice(2), "hex"))
+          : new Uint8Array(obj.name),
+      metadata:
+        typeof obj.metadata === "string"
+          ? new Uint8Array(Buffer.from(obj.metadata.slice(2), "hex"))
+          : new Uint8Array(obj.metadata),
+      oracleAuthority: HexString.ensure(obj.oracle_authority),
+      queueAddr: He

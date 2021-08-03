@@ -75,4 +75,7 @@ export class OracleInitParams implements IOracleInitParams {
           ? new Uint8Array(Buffer.from(obj.metadata.slice(2), "hex"))
           : new Uint8Array(obj.metadata),
       oracleAuthority: HexString.ensure(obj.oracle_authority),
-      queueAddr: He
+      queueAddr: HexString.ensure(obj.queue_addr),
+    });
+  }
+}

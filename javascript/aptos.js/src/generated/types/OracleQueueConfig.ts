@@ -89,3 +89,47 @@ export class OracleQueueConfig implements IOracleQueueConfig {
       reward: new BN(obj.reward),
       openRoundReward: new BN(obj.openRoundReward),
       saveReward: new BN(obj.saveReward),
+      saveConfirmationReward: new BN(obj.saveConfirmationReward),
+      slashingPenalty: new BN(obj.slashingPenalty),
+      slashingEnabled: obj.slashingEnabled,
+      unpermissionedFeedsEnabled: obj.unpermissionedFeedsEnabled,
+      varianceToleranceMultiplier: types.SwitchboardDecimal.fromJSON(
+        obj.varianceToleranceMultiplier
+      ),
+      oracleTimeout: new BN(obj.oracleTimeout),
+    });
+  }
+
+  toMoveStruct(): OracleQueueConfigMoveStruct {
+    return {
+      authority: this.authority.toString(),
+      reward: this.reward.toString(),
+      open_round_reward: this.openRoundReward.toString(),
+      save_reward: this.saveReward.toString(),
+      save_confirmation_reward: this.saveConfirmationReward.toString(),
+      slashing_penalty: this.slashingPenalty.toString(),
+      slashing_enabled: this.slashingEnabled,
+      unpermissioned_feeds_enabled: this.unpermissionedFeedsEnabled,
+      variance_tolerance_multiplier:
+        this.varianceToleranceMultiplier.toMoveStruct(),
+      oracle_timeout: this.oracleTimeout.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: OracleQueueConfigMoveStruct) {
+    return new OracleQueueConfig({
+      authority: HexString.ensure(obj.authority),
+      reward: new BN(obj.reward),
+      openRoundReward: new BN(obj.open_round_reward),
+      saveReward: new BN(obj.save_reward),
+      saveConfirmationReward: new BN(obj.save_confirmation_reward),
+      slashingPenalty: new BN(obj.slashing_penalty),
+      slashingEnabled: obj.slashing_enabled,
+      unpermissionedFeedsEnabled: obj.unpermissioned_feeds_enabled,
+      varianceToleranceMultiplier: types.SwitchboardDecimal.fromMoveStruct(
+        obj.variance_tolerance_multiplier
+      ),
+      oracleTimeout: new BN(obj.oracle_timeout),
+    });
+  }
+}

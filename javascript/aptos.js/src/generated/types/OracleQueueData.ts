@@ -15,4 +15,25 @@ export interface OracleQueueDataJSON {
   gcIdx: string;
 }
 
-export interface OracleQu
+export interface OracleQueueDataMoveStruct {
+  data: Array<string>;
+  curr_idx: string;
+  gc_idx: string;
+}
+
+export class OracleQueueData implements IOracleQueueData {
+  readonly data: Array<HexString>;
+  readonly currIdx: BN;
+  readonly gcIdx: BN;
+
+  constructor(fields: IOracleQueueData) {
+    this.data = fields.data;
+    this.currIdx = fields.currIdx;
+    this.gcIdx = fields.gcIdx;
+  }
+
+  toJSON(): OracleQueueDataJSON {
+    return {
+      data: this.data.map((item) => item.toString()),
+      currIdx: this.currIdx.toString(),
+      gcIdx: this.gcId

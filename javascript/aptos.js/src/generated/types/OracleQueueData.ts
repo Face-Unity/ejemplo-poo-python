@@ -36,4 +36,24 @@ export class OracleQueueData implements IOracleQueueData {
     return {
       data: this.data.map((item) => item.toString()),
       currIdx: this.currIdx.toString(),
-      gcIdx: this.gcId
+      gcIdx: this.gcIdx.toString(),
+    };
+  }
+
+  static fromJSON(obj: OracleQueueDataJSON) {
+    return new OracleQueueData({
+      data: obj.data.map((item) => HexString.ensure(item)),
+      currIdx: new BN(obj.currIdx),
+      gcIdx: new BN(obj.gcIdx),
+    });
+  }
+
+  toMoveStruct(): OracleQueueDataMoveStruct {
+    return {
+      data: this.data.map((item) => item.toString()),
+      curr_idx: this.currIdx.toString(),
+      gc_idx: this.gcIdx.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: OracleQueueDataMo

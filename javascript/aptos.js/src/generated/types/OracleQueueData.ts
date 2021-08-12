@@ -56,4 +56,11 @@ export class OracleQueueData implements IOracleQueueData {
     };
   }
 
-  static fromMoveStruct(obj: OracleQueueDataMo
+  static fromMoveStruct(obj: OracleQueueDataMoveStruct) {
+    return new OracleQueueData({
+      data: obj.data.map((item) => HexString.ensure(item)),
+      currIdx: new BN(obj.curr_idx),
+      gcIdx: new BN(obj.gc_idx),
+    });
+  }
+}

@@ -22,4 +22,22 @@ export interface IOracleQueueInitParams {
   maxSize: BN;
   data: Array<HexString>;
   saveConfirmationReward: BN;
-  saveReward:
+  saveReward: BN;
+  openRoundReward: BN;
+  slashingPenalty: BN;
+}
+
+export interface OracleQueueInitParamsJSON {
+  authority: string;
+  name: Array<number>;
+  metadata: Array<number>;
+  oracleTimeout: string;
+  reward: string;
+  minStake: string;
+  slashingEnabled: boolean;
+  varianceToleranceMultiplier: types.SwitchboardDecimalJSON;
+  feedProbationPeriod: string;
+  consecutiveFeedFailureLimit: string;
+  consecutiveOracleFailureLimit: string;
+  unpermissionedFeedsEnabled: boolean;
+  unpermissionedVrfEnabled: bool

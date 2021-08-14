@@ -60,4 +60,19 @@ export interface OracleQueueInitParamsMoveStruct {
   min_stake: string;
   slashing_enabled: boolean;
   variance_tolerance_multiplier: types.SwitchboardDecimalMoveStruct;
-  feed_probation_per
+  feed_probation_period: string;
+  consecutive_feed_failure_limit: string;
+  consecutive_oracle_failure_limit: string;
+  unpermissioned_feeds_enabled: boolean;
+  unpermissioned_vrf_enabled: boolean;
+  lock_lease_funding: boolean;
+  enable_buffer_relayers: boolean;
+  max_size: string;
+  data: Array<string>;
+  save_confirmation_reward: string;
+  save_reward: string;
+  open_round_reward: string;
+  slashing_penalty: string;
+}
+
+export class OracleQueueInitParams implements IOracleQueueInitPara

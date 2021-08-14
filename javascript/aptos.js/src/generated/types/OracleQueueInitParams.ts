@@ -40,4 +40,24 @@ export interface OracleQueueInitParamsJSON {
   consecutiveFeedFailureLimit: string;
   consecutiveOracleFailureLimit: string;
   unpermissionedFeedsEnabled: boolean;
-  unpermissionedVrfEnabled: bool
+  unpermissionedVrfEnabled: boolean;
+  lockLeaseFunding: boolean;
+  enableBufferRelayers: boolean;
+  maxSize: string;
+  data: Array<string>;
+  saveConfirmationReward: string;
+  saveReward: string;
+  openRoundReward: string;
+  slashingPenalty: string;
+}
+
+export interface OracleQueueInitParamsMoveStruct {
+  authority: string;
+  name: string;
+  metadata: string;
+  oracle_timeout: string;
+  reward: string;
+  min_stake: string;
+  slashing_enabled: boolean;
+  variance_tolerance_multiplier: types.SwitchboardDecimalMoveStruct;
+  feed_probation_per

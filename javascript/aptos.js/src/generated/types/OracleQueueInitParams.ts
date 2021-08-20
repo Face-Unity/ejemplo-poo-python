@@ -75,4 +75,17 @@ export interface OracleQueueInitParamsMoveStruct {
   slashing_penalty: string;
 }
 
-export class OracleQueueInitParams implements IOracleQueueInitPara
+export class OracleQueueInitParams implements IOracleQueueInitParams {
+  readonly authority: HexString;
+  readonly name: Uint8Array;
+  readonly metadata: Uint8Array;
+  readonly oracleTimeout: BN;
+  readonly reward: BN;
+  readonly minStake: BN;
+  readonly slashingEnabled: boolean;
+  readonly varianceToleranceMultiplier: types.SwitchboardDecimal;
+  readonly feedProbationPeriod: BN;
+  readonly consecutiveFeedFailureLimit: BN;
+  readonly consecutiveOracleFailureLimit: BN;
+  readonly unpermissionedFeedsEnabled: boolean;
+  readonly unpermissionedVrfEnabled: boolean;

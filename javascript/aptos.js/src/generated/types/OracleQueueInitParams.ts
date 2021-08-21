@@ -89,3 +89,19 @@ export class OracleQueueInitParams implements IOracleQueueInitParams {
   readonly consecutiveOracleFailureLimit: BN;
   readonly unpermissionedFeedsEnabled: boolean;
   readonly unpermissionedVrfEnabled: boolean;
+  readonly lockLeaseFunding: boolean;
+  readonly enableBufferRelayers: boolean;
+  readonly maxSize: BN;
+  readonly data: Array<HexString>;
+  readonly saveConfirmationReward: BN;
+  readonly saveReward: BN;
+  readonly openRoundReward: BN;
+  readonly slashingPenalty: BN;
+
+  constructor(fields: IOracleQueueInitParams) {
+    this.authority = fields.authority;
+    this.name = fields.name;
+    this.metadata = fields.metadata;
+    this.oracleTimeout = fields.oracleTimeout;
+    this.reward = fields.reward;
+    this.minStake = fiel

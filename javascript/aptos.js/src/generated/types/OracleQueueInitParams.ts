@@ -125,4 +125,14 @@ export class OracleQueueInitParams implements IOracleQueueInitParams {
   toJSON(): OracleQueueInitParamsJSON {
     return {
       authority: this.authority.toString(),
-      name: [...this.name
+      name: [...this.name],
+      metadata: [...this.metadata],
+      oracleTimeout: this.oracleTimeout.toString(),
+      reward: this.reward.toString(),
+      minStake: this.minStake.toString(),
+      slashingEnabled: this.slashingEnabled,
+      varianceToleranceMultiplier: this.varianceToleranceMultiplier.toJSON(),
+      feedProbationPeriod: this.feedProbationPeriod.toString(),
+      consecutiveFeedFailureLimit: this.consecutiveFeedFailureLimit.toString(),
+      consecutiveOracleFailureLimit:
+   

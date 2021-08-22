@@ -112,4 +112,17 @@ export class OracleQueueInitParams implements IOracleQueueInitParams {
     this.consecutiveOracleFailureLimit = fields.consecutiveOracleFailureLimit;
     this.unpermissionedFeedsEnabled = fields.unpermissionedFeedsEnabled;
     this.unpermissionedVrfEnabled = fields.unpermissionedVrfEnabled;
-    this.loc
+    this.lockLeaseFunding = fields.lockLeaseFunding;
+    this.enableBufferRelayers = fields.enableBufferRelayers;
+    this.maxSize = fields.maxSize;
+    this.data = fields.data;
+    this.saveConfirmationReward = fields.saveConfirmationReward;
+    this.saveReward = fields.saveReward;
+    this.openRoundReward = fields.openRoundReward;
+    this.slashingPenalty = fields.slashingPenalty;
+  }
+
+  toJSON(): OracleQueueInitParamsJSON {
+    return {
+      authority: this.authority.toString(),
+      name: [...this.name

@@ -104,4 +104,12 @@ export class OracleQueueInitParams implements IOracleQueueInitParams {
     this.metadata = fields.metadata;
     this.oracleTimeout = fields.oracleTimeout;
     this.reward = fields.reward;
-    this.minStake = fiel
+    this.minStake = fields.minStake;
+    this.slashingEnabled = fields.slashingEnabled;
+    this.varianceToleranceMultiplier = fields.varianceToleranceMultiplier;
+    this.feedProbationPeriod = fields.feedProbationPeriod;
+    this.consecutiveFeedFailureLimit = fields.consecutiveFeedFailureLimit;
+    this.consecutiveOracleFailureLimit = fields.consecutiveOracleFailureLimit;
+    this.unpermissionedFeedsEnabled = fields.unpermissionedFeedsEnabled;
+    this.unpermissionedVrfEnabled = fields.unpermissionedVrfEnabled;
+    this.loc

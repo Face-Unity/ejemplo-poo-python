@@ -168,4 +168,17 @@ export class OracleQueueInitParams implements IOracleQueueInitParams {
       unpermissionedVrfEnabled: obj.unpermissionedVrfEnabled,
       lockLeaseFunding: obj.lockLeaseFunding,
       enableBufferRelayers: obj.enableBufferRelayers,
-     
+      maxSize: new BN(obj.maxSize),
+      data: obj.data.map((item) => HexString.ensure(item)),
+      saveConfirmationReward: new BN(obj.saveConfirmationReward),
+      saveReward: new BN(obj.saveReward),
+      openRoundReward: new BN(obj.openRoundReward),
+      slashingPenalty: new BN(obj.slashingPenalty),
+    });
+  }
+
+  toMoveStruct(): OracleQueueInitParamsMoveStruct {
+    return {
+      authority: this.authority.toString(),
+      name: Buffer.from(this.name).toString("hex"),
+      metadata: Buffer.f

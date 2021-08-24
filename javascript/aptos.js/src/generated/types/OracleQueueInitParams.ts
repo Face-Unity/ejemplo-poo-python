@@ -144,4 +144,18 @@ export class OracleQueueInitParams implements IOracleQueueInitParams {
       data: this.data.map((item) => item.toString()),
       saveConfirmationReward: this.saveConfirmationReward.toString(),
       saveReward: this.saveReward.toString(),
-      openRoundReward: this.openRo
+      openRoundReward: this.openRoundReward.toString(),
+      slashingPenalty: this.slashingPenalty.toString(),
+    };
+  }
+
+  static fromJSON(obj: OracleQueueInitParamsJSON) {
+    return new OracleQueueInitParams({
+      authority: HexString.ensure(obj.authority),
+      name: new Uint8Array(obj.name),
+      metadata: new Uint8Array(obj.metadata),
+      oracleTimeout: new BN(obj.oracleTimeout),
+      reward: new BN(obj.reward),
+      minStake: new BN(obj.minStake),
+      slashingEnabled: obj.slashingEnabled,
+      varianceToleranceMultiplier: types.SwitchboardD

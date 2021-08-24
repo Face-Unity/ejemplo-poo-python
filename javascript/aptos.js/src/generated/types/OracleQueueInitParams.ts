@@ -158,4 +158,14 @@ export class OracleQueueInitParams implements IOracleQueueInitParams {
       reward: new BN(obj.reward),
       minStake: new BN(obj.minStake),
       slashingEnabled: obj.slashingEnabled,
-      varianceToleranceMultiplier: types.SwitchboardD
+      varianceToleranceMultiplier: types.SwitchboardDecimal.fromJSON(
+        obj.varianceToleranceMultiplier
+      ),
+      feedProbationPeriod: new BN(obj.feedProbationPeriod),
+      consecutiveFeedFailureLimit: new BN(obj.consecutiveFeedFailureLimit),
+      consecutiveOracleFailureLimit: new BN(obj.consecutiveOracleFailureLimit),
+      unpermissionedFeedsEnabled: obj.unpermissionedFeedsEnabled,
+      unpermissionedVrfEnabled: obj.unpermissionedVrfEnabled,
+      lockLeaseFunding: obj.lockLeaseFunding,
+      enableBufferRelayers: obj.enableBufferRelayers,
+     

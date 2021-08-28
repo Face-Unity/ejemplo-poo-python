@@ -191,3 +191,13 @@ export class OracleQueueInitParams implements IOracleQueueInitParams {
       feed_probation_period: this.feedProbationPeriod.toString(),
       consecutive_feed_failure_limit:
         this.consecutiveFeedFailureLimit.toString(),
+      consecutive_oracle_failure_limit:
+        this.consecutiveOracleFailureLimit.toString(),
+      unpermissioned_feeds_enabled: this.unpermissionedFeedsEnabled,
+      unpermissioned_vrf_enabled: this.unpermissionedVrfEnabled,
+      lock_lease_funding: this.lockLeaseFunding,
+      enable_buffer_relayers: this.enableBufferRelayers,
+      max_size: this.maxSize.toString(),
+      data: this.data.map((item) => item.toString()),
+      save_confirmation_reward: this.saveConfirmationReward.toString(),
+      save_rew

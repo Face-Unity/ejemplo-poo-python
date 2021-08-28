@@ -181,4 +181,13 @@ export class OracleQueueInitParams implements IOracleQueueInitParams {
     return {
       authority: this.authority.toString(),
       name: Buffer.from(this.name).toString("hex"),
-      metadata: Buffer.f
+      metadata: Buffer.from(this.metadata).toString("hex"),
+      oracle_timeout: this.oracleTimeout.toString(),
+      reward: this.reward.toString(),
+      min_stake: this.minStake.toString(),
+      slashing_enabled: this.slashingEnabled,
+      variance_tolerance_multiplier:
+        this.varianceToleranceMultiplier.toMoveStruct(),
+      feed_probation_period: this.feedProbationPeriod.toString(),
+      consecutive_feed_failure_limit:
+        this.consecutiveFeedFailureLimit.toString(),

@@ -200,4 +200,17 @@ export class OracleQueueInitParams implements IOracleQueueInitParams {
       max_size: this.maxSize.toString(),
       data: this.data.map((item) => item.toString()),
       save_confirmation_reward: this.saveConfirmationReward.toString(),
-      save_rew
+      save_reward: this.saveReward.toString(),
+      open_round_reward: this.openRoundReward.toString(),
+      slashing_penalty: this.slashingPenalty.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: OracleQueueInitParamsMoveStruct) {
+    return new OracleQueueInitParams({
+      authority: HexString.ensure(obj.authority),
+      name:
+        typeof obj.name === "string"
+          ? new Uint8Array(Buffer.from(obj.name.slice(2), "hex"))
+          : new Uint8Array(obj.name),
+      metadata

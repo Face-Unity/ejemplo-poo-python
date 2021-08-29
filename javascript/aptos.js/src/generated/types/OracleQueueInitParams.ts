@@ -234,4 +234,11 @@ export class OracleQueueInitParams implements IOracleQueueInitParams {
       lockLeaseFunding: obj.lock_lease_funding,
       enableBufferRelayers: obj.enable_buffer_relayers,
       maxSize: new BN(obj.max_size),
-      data: obj.data.map((item) => H
+      data: obj.data.map((item) => HexString.ensure(item)),
+      saveConfirmationReward: new BN(obj.save_confirmation_reward),
+      saveReward: new BN(obj.save_reward),
+      openRoundReward: new BN(obj.open_round_reward),
+      slashingPenalty: new BN(obj.slashing_penalty),
+    });
+  }
+}

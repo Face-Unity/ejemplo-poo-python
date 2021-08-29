@@ -213,4 +213,16 @@ export class OracleQueueInitParams implements IOracleQueueInitParams {
         typeof obj.name === "string"
           ? new Uint8Array(Buffer.from(obj.name.slice(2), "hex"))
           : new Uint8Array(obj.name),
-      metadata
+      metadata:
+        typeof obj.metadata === "string"
+          ? new Uint8Array(Buffer.from(obj.metadata.slice(2), "hex"))
+          : new Uint8Array(obj.metadata),
+      oracleTimeout: new BN(obj.oracle_timeout),
+      reward: new BN(obj.reward),
+      minStake: new BN(obj.min_stake),
+      slashingEnabled: obj.slashing_enabled,
+      varianceToleranceMultiplier: types.SwitchboardDecimal.fromMoveStruct(
+        obj.variance_tolerance_multiplier
+      ),
+      feedProbationPeriod: new BN(obj.feed_probation_period),
+      c

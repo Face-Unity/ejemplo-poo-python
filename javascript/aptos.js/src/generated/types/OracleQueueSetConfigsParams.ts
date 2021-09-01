@@ -59,4 +59,23 @@ export interface OracleQueueSetConfigsParamsMoveStruct {
   variance_tolerance_multiplier: types.SwitchboardDecimalMoveStruct;
   feed_probation_period: string;
   consecutive_feed_failure_limit: string;
-  consecutive_oracle_failure
+  consecutive_oracle_failure_limit: string;
+  unpermissioned_feeds_enabled: boolean;
+  lock_lease_funding: boolean;
+  max_size: string;
+  save_confirmation_reward: string;
+  save_reward: string;
+  open_round_reward: string;
+  slashing_penalty: string;
+}
+
+export class OracleQueueSetConfigsParams
+  implements IOracleQueueSetConfigsParams
+{
+  readonly addr: HexString;
+  readonly name: Uint8Array;
+  readonly metadata: Uint8Array;
+  readonly authority: HexString;
+  readonly oracleTimeout: BN;
+  readonly reward: BN;
+  readonly minStake: BN

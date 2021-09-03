@@ -78,4 +78,18 @@ export class OracleQueueSetConfigsParams
   readonly authority: HexString;
   readonly oracleTimeout: BN;
   readonly reward: BN;
-  readonly minStake: BN
+  readonly minStake: BN;
+  readonly slashingEnabled: boolean;
+  readonly varianceToleranceMultiplier: types.SwitchboardDecimal;
+  readonly feedProbationPeriod: BN;
+  readonly consecutiveFeedFailureLimit: BN;
+  readonly consecutiveOracleFailureLimit: BN;
+  readonly unpermissionedFeedsEnabled: boolean;
+  readonly lockLeaseFunding: boolean;
+  readonly maxSize: BN;
+  readonly saveConfirmationReward: BN;
+  readonly saveReward: BN;
+  readonly openRoundReward: BN;
+  readonly slashingPenalty: BN;
+
+  constructor(fields: IOracleQueueSetConf

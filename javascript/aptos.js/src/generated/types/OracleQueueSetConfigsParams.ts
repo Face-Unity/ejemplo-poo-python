@@ -92,4 +92,16 @@ export class OracleQueueSetConfigsParams
   readonly openRoundReward: BN;
   readonly slashingPenalty: BN;
 
-  constructor(fields: IOracleQueueSetConf
+  constructor(fields: IOracleQueueSetConfigsParams) {
+    this.addr = fields.addr;
+    this.name = fields.name;
+    this.metadata = fields.metadata;
+    this.authority = fields.authority;
+    this.oracleTimeout = fields.oracleTimeout;
+    this.reward = fields.reward;
+    this.minStake = fields.minStake;
+    this.slashingEnabled = fields.slashingEnabled;
+    this.varianceToleranceMultiplier = fields.varianceToleranceMultiplier;
+    this.feedProbationPeriod = fields.feedProbationPeriod;
+    this.consecutiveFeedFailureLimit = fields.consecutiveFeedFailureLimit;
+    this.consecut

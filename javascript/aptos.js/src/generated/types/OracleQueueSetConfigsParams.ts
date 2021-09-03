@@ -104,4 +104,16 @@ export class OracleQueueSetConfigsParams
     this.varianceToleranceMultiplier = fields.varianceToleranceMultiplier;
     this.feedProbationPeriod = fields.feedProbationPeriod;
     this.consecutiveFeedFailureLimit = fields.consecutiveFeedFailureLimit;
-    this.consecut
+    this.consecutiveOracleFailureLimit = fields.consecutiveOracleFailureLimit;
+    this.unpermissionedFeedsEnabled = fields.unpermissionedFeedsEnabled;
+    this.lockLeaseFunding = fields.lockLeaseFunding;
+    this.maxSize = fields.maxSize;
+    this.saveConfirmationReward = fields.saveConfirmationReward;
+    this.saveReward = fields.saveReward;
+    this.openRoundReward = fields.openRoundReward;
+    this.slashingPenalty = fields.slashingPenalty;
+  }
+
+  toJSON(): OracleQueueSetConfigsParamsJSON {
+    return {
+      addr: t

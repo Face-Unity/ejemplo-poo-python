@@ -116,4 +116,14 @@ export class OracleQueueSetConfigsParams
 
   toJSON(): OracleQueueSetConfigsParamsJSON {
     return {
-      addr: t
+      addr: this.addr.toString(),
+      name: [...this.name],
+      metadata: [...this.metadata],
+      authority: this.authority.toString(),
+      oracleTimeout: this.oracleTimeout.toString(),
+      reward: this.reward.toString(),
+      minStake: this.minStake.toString(),
+      slashingEnabled: this.slashingEnabled,
+      varianceToleranceMultiplier: this.varianceToleranceMultiplier.toJSON(),
+      feedProbationPeriod: this.feedProbationPeriod.toString(),
+      consecutiveFeedFailureLimit: this.consecutiveFeedFailureLimit.to

@@ -126,4 +126,17 @@ export class OracleQueueSetConfigsParams
       slashingEnabled: this.slashingEnabled,
       varianceToleranceMultiplier: this.varianceToleranceMultiplier.toJSON(),
       feedProbationPeriod: this.feedProbationPeriod.toString(),
-      consecutiveFeedFailureLimit: this.consecutiveFeedFailureLimit.to
+      consecutiveFeedFailureLimit: this.consecutiveFeedFailureLimit.toString(),
+      consecutiveOracleFailureLimit:
+        this.consecutiveOracleFailureLimit.toString(),
+      unpermissionedFeedsEnabled: this.unpermissionedFeedsEnabled,
+      lockLeaseFunding: this.lockLeaseFunding,
+      maxSize: this.maxSize.toString(),
+      saveConfirmationReward: this.saveConfirmationReward.toString(),
+      saveReward: this.saveReward.toString(),
+      openRoundReward: this.openRoundReward.toString(),
+      slashingPenalty: this.slashingPenalty.toString(),
+    };
+  }
+
+  stati

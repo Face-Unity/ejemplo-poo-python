@@ -139,4 +139,15 @@ export class OracleQueueSetConfigsParams
     };
   }
 
-  stati
+  static fromJSON(obj: OracleQueueSetConfigsParamsJSON) {
+    return new OracleQueueSetConfigsParams({
+      addr: HexString.ensure(obj.addr),
+      name: new Uint8Array(obj.name),
+      metadata: new Uint8Array(obj.metadata),
+      authority: HexString.ensure(obj.authority),
+      oracleTimeout: new BN(obj.oracleTimeout),
+      reward: new BN(obj.reward),
+      minStake: new BN(obj.minStake),
+      slashingEnabled: obj.slashingEnabled,
+      varianceToleranceMultiplier: types.SwitchboardDecimal.fromJSON(
+        

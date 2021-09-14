@@ -183,4 +183,17 @@ export class OracleQueueSetConfigsParams
       consecutive_oracle_failure_limit:
         this.consecutiveOracleFailureLimit.toString(),
       unpermissioned_feeds_enabled: this.unpermissionedFeedsEnabled,
-      lock_lease_fundi
+      lock_lease_funding: this.lockLeaseFunding,
+      max_size: this.maxSize.toString(),
+      save_confirmation_reward: this.saveConfirmationReward.toString(),
+      save_reward: this.saveReward.toString(),
+      open_round_reward: this.openRoundReward.toString(),
+      slashing_penalty: this.slashingPenalty.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: OracleQueueSetConfigsParamsMoveStruct) {
+    return new OracleQueueSetConfigsParams({
+      addr: HexString.ensure(obj.addr),
+      name:
+        typeof obj.name 

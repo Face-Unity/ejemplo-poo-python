@@ -150,4 +150,14 @@ export class OracleQueueSetConfigsParams
       minStake: new BN(obj.minStake),
       slashingEnabled: obj.slashingEnabled,
       varianceToleranceMultiplier: types.SwitchboardDecimal.fromJSON(
-        
+        obj.varianceToleranceMultiplier
+      ),
+      feedProbationPeriod: new BN(obj.feedProbationPeriod),
+      consecutiveFeedFailureLimit: new BN(obj.consecutiveFeedFailureLimit),
+      consecutiveOracleFailureLimit: new BN(obj.consecutiveOracleFailureLimit),
+      unpermissionedFeedsEnabled: obj.unpermissionedFeedsEnabled,
+      lockLeaseFunding: obj.lockLeaseFunding,
+      maxSize: new BN(obj.maxSize),
+      saveConfirmationReward: new BN(obj.saveConfirmationReward),
+      saveReward: new BN(obj.saveReward),
+      openRoundRew

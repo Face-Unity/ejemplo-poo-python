@@ -160,4 +160,18 @@ export class OracleQueueSetConfigsParams
       maxSize: new BN(obj.maxSize),
       saveConfirmationReward: new BN(obj.saveConfirmationReward),
       saveReward: new BN(obj.saveReward),
-      openRoundRew
+      openRoundReward: new BN(obj.openRoundReward),
+      slashingPenalty: new BN(obj.slashingPenalty),
+    });
+  }
+
+  toMoveStruct(): OracleQueueSetConfigsParamsMoveStruct {
+    return {
+      addr: this.addr.toString(),
+      name: Buffer.from(this.name).toString("hex"),
+      metadata: Buffer.from(this.metadata).toString("hex"),
+      authority: this.authority.toString(),
+      oracle_timeout: this.oracleTimeout.toString(),
+      reward: this.reward.toString(),
+      min_stake: this.minStake.toString(),
+ 

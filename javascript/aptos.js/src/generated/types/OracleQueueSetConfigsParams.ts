@@ -174,4 +174,13 @@ export class OracleQueueSetConfigsParams
       oracle_timeout: this.oracleTimeout.toString(),
       reward: this.reward.toString(),
       min_stake: this.minStake.toString(),
- 
+      slashing_enabled: this.slashingEnabled,
+      variance_tolerance_multiplier:
+        this.varianceToleranceMultiplier.toMoveStruct(),
+      feed_probation_period: this.feedProbationPeriod.toString(),
+      consecutive_feed_failure_limit:
+        this.consecutiveFeedFailureLimit.toString(),
+      consecutive_oracle_failure_limit:
+        this.consecutiveOracleFailureLimit.toString(),
+      unpermissioned_feeds_enabled: this.unpermissionedFeedsEnabled,
+      lock_lease_fundi

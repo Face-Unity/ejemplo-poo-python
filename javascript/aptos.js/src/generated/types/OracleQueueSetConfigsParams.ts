@@ -196,4 +196,16 @@ export class OracleQueueSetConfigsParams
     return new OracleQueueSetConfigsParams({
       addr: HexString.ensure(obj.addr),
       name:
-        typeof obj.name 
+        typeof obj.name === "string"
+          ? new Uint8Array(Buffer.from(obj.name.slice(2), "hex"))
+          : new Uint8Array(obj.name),
+      metadata:
+        typeof obj.metadata === "string"
+          ? new Uint8Array(Buffer.from(obj.metadata.slice(2), "hex"))
+          : new Uint8Array(obj.metadata),
+      authority: HexString.ensure(obj.authority),
+      oracleTimeout: new BN(obj.oracle_timeout),
+      reward: new BN(obj.reward),
+      minStake: new BN(obj.min_stake),
+      slashingEnabled: obj.slashing_enabled,
+      varianc

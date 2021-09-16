@@ -208,4 +208,14 @@ export class OracleQueueSetConfigsParams
       reward: new BN(obj.reward),
       minStake: new BN(obj.min_stake),
       slashingEnabled: obj.slashing_enabled,
-      varianc
+      varianceToleranceMultiplier: types.SwitchboardDecimal.fromMoveStruct(
+        obj.variance_tolerance_multiplier
+      ),
+      feedProbationPeriod: new BN(obj.feed_probation_period),
+      consecutiveFeedFailureLimit: new BN(obj.consecutive_feed_failure_limit),
+      consecutiveOracleFailureLimit: new BN(
+        obj.consecutive_oracle_failure_limit
+      ),
+      unpermissionedFeedsEnabled: obj.unpermissioned_feeds_enabled,
+      lockLeaseFunding: obj.lock_lease_funding,
+      m

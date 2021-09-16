@@ -218,4 +218,11 @@ export class OracleQueueSetConfigsParams
       ),
       unpermissionedFeedsEnabled: obj.unpermissioned_feeds_enabled,
       lockLeaseFunding: obj.lock_lease_funding,
-      m
+      maxSize: new BN(obj.max_size),
+      saveConfirmationReward: new BN(obj.save_confirmation_reward),
+      saveReward: new BN(obj.save_reward),
+      openRoundReward: new BN(obj.open_round_reward),
+      slashingPenalty: new BN(obj.slashing_penalty),
+    });
+  }
+}

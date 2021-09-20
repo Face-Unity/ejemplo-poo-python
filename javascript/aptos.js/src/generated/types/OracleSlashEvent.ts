@@ -37,4 +37,18 @@ export class OracleSlashEvent implements IOracleSlashEvent {
     this.timestamp = fields.timestamp;
   }
 
-  toJS
+  toJSON(): OracleSlashEventJSON {
+    return {
+      aggregatorAddress: this.aggregatorAddress.toString(),
+      oracleAddress: this.oracleAddress.toString(),
+      amount: this.amount.toString(),
+      timestamp: this.timestamp.toString(),
+    };
+  }
+
+  static fromJSON(obj: OracleSlashEventJSON) {
+    return new OracleSlashEvent({
+      aggregatorAddress: HexString.ensure(obj.aggregatorAddress),
+      oracleAddress: HexString.ensure(obj.oracleAddress),
+      amount: new BN(obj.amount),
+      timestamp: new BN(obj.time

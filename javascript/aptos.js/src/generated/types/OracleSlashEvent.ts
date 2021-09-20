@@ -19,4 +19,22 @@ export interface OracleSlashEventJSON {
 
 export interface OracleSlashEventMoveStruct {
   aggregator_address: string;
-  oracle_ad
+  oracle_address: string;
+  amount: string;
+  timestamp: string;
+}
+
+export class OracleSlashEvent implements IOracleSlashEvent {
+  readonly aggregatorAddress: HexString;
+  readonly oracleAddress: HexString;
+  readonly amount: BN;
+  readonly timestamp: BN;
+
+  constructor(fields: IOracleSlashEvent) {
+    this.aggregatorAddress = fields.aggregatorAddress;
+    this.oracleAddress = fields.oracleAddress;
+    this.amount = fields.amount;
+    this.timestamp = fields.timestamp;
+  }
+
+  toJS

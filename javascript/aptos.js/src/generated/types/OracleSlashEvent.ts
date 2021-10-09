@@ -67,4 +67,9 @@ export class OracleSlashEvent implements IOracleSlashEvent {
   static fromMoveStruct(obj: OracleSlashEventMoveStruct) {
     return new OracleSlashEvent({
       aggregatorAddress: HexString.ensure(obj.aggregator_address),
-      oracleAddress: HexString.ensure(obj.oracle_addres
+      oracleAddress: HexString.ensure(obj.oracle_address),
+      amount: new BN(obj.amount),
+      timestamp: new BN(obj.timestamp),
+    });
+  }
+}

@@ -42,4 +42,20 @@ export class OracleWalletInitParams implements IOracleWalletInitParams {
 
   static fromJSON(obj: OracleWalletInitParamsJSON) {
     return new OracleWalletInitParams({
-      oracleAddr: HexString.ensu
+      oracleAddr: HexString.ensure(obj.oracleAddr),
+      queueAddr: HexString.ensure(obj.queueAddr),
+      withdrawAuthority: HexString.ensure(obj.withdrawAuthority),
+    });
+  }
+
+  toMoveStruct(): OracleWalletInitParamsMoveStruct {
+    return {
+      oracle_addr: this.oracleAddr.toString(),
+      queue_addr: this.queueAddr.toString(),
+      withdraw_authority: this.withdrawAuthority.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: OracleWalletInitParamsMoveStruct) {
+    return new OracleWalletInitParams({
+      oracleA

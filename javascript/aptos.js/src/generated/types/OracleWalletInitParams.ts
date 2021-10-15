@@ -58,4 +58,9 @@ export class OracleWalletInitParams implements IOracleWalletInitParams {
 
   static fromMoveStruct(obj: OracleWalletInitParamsMoveStruct) {
     return new OracleWalletInitParams({
-      oracleA
+      oracleAddr: HexString.ensure(obj.oracle_addr),
+      queueAddr: HexString.ensure(obj.queue_addr),
+      withdrawAuthority: HexString.ensure(obj.withdraw_authority),
+    });
+  }
+}

@@ -26,4 +26,21 @@ export class OracleWalletWithdrawParams implements IOracleWalletWithdrawParams {
   readonly queueAddr: HexString;
   readonly amount: BN;
 
-  constructor(fields: IOracleW
+  constructor(fields: IOracleWalletWithdrawParams) {
+    this.oracleAddr = fields.oracleAddr;
+    this.queueAddr = fields.queueAddr;
+    this.amount = fields.amount;
+  }
+
+  toJSON(): OracleWalletWithdrawParamsJSON {
+    return {
+      oracleAddr: this.oracleAddr.toString(),
+      queueAddr: this.queueAddr.toString(),
+      amount: this.amount.toString(),
+    };
+  }
+
+  static fromJSON(obj: OracleWalletWithdrawParamsJSON) {
+    return new OracleWalletWithdrawParams({
+      oracleAddr: HexString.ensure(obj.oracleAddr),
+      queueAddr: HexStri

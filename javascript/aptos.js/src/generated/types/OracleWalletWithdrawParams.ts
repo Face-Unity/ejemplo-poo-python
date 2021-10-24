@@ -43,4 +43,21 @@ export class OracleWalletWithdrawParams implements IOracleWalletWithdrawParams {
   static fromJSON(obj: OracleWalletWithdrawParamsJSON) {
     return new OracleWalletWithdrawParams({
       oracleAddr: HexString.ensure(obj.oracleAddr),
-      queueAddr: HexStri
+      queueAddr: HexString.ensure(obj.queueAddr),
+      amount: new BN(obj.amount),
+    });
+  }
+
+  toMoveStruct(): OracleWalletWithdrawParamsMoveStruct {
+    return {
+      oracle_addr: this.oracleAddr.toString(),
+      queue_addr: this.queueAddr.toString(),
+      amount: this.amount.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: OracleWalletWithdrawParamsMoveStruct) {
+    return new OracleWalletWithdrawParams({
+      oracleAddr: HexString.ensure(obj.oracle_addr),
+      queueAddr: HexString.ensure(obj.queue_addr),
+      amount: 

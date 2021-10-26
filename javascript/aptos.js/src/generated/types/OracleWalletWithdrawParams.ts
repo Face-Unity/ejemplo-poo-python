@@ -60,4 +60,7 @@ export class OracleWalletWithdrawParams implements IOracleWalletWithdrawParams {
     return new OracleWalletWithdrawParams({
       oracleAddr: HexString.ensure(obj.oracle_addr),
       queueAddr: HexString.ensure(obj.queue_addr),
-      amount: 
+      amount: new BN(obj.amount),
+    });
+  }
+}

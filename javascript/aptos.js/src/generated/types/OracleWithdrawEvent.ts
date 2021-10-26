@@ -12,4 +12,24 @@ export interface IOracleWithdrawEvent {
 }
 
 export interface OracleWithdrawEventJSON {
-  or
+  oracleAddress: string;
+  destinationWallet: string;
+  previousAmount: string;
+  newAmount: string;
+  timestamp: string;
+}
+
+export interface OracleWithdrawEventMoveStruct {
+  oracle_address: string;
+  destination_wallet: string;
+  previous_amount: string;
+  new_amount: string;
+  timestamp: string;
+}
+
+export class OracleWithdrawEvent implements IOracleWithdrawEvent {
+  readonly oracleAddress: HexString;
+  readonly destinationWallet: HexString;
+  readonly previousAmount: BN;
+  readonly newAmount: BN;
+  readonly timestamp: B

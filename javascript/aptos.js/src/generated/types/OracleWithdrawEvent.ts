@@ -32,4 +32,19 @@ export class OracleWithdrawEvent implements IOracleWithdrawEvent {
   readonly destinationWallet: HexString;
   readonly previousAmount: BN;
   readonly newAmount: BN;
-  readonly timestamp: B
+  readonly timestamp: BN;
+
+  constructor(fields: IOracleWithdrawEvent) {
+    this.oracleAddress = fields.oracleAddress;
+    this.destinationWallet = fields.destinationWallet;
+    this.previousAmount = fields.previousAmount;
+    this.newAmount = fields.newAmount;
+    this.timestamp = fields.timestamp;
+  }
+
+  toJSON(): OracleWithdrawEventJSON {
+    return {
+      oracleAddress: this.oracleAddress.toString(),
+      destinationWallet: this.destinationWallet.toString(),
+      previousAmount: this.previousAmount.toString(),
+      newAmount: this

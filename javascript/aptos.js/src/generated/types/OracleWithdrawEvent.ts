@@ -47,4 +47,22 @@ export class OracleWithdrawEvent implements IOracleWithdrawEvent {
       oracleAddress: this.oracleAddress.toString(),
       destinationWallet: this.destinationWallet.toString(),
       previousAmount: this.previousAmount.toString(),
-      newAmount: this
+      newAmount: this.newAmount.toString(),
+      timestamp: this.timestamp.toString(),
+    };
+  }
+
+  static fromJSON(obj: OracleWithdrawEventJSON) {
+    return new OracleWithdrawEvent({
+      oracleAddress: HexString.ensure(obj.oracleAddress),
+      destinationWallet: HexString.ensure(obj.destinationWallet),
+      previousAmount: new BN(obj.previousAmount),
+      newAmount: new BN(obj.newAmount),
+      timestamp: new BN(obj.timestamp),
+    });
+  }
+
+  toMoveStruct(): OracleWithdrawEventMoveStruct {
+    return {
+      oracle_address: this.oracleAddress.toString(),
+      des

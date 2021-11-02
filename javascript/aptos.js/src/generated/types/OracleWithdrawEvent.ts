@@ -65,4 +65,16 @@ export class OracleWithdrawEvent implements IOracleWithdrawEvent {
   toMoveStruct(): OracleWithdrawEventMoveStruct {
     return {
       oracle_address: this.oracleAddress.toString(),
-      des
+      destination_wallet: this.destinationWallet.toString(),
+      previous_amount: this.previousAmount.toString(),
+      new_amount: this.newAmount.toString(),
+      timestamp: this.timestamp.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: OracleWithdrawEventMoveStruct) {
+    return new OracleWithdrawEvent({
+      oracleAddress: HexString.ensure(obj.oracle_address),
+      destinationWallet: HexString.ensure(obj.destination_wallet),
+      previousAmount: new BN(obj.previous_amount),
+      newA

@@ -77,4 +77,8 @@ export class OracleWithdrawEvent implements IOracleWithdrawEvent {
       oracleAddress: HexString.ensure(obj.oracle_address),
       destinationWallet: HexString.ensure(obj.destination_wallet),
       previousAmount: new BN(obj.previous_amount),
-      newA
+      newAmount: new BN(obj.new_amount),
+      timestamp: new BN(obj.timestamp),
+    });
+  }
+}

@@ -27,4 +27,23 @@ export class PermissionInitParams implements IPermissionInitParams {
   readonly grantee: HexString;
 
   constructor(fields: IPermissionInitParams) {
-    this.authority = fields.
+    this.authority = fields.authority;
+    this.granter = fields.granter;
+    this.grantee = fields.grantee;
+  }
+
+  toJSON(): PermissionInitParamsJSON {
+    return {
+      authority: this.authority.toString(),
+      granter: this.granter.toString(),
+      grantee: this.grantee.toString(),
+    };
+  }
+
+  static fromJSON(obj: PermissionInitParamsJSON) {
+    return new PermissionInitParams({
+      authority: HexString.ensure(obj.authority),
+      granter: HexString.ensure(obj.granter),
+      grantee: HexString.ensure(obj.grantee),
+    });
+  

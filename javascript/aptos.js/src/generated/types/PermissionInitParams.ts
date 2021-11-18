@@ -46,4 +46,21 @@ export class PermissionInitParams implements IPermissionInitParams {
       granter: HexString.ensure(obj.granter),
       grantee: HexString.ensure(obj.grantee),
     });
-  
+  }
+
+  toMoveStruct(): PermissionInitParamsMoveStruct {
+    return {
+      authority: this.authority.toString(),
+      granter: this.granter.toString(),
+      grantee: this.grantee.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: PermissionInitParamsMoveStruct) {
+    return new PermissionInitParams({
+      authority: HexString.ensure(obj.authority),
+      granter: HexString.ensure(obj.granter),
+      grantee: HexString.ensure(obj.grantee),
+    });
+  }
+}

@@ -19,4 +19,22 @@ export interface PermissionSetParamsJSON {
   enable: boolean;
 }
 
-exp
+export interface PermissionSetParamsMoveStruct {
+  authority: string;
+  granter: string;
+  grantee: string;
+  permission: string;
+  enable: boolean;
+}
+
+export class PermissionSetParams implements IPermissionSetParams {
+  readonly authority: HexString;
+  readonly granter: HexString;
+  readonly grantee: HexString;
+  readonly permission: BN;
+  readonly enable: boolean;
+
+  constructor(fields: IPermissionSetParams) {
+    this.authority = fields.authority;
+    this.granter = fields.granter;
+    this.grantee = fields.gran

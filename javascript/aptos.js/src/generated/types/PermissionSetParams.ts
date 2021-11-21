@@ -37,4 +37,22 @@ export class PermissionSetParams implements IPermissionSetParams {
   constructor(fields: IPermissionSetParams) {
     this.authority = fields.authority;
     this.granter = fields.granter;
-    this.grantee = fields.gran
+    this.grantee = fields.grantee;
+    this.permission = fields.permission;
+    this.enable = fields.enable;
+  }
+
+  toJSON(): PermissionSetParamsJSON {
+    return {
+      authority: this.authority.toString(),
+      granter: this.granter.toString(),
+      grantee: this.grantee.toString(),
+      permission: this.permission.toString(),
+      enable: this.enable,
+    };
+  }
+
+  static fromJSON(obj: PermissionSetParamsJSON) {
+    return new PermissionSetParams({
+      authority: HexString.ensure(obj.authority),
+      granter: HexString.ensure(obj.grante

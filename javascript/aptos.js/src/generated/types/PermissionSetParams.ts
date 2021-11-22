@@ -55,4 +55,23 @@ export class PermissionSetParams implements IPermissionSetParams {
   static fromJSON(obj: PermissionSetParamsJSON) {
     return new PermissionSetParams({
       authority: HexString.ensure(obj.authority),
-      granter: HexString.ensure(obj.grante
+      granter: HexString.ensure(obj.granter),
+      grantee: HexString.ensure(obj.grantee),
+      permission: new BN(obj.permission),
+      enable: obj.enable,
+    });
+  }
+
+  toMoveStruct(): PermissionSetParamsMoveStruct {
+    return {
+      authority: this.authority.toString(),
+      granter: this.granter.toString(),
+      grantee: this.grantee.toString(),
+      permission: this.permission.toString(),
+      enable: this.enable,
+    };
+  }
+
+  static fromMoveStruct(obj: PermissionSetParamsMoveStruct) {
+    return new PermissionSetParams({
+      authority: Hex

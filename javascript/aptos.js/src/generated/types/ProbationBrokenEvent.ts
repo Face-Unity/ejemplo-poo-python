@@ -26,4 +26,20 @@ export class ProbationBrokenEvent implements IProbationBrokenEvent {
   readonly queueAddress: HexString;
   readonly timestamp: BN;
 
-  constructor(fields:
+  constructor(fields: IProbationBrokenEvent) {
+    this.aggregatorAddress = fields.aggregatorAddress;
+    this.queueAddress = fields.queueAddress;
+    this.timestamp = fields.timestamp;
+  }
+
+  toJSON(): ProbationBrokenEventJSON {
+    return {
+      aggregatorAddress: this.aggregatorAddress.toString(),
+      queueAddress: this.queueAddress.toString(),
+      timestamp: this.timestamp.toString(),
+    };
+  }
+
+  static fromJSON(obj: ProbationBrokenEventJSON) {
+    return new ProbationBrokenEvent({
+      aggregatorAddress: HexString.ensure(obj.a

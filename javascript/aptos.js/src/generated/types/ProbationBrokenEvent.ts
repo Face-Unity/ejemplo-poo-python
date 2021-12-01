@@ -58,4 +58,9 @@ export class ProbationBrokenEvent implements IProbationBrokenEvent {
 
   static fromMoveStruct(obj: ProbationBrokenEventMoveStruct) {
     return new ProbationBrokenEvent({
-      aggregatorAddress: HexString.ensure(obj.aggregator_addr
+      aggregatorAddress: HexString.ensure(obj.aggregator_address),
+      queueAddress: HexString.ensure(obj.queue_address),
+      timestamp: new BN(obj.timestamp),
+    });
+  }
+}

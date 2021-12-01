@@ -42,4 +42,20 @@ export class ProbationBrokenEvent implements IProbationBrokenEvent {
 
   static fromJSON(obj: ProbationBrokenEventJSON) {
     return new ProbationBrokenEvent({
-      aggregatorAddress: HexString.ensure(obj.a
+      aggregatorAddress: HexString.ensure(obj.aggregatorAddress),
+      queueAddress: HexString.ensure(obj.queueAddress),
+      timestamp: new BN(obj.timestamp),
+    });
+  }
+
+  toMoveStruct(): ProbationBrokenEventMoveStruct {
+    return {
+      aggregator_address: this.aggregatorAddress.toString(),
+      queue_address: this.queueAddress.toString(),
+      timestamp: this.timestamp.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: ProbationBrokenEventMoveStruct) {
+    return new ProbationBrokenEvent({
+      aggregatorAddress: HexString.ensure(obj.aggregator_addr

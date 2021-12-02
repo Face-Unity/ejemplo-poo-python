@@ -12,4 +12,28 @@ export interface SignerCapabilityJSON {
 }
 
 export interface SignerCapabilityMoveStruct {
-  account: string
+  account: string;
+}
+
+export class SignerCapability implements ISignerCapability {
+  readonly account: HexString;
+
+  constructor(fields: ISignerCapability) {
+    this.account = fields.account;
+  }
+
+  toJSON(): SignerCapabilityJSON {
+    return {
+      account: this.account.toString(),
+    };
+  }
+
+  static fromJSON(obj: SignerCapabilityJSON) {
+    return new SignerCapability({
+      account: HexString.ensure(obj.account),
+    });
+  }
+
+  toMoveStruct(): SignerCapabilityMoveStruct {
+    return {
+      account: t

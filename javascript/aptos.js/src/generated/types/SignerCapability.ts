@@ -36,4 +36,13 @@ export class SignerCapability implements ISignerCapability {
 
   toMoveStruct(): SignerCapabilityMoveStruct {
     return {
-      account: t
+      account: this.account.toString(),
+    };
+  }
+
+  static fromMoveStruct(obj: SignerCapabilityMoveStruct) {
+    return new SignerCapability({
+      account: HexString.ensure(obj.account),
+    });
+  }
+}

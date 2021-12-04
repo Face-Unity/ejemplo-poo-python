@@ -58,4 +58,25 @@ export class SwitchboardDecimal implements ISwitchboardDecimal {
   }
 
   static fromMoveStruct(obj: SwitchboardDecimalMoveStruct) {
-    retur
+    return new SwitchboardDecimal({
+      value: new BN(obj.value),
+      dec: obj.dec,
+      neg: obj.neg,
+    });
+  }
+
+  toBig(): Big {
+    const oldDp = Big.DP;
+    Big.DP = 18;
+    let result = new Big(this.value.toString());
+    if (this.neg === true) {
+      result = result.mul(-1);
+    }
+    const TEN = new Big(10);
+    result = safeDiv(result, TEN.pow(this.dec));
+    Big.DP = oldDp;
+    return result;
+  }
+
+  static fromBig(val: Big): SwitchboardDecimal {
+    const

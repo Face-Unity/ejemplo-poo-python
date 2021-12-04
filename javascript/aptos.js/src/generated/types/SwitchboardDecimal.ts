@@ -30,4 +30,32 @@ export class SwitchboardDecimal implements ISwitchboardDecimal {
   constructor(fields: ISwitchboardDecimal) {
     this.value = fields.value;
     this.dec = fields.dec;
-  
+    this.neg = fields.neg;
+  }
+
+  toJSON(): SwitchboardDecimalJSON {
+    return {
+      value: this.value.toString(),
+      dec: this.dec,
+      neg: this.neg,
+    };
+  }
+
+  static fromJSON(obj: SwitchboardDecimalJSON) {
+    return new SwitchboardDecimal({
+      value: new BN(obj.value),
+      dec: obj.dec,
+      neg: obj.neg,
+    });
+  }
+
+  toMoveStruct(): SwitchboardDecimalMoveStruct {
+    return {
+      value: this.value.toString(),
+      dec: this.dec,
+      neg: this.neg,
+    };
+  }
+
+  static fromMoveStruct(obj: SwitchboardDecimalMoveStruct) {
+    retur

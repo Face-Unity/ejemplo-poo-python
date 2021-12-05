@@ -79,4 +79,23 @@ export class SwitchboardDecimal implements ISwitchboardDecimal {
   }
 
   static fromBig(val: Big): SwitchboardDecimal {
-    const
+    const value = val.c.slice();
+    const e = val.e + 1;
+    while (value.length - e > 9) {
+      value.pop();
+    }
+    return new SwitchboardDecimal({
+      value: new BN(value.join("")),
+      dec: value.length - e,
+      neg: val.s === -1,
+    });
+  }
+}
+
+function safeDiv(number_: Big, denominator: Big, decimals = 20): Big {
+  const oldDp = Big.DP;
+  Big.DP = decimals;
+  const result = number_.div(denominator);
+  Big.DP = oldDp;
+  return result;
+}

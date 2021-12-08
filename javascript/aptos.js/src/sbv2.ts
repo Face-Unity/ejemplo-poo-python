@@ -695,3 +695,482 @@ export class AggregatorAccount {
     agg.current_round = currentRound;
     // @ts-ignore
     agg.latest_confirmed_round = latestConfirmedRound;
+
+    return types.Aggregator.fromMoveStruct(agg as any);
+  }
+
+  async loadJobs(): Promise<Array<OracleJob>> {
+    const data = await this.loadData();
+    const jobs = data.jobKeys.map(
+      (key) =>
+        new JobAccount(
+          this.client,
+          key,
+          HexString.ensure(this.switchboardAddress).hex()
+        )
+    );
+    const promises: Array<Promise<OracleJob>> = [];
+    for (const job of jobs) {
+      promises.push(job.loadJob());
+    }
+    return await Promise.all(promises);
+  }
+
+  /**
+   * Initialize an Aggregator
+   * @param client
+   * @param account
+   * @param params AggregatorInitParams initialization params
+   */
+  static async init(
+    client: AptosClient,
+    account: AptosAccount,
+    params: AggregatorInitParams,
+    switchboardAddress: MaybeHexString
+  ): Promise<[AggregatorAccount, string]> {
+    const { mantissa: vtMantissa, scale: vtScale } = AptosDecimal.fromBig(
+      params.varianceThreshold ?? new Big(0)
+    );
+
+    const seed = params.seed
+      ? HexString.ensure(HexString.ensure(params.seed))
+      : new AptosAccount().address();
+    const resource_address = generateResourceAccountAddress(
+      HexString.ensure(account.address()),
+      bcsAddressToBytes(HexString.ensure(seed))
+    );
+
+    const tx = await sendAptosTx(
+      client,
+      account,
+      `${switchboardAddress}::aggregator_init_action::run`,
+      [
+        params.name ?? "",
+        params.metadata ?? "",
+        HexString.ensure(params.queueAddress).hex(),
+        HexString.ensure(params.crankAddress).hex(),
+        params.batchSize,
+        params.minOracleResults,
+        params.minJobResults,
+        params.minUpdateDelaySeconds,
+        params.startAfter ?? 0,
+        Number(vtMantissa),
+        Number(vtScale),
+        params.forceReportPeriod ?? 0,
+        params.expiration ?? 0,
+        params.disableCrank ?? false,
+        params.historySize ?? 0,
+        params.readCharge ?? 0,
+        params.rewardEscrow
+          ? HexString.ensure(params.rewardEscrow).hex()
+          : account.address().hex(),
+
+        params.readWhitelist ?? [],
+        params.limitReadsToWhitelist ?? false,
+
+        HexString.ensure(params.authority).hex(),
+        HexString.ensure(seed).hex(),
+      ],
+      [params.coinType ?? "0x1::aptos_coin::AptosCoin"]
+    );
+
+    return [
+      new AggregatorAccount(
+        client,
+        resource_address,
+        switchboardAddress,
+        params.coinType ?? "0x1::aptos_coin::AptosCoin"
+      ),
+      tx,
+    ];
+  }
+
+  async latestValue(): Promise<number> {
+    const data = await this.loadData();
+    return new AptosDecimal(
+      data.latestConfirmedRound.result.value.toString(),
+      data.latestConfirmedRound.result.dec,
+      Boolean(data.latestConfirmedRound.result.neg)
+    )
+      .toBig()
+      .toNumber();
+  }
+
+  async addJob(
+    account: AptosAccount,
+    params: AggregatorAddJobParams
+  ): Promise<string> {
+    return await sendAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::aggregator_add_job_action::run`,
+      [
+        HexString.ensure(this.address).hex(),
+        HexString.ensure(params.job).hex(),
+        params.weight || 1,
+      ]
+    );
+  }
+
+  addJobTx(params: AggregatorAddJobParams): Types.TransactionPayload {
+    return getAptosTx(
+      `${this.switchboardAddress}::aggregator_add_job_action::run`,
+      [
+        HexString.ensure(this.address).hex(),
+        HexString.ensure(params.job).hex(),
+        params.weight || 1,
+      ]
+    );
+  }
+
+  removeJobTx(params: AggregatorAddJobParams): Types.TransactionPayload {
+    return getAptosTx(
+      `${this.switchboardAddress}::aggregator_remove_job_action::run`,
+      [HexString.ensure(this.address).hex(), HexString.ensure(params.job).hex()]
+    );
+  }
+
+  async saveResult(
+    account: AptosAccount,
+    params: AggregatorSaveResultParams
+  ): Promise<string> {
+    const {
+      mantissa: valueMantissa,
+      scale: valueScale,
+      neg: valueNeg,
+    } = AptosDecimal.fromBig(params.value);
+    const {
+      mantissa: minResponseMantissa,
+      scale: minResponseScale,
+      neg: minResponseNeg,
+    } = AptosDecimal.fromBig(params.minResponse);
+    const {
+      mantissa: maxResponseMantissa,
+      scale: maxResponseScale,
+      neg: maxResponseNeg,
+    } = AptosDecimal.fromBig(params.maxResponse);
+
+    return sendRawAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::aggregator_save_result_action::run`,
+      [
+        BCS.bcsToBytes(
+          TxnBuilderTypes.AccountAddress.fromHex(params.oracleAddress)
+        ),
+        BCS.bcsToBytes(TxnBuilderTypes.AccountAddress.fromHex(this.address)),
+        BCS.bcsSerializeUint64(params.oracleIdx),
+        BCS.bcsSerializeBool(params.error),
+        BCS.bcsSerializeU128(Number(valueMantissa)),
+        BCS.bcsSerializeU8(valueScale),
+        BCS.bcsSerializeBool(valueNeg),
+        BCS.bcsSerializeBytes(
+          HexString.ensure(params.jobsChecksum).toUint8Array()
+        ),
+        BCS.bcsSerializeU128(Number(minResponseMantissa)),
+        BCS.bcsSerializeU8(minResponseScale),
+        BCS.bcsSerializeBool(minResponseNeg),
+        BCS.bcsSerializeU128(Number(maxResponseMantissa)),
+        BCS.bcsSerializeU8(maxResponseScale),
+        BCS.bcsSerializeBool(maxResponseNeg),
+      ],
+      [
+        new TxnBuilderTypes.TypeTagStruct(
+          TxnBuilderTypes.StructTag.fromString(
+            this.coinType ?? "0x1::aptos_coin::AptosCoin"
+          )
+        ),
+      ],
+      200
+    );
+  }
+
+  async openRound(account: AptosAccount, jitter?: number): Promise<string> {
+    return await sendAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::aggregator_open_round_action::run`,
+      [HexString.ensure(this.address).hex(), jitter ?? 1],
+      [this.coinType],
+      200
+    );
+  }
+
+  static async openRoundN(
+    client: AptosClient,
+    account: AptosAccount,
+    aggregatorAddresses: MaybeHexString[],
+    switchboardAddress: MaybeHexString,
+    jitter?: number,
+    coinType?: string
+  ) {
+    return await sendAptosTx(
+      client,
+      account,
+      `${switchboardAddress}::aggregator_open_round_action::run_many`,
+      [
+        aggregatorAddresses.map((addr) => HexString.ensure(addr).hex()),
+        jitter ?? 1,
+      ],
+      [coinType ?? "0x1::aptos_coin::AptosCoin"],
+      200
+    );
+  }
+
+  openRoundTx(): Types.TransactionPayload {
+    return getAptosTx(
+      `${this.switchboardAddress}::aggregator_open_round_action::run`,
+      [HexString.ensure(this.address).hex(), 1],
+      [this.coinType ?? "0x1::aptos_coin::AptosCoin"]
+    );
+  }
+
+  async setConfigTx(
+    params: AggregatorSetConfigParams
+  ): Promise<Types.TransactionPayload> {
+    const aggregator = await this.loadData();
+    // TODO
+    const { mantissa: vtMantissa, scale: vtScale } = AptosDecimal.fromBig(
+      params.varianceThreshold ?? new Big(0)
+    );
+    const tx = getAptosTx(
+      `${this.switchboardAddress}::aggregator_set_configs_action::run`,
+      [
+        HexString.ensure(this.address).hex(),
+        params.name ?? aggregator.name,
+        params.metadata ?? aggregator.metadata,
+        HexString.ensure(params.queueAddress ?? aggregator.queueAddr).hex(),
+        HexString.ensure(params.crankAddress ?? aggregator.crankAddr).hex(),
+        params.batchSize ?? aggregator.batchSize.toNumber(),
+        params.minOracleResults ?? aggregator.minOracleResults.toNumber(),
+        params.minJobResults ?? aggregator.minJobResults.toNumber(),
+        params.minUpdateDelaySeconds ??
+          aggregator.minUpdateDelaySeconds.toNumber(),
+        params.startAfter ?? aggregator.startAfter.toNumber(),
+        params.varianceThreshold
+          ? Number(vtMantissa)
+          : aggregator.varianceThreshold.value.toNumber(),
+        params.varianceThreshold ? vtScale : aggregator.varianceThreshold.dec,
+        params.forceReportPeriod ?? aggregator.forceReportPeriod.toNumber(),
+        params.expiration ?? aggregator.expiration.toNumber(), // @ts-ignore
+        params.disableCrank ?? false, // @ts-ignore
+        params.historySize ?? 0, // @ts-ignore
+        params.readCharge ?? aggregator.readCharge.toNumber(),
+        params.rewardEscrow
+          ? HexString.ensure(params.rewardEscrow).hex()
+          : HexString.ensure(aggregator.rewardEscrow).hex(),
+        params.readWhitelist ?? aggregator.readWhitelist,
+        params.limitReadsToWhitelist ?? aggregator.limitReadsToWhitelist,
+        params.authority ?? aggregator.authority,
+      ],
+      [params.coinType ?? "0x1::aptos_coin::AptosCoin"] // TODO
+    );
+    return tx;
+  }
+
+  async setConfig(
+    account: AptosAccount,
+    params: AggregatorSetConfigParams
+  ): Promise<string> {
+    const aggregator = await this.loadData();
+    // TODO: this looks wrong
+    const { mantissa: vtMantissa, scale: vtScale } = AptosDecimal.fromBig(
+      params.varianceThreshold ?? new Big(0)
+    );
+    const paramsRaw: Array<any> = [
+      HexString.ensure(this.address).hex(),
+      params.name ?? aggregator.name,
+      params.metadata ?? aggregator.metadata,
+      HexString.ensure(params.queueAddress ?? aggregator.queueAddr).hex(),
+      HexString.ensure(params.crankAddress ?? aggregator.crankAddr).hex(),
+      params.batchSize ?? aggregator.batchSize.toNumber(),
+      params.minOracleResults ?? aggregator.minOracleResults.toNumber(),
+      params.minJobResults ?? aggregator.minJobResults.toNumber(),
+      params.minUpdateDelaySeconds ??
+        aggregator.minUpdateDelaySeconds.toNumber(),
+      params.startAfter ?? aggregator.startAfter.toNumber(),
+      params.varianceThreshold
+        ? Number(vtMantissa)
+        : aggregator.varianceThreshold.value.toNumber(),
+      params.varianceThreshold ? vtScale : aggregator.varianceThreshold.dec,
+      params.forceReportPeriod ?? aggregator.forceReportPeriod.toNumber(),
+      params.expiration ?? aggregator.expiration.toNumber(), // @ts-ignore
+      params.disableCrank ?? false, // @ts-ignore
+      params.historySize ?? 0, // @ts-ignore
+      params.readCharge ?? aggregator.readCharge.toNumber(),
+      params.rewardEscrow
+        ? HexString.ensure(params.rewardEscrow).hex()
+        : HexString.ensure(aggregator.rewardEscrow).hex(),
+      params.readWhitelist ?? aggregator.readWhitelist,
+      params.limitReadsToWhitelist ?? aggregator.limitReadsToWhitelist,
+      params.authority ?? aggregator.authority,
+    ];
+    return await sendAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::aggregator_set_configs_action::run`,
+      paramsRaw,
+      [params.coinType ?? "0x1::aptos_coin::AptosCoin"] // TODO
+    );
+  }
+
+  static watch(
+    client: AptosClient,
+    switchboardAddress: MaybeHexString,
+    callback: EventCallback,
+    pollingIntervalMs = 1000
+  ): AptosEvent {
+    const switchboardHexString = HexString.ensure(switchboardAddress);
+    const event = new AptosEvent(
+      client,
+      switchboardHexString,
+      `${switchboardHexString.hex()}::switchboard::State`,
+      "aggregator_update_events",
+      pollingIntervalMs
+    );
+    event.onTrigger(callback);
+    return event;
+  }
+
+  static async shouldReportValue(
+    value: Big,
+    aggregator: types.Aggregator
+  ): Promise<boolean> {
+    if ((aggregator.latestConfirmedRound?.numSuccess.toNumber() ?? 0) === 0) {
+      return true;
+    }
+    const timestamp = new BN(Math.round(Date.now() / 1000), 10);
+    const startAfter = new BN(aggregator.startAfter, 10);
+    if (startAfter.gt(timestamp)) {
+      return false;
+    }
+    const varianceThreshold: Big = new AptosDecimal(
+      aggregator.varianceThreshold.value.toString(10),
+      aggregator.varianceThreshold.dec,
+      Boolean(aggregator.varianceThreshold.neg)
+    ).toBig();
+    const latestResult: Big = new AptosDecimal(
+      aggregator.latestConfirmedRound.result.value.toString(),
+      aggregator.latestConfirmedRound.result.dec,
+      Boolean(aggregator.latestConfirmedRound.result.neg)
+    ).toBig();
+    const forceReportPeriod = new BN(aggregator.forceReportPeriod, 10);
+    const lastTimestamp = new BN(
+      aggregator.latestConfirmedRound.roundOpenTimestamp,
+      10
+    );
+    if (lastTimestamp.add(forceReportPeriod).lt(timestamp)) {
+      return true;
+    }
+
+    let diff = safeDiv(latestResult, value);
+    if (diff.abs().gt(1)) {
+      diff = safeDiv(value, latestResult);
+    }
+    // I dont want to think about variance percentage when values cross 0.
+    // Changes the scale of what we consider a "percentage".
+    if (diff.lt(0)) {
+      return true;
+    }
+    const change = new Big(1).minus(diff);
+    return change.gt(varianceThreshold);
+  }
+}
+
+export class JobAccount {
+  constructor(
+    readonly client: AptosClient,
+    readonly address: MaybeHexString,
+    readonly switchboardAddress: MaybeHexString
+  ) {}
+
+  async loadData(): Promise<types.Job> {
+    const data = (
+      await this.client.getAccountResource(
+        this.address,
+        `${HexString.ensure(this.switchboardAddress).hex()}::job::Job`
+      )
+    ).data;
+    return types.Job.fromMoveStruct(data as any);
+  }
+
+  async loadJob(): Promise<OracleJob> {
+    const data = await this.loadData();
+
+    // on-chain hex encoded base64 -> base64 -> Uint8Array -> OracleJob
+    const job = OracleJob.decodeDelimited(
+      Buffer.from(Buffer.from(data.data).toString(), "base64")
+    );
+    return job;
+  }
+
+  /**
+   * Initialize a JobAccount
+   * @param client
+   * @param account
+   * @param params JobInitParams initialization params
+   */
+  static async init(
+    client: AptosClient,
+    account: AptosAccount,
+    params: JobInitParams,
+    switchboardAddress: MaybeHexString
+  ): Promise<[JobAccount, string]> {
+    const tx = await sendAptosTx(
+      client,
+      account,
+      `${switchboardAddress}::job_init_action::run`,
+      [
+        params.name,
+        params.metadata,
+        HexString.ensure(params.authority).hex(),
+        params.data,
+      ]
+    );
+
+    return [new JobAccount(client, account.address(), switchboardAddress), tx];
+  }
+
+  /**
+   * Initialize a JobAccount
+   * @param client
+   * @param account
+   * @param params JobInitParams initialization params
+   */
+  static initTx(
+    client: AptosClient,
+    account: MaybeHexString,
+    params: JobInitParams,
+    switchboardAddress: MaybeHexString
+  ): [JobAccount, Types.TransactionPayload] {
+    const tx = getAptosTx(`${switchboardAddress}::job_init_action::run`, [
+      params.name,
+      params.metadata,
+      HexString.ensure(params.authority).hex(),
+      params.data,
+    ]);
+
+    return [new JobAccount(client, account, switchboardAddress), tx];
+  }
+}
+
+export class CrankAccount {
+  constructor(
+    readonly client: AptosClient,
+    readonly address: MaybeHexString,
+    readonly switchboardAddress: MaybeHexString,
+    readonly coinType: MoveStructTag = "0x1::aptos_coin::AptosCoin"
+  ) {}
+
+  /**
+   * Initialize a Crank
+   * @param client
+   * @param account account that will be the authority of the Crank
+   * @param params CrankInitParams initialization params
+   */
+  static async init(
+    client: AptosClient,
+    account: AptosAccount,
+    params: CrankInitParams,
+    switchboardAddress: MaybeHexString
+  ): Promise<[CrankAccount, string]> {

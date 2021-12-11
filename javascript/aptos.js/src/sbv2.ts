@@ -1174,3 +1174,510 @@ export class CrankAccount {
     params: CrankInitParams,
     switchboardAddress: MaybeHexString
   ): Promise<[CrankAccount, string]> {
+    const tx = await sendAptosTx(
+      client,
+      account,
+      `${switchboardAddress}::crank_init_action::run`,
+      [HexString.ensure(params.queueAddress).hex()],
+      [params.coinType ?? "0x1::aptos_coin::AptosCoin"]
+    );
+
+    return [
+      new CrankAccount(
+        client,
+        account.address(),
+        switchboardAddress,
+        params.coinType ?? "0x1::aptos_coin::AptosCoin"
+      ),
+      tx,
+    ];
+  }
+
+  /**
+   * Push an aggregator to a Crank
+   * @param params CrankPushParams
+   */
+  async push(account: AptosAccount, params: CrankPushParams): Promise<string> {
+    return await sendAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::crank_push_action::run`,
+      [
+        HexString.ensure(this.address).hex(),
+        HexString.ensure(params.aggregatorAddress).hex(),
+      ],
+      [this.coinType ?? "0x1::aptos_coin::AptosCoin"]
+    );
+  }
+
+  pushTx(params: CrankPushParams): Types.TransactionPayload {
+    return getAptosTx(
+      `${this.switchboardAddress}::crank_push_action::run`,
+      [
+        HexString.ensure(this.address).hex(),
+        HexString.ensure(params.aggregatorAddress).hex(),
+      ],
+      [this.coinType ?? "0x1::aptos_coin::AptosCoin"]
+    );
+  }
+
+  /**
+   * Pop an aggregator off the Crank
+   */
+  async pop(account: AptosAccount, pop_idx?: number): Promise<string> {
+    return await sendAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::crank_pop_action::run`,
+      [HexString.ensure(this.address).hex(), pop_idx ?? 0],
+      [this.coinType]
+    );
+  }
+
+  /**
+   * Pop many aggregators off the Crank
+   */
+  async pop_n(account: AptosAccount, pop_list: number[]): Promise<string> {
+    return await sendAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::crank_pop_n_action::run`,
+      [HexString.ensure(this.address).hex(), pop_list],
+      [this.coinType]
+    );
+  }
+
+  async loadData(): Promise<types.Crank> {
+    const data = (
+      await this.client.getAccountResource(
+        HexString.ensure(this.address).hex(),
+        `${this.switchboardAddress}::crank::Crank`
+      )
+    ).data;
+    return types.Crank.fromMoveStruct(data as any);
+  }
+}
+
+export class OracleAccount {
+  constructor(
+    readonly client: AptosClient,
+    readonly address: MaybeHexString,
+    readonly switchboardAddress: MaybeHexString,
+    readonly coinType: MoveStructTag = "0x1::aptos_coin::AptosCoin"
+  ) {}
+
+  /**
+   * Initialize a Oracle
+   * @param client
+   * @param account
+   * @param params Oracle initialization params
+   */
+  static async init(
+    client: AptosClient,
+    account: AptosAccount,
+    params: OracleInitParams,
+    switchboardAddress: MaybeHexString
+  ): Promise<[OracleAccount, string]> {
+    const seed = params.seed
+      ? HexString.ensure(HexString.ensure(params.seed))
+      : new AptosAccount().address();
+    const resource_address = generateResourceAccountAddress(
+      HexString.ensure(account.address()),
+      bcsAddressToBytes(HexString.ensure(seed))
+    );
+
+    const tx = await sendAptosTx(
+      client,
+      account,
+      `${switchboardAddress}::oracle_init_action::run`,
+      [
+        params.name,
+        params.metadata,
+        HexString.ensure(params.authority).hex(),
+        HexString.ensure(params.queue).hex(),
+        HexString.ensure(seed).hex(),
+      ],
+      [params.coinType ?? "0x1::aptos_coin::AptosCoin"]
+    );
+
+    return [
+      new OracleAccount(
+        client,
+        resource_address,
+        switchboardAddress,
+        params.coinType ?? "0x1::aptos_coin::AptosCoin"
+      ),
+      tx,
+    ];
+  }
+
+  async loadData(): Promise<types.Oracle> {
+    const oracleTypes = new Set([
+      `${this.switchboardAddress}::oracle::Oracle`,
+      `${this.switchboardAddress}::oracle::OracleData`,
+      `${this.switchboardAddress}::oracle::OracleConfig`,
+    ]);
+    const datas = await this.client.getAccountResources(this.address);
+
+    const metrics = datas.find(
+      (data) =>
+        data.type === `${this.switchboardAddress}::oracle::OracleMetrics`
+    );
+
+    const oracleData = datas.filter((resource) =>
+      oracleTypes.has(resource.type)
+    );
+
+    oracleData.push({
+      type: "",
+      data: {
+        // @ts-ignore
+        metrics: metrics.data,
+      },
+    });
+
+    // merge queue data
+    const data = oracleData.reduce(
+      (prev, curr) => ({ ...prev, ...curr.data }),
+      {}
+    );
+
+    return types.Oracle.fromMoveStruct(data as any);
+  }
+
+  /**
+   * Oracle Heartbeat Action
+   */
+  async heartbeat(account: AptosAccount): Promise<string> {
+    return await sendAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::oracle_heartbeat_action::run`,
+      [HexString.ensure(this.address).hex()],
+      [this.coinType]
+    );
+  }
+
+  /**
+   * Oracle Bulk Save Results Action
+   */
+  async saveManyResult(
+    account: AptosAccount,
+    params: OracleSaveResultParams[]
+  ): Promise<string> {
+    const aggregator_addrs: MaybeHexString[] = [];
+    const oracle_addrs: MaybeHexString[] = [];
+    const oracle_idxs: number[] = [];
+    const errors: boolean[] = [];
+    const value_nums: string[] = [];
+    const value_scale_factors: number[] = [];
+    const value_negs: boolean[] = [];
+    const jobs_checksums: MaybeHexString[] = [];
+    const min_response_nums: string[] = [];
+    const min_response_scale_factors: number[] = [];
+    const min_response_negs: boolean[] = [];
+    const max_response_nums: string[] = [];
+    const max_response_scale_factors: number[] = [];
+    const max_response_negs: boolean[] = [];
+
+    for (const param of params) {
+      const {
+        mantissa: valueMantissa,
+        scale: valueScale,
+        neg: valueNeg,
+      } = AptosDecimal.fromBig(param.value);
+      const {
+        mantissa: minResponseMantissa,
+        scale: minResponseScale,
+        neg: minResponseNeg,
+      } = AptosDecimal.fromBig(param.minResponse);
+      const {
+        mantissa: maxResponseMantissa,
+        scale: maxResponseScale,
+        neg: maxResponseNeg,
+      } = AptosDecimal.fromBig(param.maxResponse);
+
+      aggregator_addrs.push(param.aggregatorAddress);
+      oracle_addrs.push(param.oracleAddress);
+      oracle_idxs.push(param.oracleIdx);
+      errors.push(param.error);
+      value_nums.push(valueMantissa);
+      value_scale_factors.push(valueScale);
+      value_negs.push(valueNeg);
+      jobs_checksums.push(param.jobsChecksum);
+      min_response_nums.push(minResponseMantissa);
+      min_response_scale_factors.push(minResponseScale);
+      min_response_negs.push(minResponseNeg);
+      max_response_nums.push(maxResponseMantissa);
+      max_response_scale_factors.push(maxResponseScale);
+      max_response_negs.push(maxResponseNeg);
+    }
+
+    return sendAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::oracle_save_result_action::run`,
+      [
+        this.address,
+        aggregator_addrs.map((addr) => addr),
+        oracle_idxs.map((idx) => idx),
+        errors.map((err) => err),
+        value_nums.map((val) => Number(val)),
+        value_scale_factors.map((scale) => scale),
+        value_negs.map((neg) => neg),
+        jobs_checksums.map((checksum) =>
+          HexString.ensure(checksum).toUint8Array()
+        ),
+        min_response_nums.map((val) => Number(val)),
+        min_response_scale_factors.map((scale) => scale),
+        min_response_negs.map((neg) => neg),
+        max_response_nums.map((val) => Number(val)),
+        max_response_scale_factors.map((scale) => scale),
+        max_response_negs.map((neg) => neg),
+      ],
+      [this.coinType ?? "0x1::aptos_coin::AptosCoin"],
+      200
+    );
+  }
+}
+
+export class OracleQueueAccount {
+  constructor(
+    readonly client: AptosClient,
+    readonly address: MaybeHexString,
+    readonly switchboardAddress: MaybeHexString,
+    readonly coinType: MoveStructTag = "0x1::aptos_coin::AptosCoin"
+  ) {}
+
+  /**
+   * Initialize an OracleQueueAccount
+   * @param client
+   * @param account
+   * @param params OracleQueueAccount initialization params
+   */
+  static async init(
+    client: AptosClient,
+    account: AptosAccount,
+    params: OracleQueueInitParams,
+    switchboardAddress: MaybeHexString
+  ): Promise<[OracleQueueAccount, string]> {
+    const tx = await sendAptosTx(
+      client,
+      account,
+      `${switchboardAddress}::oracle_queue_init_action::run`,
+      [
+        HexString.ensure(params.authority).hex(),
+        params.name,
+        params.metadata,
+        params.oracleTimeout,
+        params.reward,
+        params.minStake,
+        params.slashingEnabled,
+        params.varianceToleranceMultiplierValue,
+        params.varianceToleranceMultiplierScale,
+        params.feedProbationPeriod,
+        params.consecutiveFeedFailureLimit,
+        params.consecutiveOracleFailureLimit,
+        params.unpermissionedFeedsEnabled,
+        params.unpermissionedVrfEnabled,
+        params.lockLeaseFunding,
+        params.enableBufferRelayers,
+        params.maxSize,
+        params.save_confirmation_reward ?? 0,
+        params.save_reward ?? 0,
+        params.open_round_reward ?? 0,
+        params.slashing_penalty ?? 0,
+      ],
+      [params.coinType ?? "0x1::aptos_coin::AptosCoin"]
+    );
+
+    return [
+      new OracleQueueAccount(
+        client,
+        account.address(),
+        switchboardAddress,
+        params.coinType ?? "0x1::aptos_coin::AptosCoin"
+      ),
+      tx,
+    ];
+  }
+
+  async setConfigs(
+    account: AptosAccount,
+    params: OracleQueueSetConfigsParams
+  ): Promise<string> {
+    return await sendAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::oracle_queue_set_configs_action::run`,
+      [
+        this.address,
+        params.name,
+        params.metadata,
+        HexString.ensure(params.authority).hex(),
+        params.oracleTimeout,
+        params.reward,
+        params.minStake,
+        params.slashingEnabled,
+        params.varianceToleranceMultiplierValue,
+        params.varianceToleranceMultiplierScale,
+        params.feedProbationPeriod,
+        params.consecutiveFeedFailureLimit,
+        params.consecutiveOracleFailureLimit,
+        params.unpermissionedFeedsEnabled,
+        params.lockLeaseFunding,
+        params.maxSize,
+        params.save_confirmation_reward ?? 0,
+        params.save_reward ?? 0,
+        params.open_round_reward ?? 0,
+        params.slashing_penalty ?? 0,
+      ],
+      [params.coinType ?? "0x1::aptos_coin::AptosCoin"]
+    );
+  }
+
+  async loadData(): Promise<types.OracleQueue> {
+    const queueTypes = new Set([
+      `${this.switchboardAddress}::oracle_queue::OracleQueue<${
+        this.coinType ?? "0x1::aptos_coin::AptosCoin"
+      }>`,
+      `${this.switchboardAddress}::oracle_queue::OracleQueueData`,
+      `${this.switchboardAddress}::oracle_queue::OracleQueueConfig`,
+    ]);
+    const datas = await this.client.getAccountResources(this.address);
+    const queueData = datas.filter((resource) => queueTypes.has(resource.type));
+
+    // merge queue data
+    const data = queueData.reduce(
+      (prev, curr) => ({ ...prev, ...curr.data }),
+      {}
+    );
+    return types.OracleQueue.fromMoveStruct(data as any);
+  }
+}
+
+/**
+ * Leases are kept in a LeaseManager resource on the same account that an Aggregator
+ * exists on.
+ */
+export class LeaseAccount {
+  constructor(
+    readonly client: AptosClient,
+    readonly address: MaybeHexString /* aggregator account address */,
+    readonly switchboardAddress: MaybeHexString,
+    readonly coinType: MoveStructTag = "0x1::aptos_coin::AptosCoin"
+  ) {}
+
+  /**
+   * Initialize a LeaseAccount
+   * @param client
+   * @param account account that will be the authority of the LeaseAccount
+   * @param params LeaseInitParams initialization params
+   */
+  static async init(
+    client: AptosClient,
+    account: AptosAccount,
+    params: LeaseInitParams,
+    switchboardAddress: MaybeHexString
+  ): Promise<[LeaseAccount, string]> {
+    const tx = await sendAptosTx(
+      client,
+      account,
+      `${switchboardAddress}::lease_init_action::run`,
+      [
+        HexString.ensure(params.aggregatorAddress).hex(),
+        HexString.ensure(params.queueAddress).hex(),
+        HexString.ensure(params.withdrawAuthority).hex(),
+        params.initialAmount,
+      ],
+      [params.coinType ?? "0x1::aptos_coin::AptosCoin"]
+    );
+
+    return [
+      new LeaseAccount(
+        client,
+        params.aggregatorAddress,
+        switchboardAddress,
+        params.coinType ?? "0x1::aptos_coin::AptosCoin"
+      ),
+      tx,
+    ];
+  }
+
+  /**
+   * Extend a lease
+   * @param params CrankPushParams
+   */
+  async extend(
+    account: AptosAccount,
+    params: LeaseExtendParams
+  ): Promise<string> {
+    return await sendAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::lease_extend_action::run`,
+      [HexString.ensure(this.address).hex(), params.loadAmount],
+      [this.coinType]
+    );
+  }
+
+  /**
+   * Extend a lease tx
+   * @param params CrankPushParams
+   */
+  extendTx(
+    account: MaybeHexString,
+    params: LeaseExtendParams
+  ): Types.TransactionPayload {
+    return getAptosTx(
+      `${this.switchboardAddress}::lease_extend_action::run`,
+      [HexString.ensure(this.address).hex(), params.loadAmount],
+      [this.coinType]
+    );
+  }
+
+  /**
+   * Pop an aggregator off the Crank
+   */
+  async withdraw(
+    account: AptosAccount,
+    params: LeaseWithdrawParams
+  ): Promise<string> {
+    return await sendAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::lease_withdraw_action::run`,
+      [
+        [
+          HexString.ensure(this.address).hex(),
+          HexString.ensure(params.queueAddress).hex(),
+          params.amount,
+        ],
+      ],
+      [this.coinType]
+    );
+  }
+
+  /**
+   * Pop an aggregator off the Crank
+   */
+  withdrawTx(
+    account: MaybeHexString,
+    params: LeaseWithdrawParams
+  ): Types.TransactionPayload {
+    return getAptosTx(
+      `${this.switchboardAddress}::lease_withdraw_action::run`,
+      [
+        HexString.ensure(this.address).hex(),
+        HexString.ensure(params.queueAddress).hex(),
+        params.amount,
+      ],
+      [this.coinType]
+    );
+  }
+
+  /**
+   * Set a lease authority
+   * @param params CrankPushParams
+   */
+  async setAuthority(

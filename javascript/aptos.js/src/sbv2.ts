@@ -1681,3 +1681,456 @@ export class LeaseAccount {
    * @param params CrankPushParams
    */
   async setAuthority(
+    account: AptosAccount,
+    params: LeaseSetAuthorityParams
+  ): Promise<string> {
+    return await sendAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::lease_set_authority_action::run`,
+      [
+        HexString.ensure(this.address).hex(),
+        HexString.ensure(params.queueAddress).hex(),
+        HexString.ensure(params.authority).hex(),
+      ],
+      [this.coinType]
+    );
+  }
+
+  async loadData(queueAddress: MaybeHexString): Promise<types.Escrow> {
+    return await EscrowManager.fetchItem(this, queueAddress);
+  }
+}
+
+export class EscrowManager {
+  constructor(
+    readonly client: AptosClient,
+    readonly address: MaybeHexString,
+    readonly switchboardAddress: MaybeHexString,
+    readonly coinType: MoveStructTag = "0x1::aptos_coin::AptosCoin"
+  ) {}
+
+  async loadData(): Promise<types.EscrowManager> {
+    const data = (
+      (await this.client.getAccountResource(
+        this.address,
+        `${this.switchboardAddress}::escrow::EscrowManager<${
+          this.coinType ?? "0x1::aptos_coin::AptosCoin"
+        }>`
+      )) as any
+    ).data;
+
+    return types.EscrowManager.fromMoveStruct(data);
+  }
+
+  async fetchItem(queueAddress: MaybeHexString): Promise<types.Escrow> {
+    const escrowManagerState = await this.loadData();
+
+    const item = await this.client.getTableItem(
+      escrowManagerState.escrows.handle.toString(),
+      {
+        key_type: `address`,
+        value_type: `${this.switchboardAddress}::escrow::Escrow<${
+          this.coinType ?? "0x1::aptos_coin::AptosCoin"
+        }>`,
+        key: HexString.ensure(queueAddress).hex(),
+      }
+    );
+
+    return types.Escrow.fromMoveStruct(item);
+  }
+
+  static async fetchItem<
+    T extends {
+      client: AptosClient;
+      address: MaybeHexString;
+      switchboardAddress: MaybeHexString;
+      coinType: string;
+    }
+  >(account: T, queueAddress: MaybeHexString): Promise<types.Escrow> {
+    const escrowManager = new EscrowManager(
+      account.client,
+      account.address,
+      account.switchboardAddress,
+      account.coinType
+    );
+
+    return escrowManager.fetchItem(queueAddress);
+  }
+}
+
+export class OracleWallet {
+  constructor(
+    readonly client: AptosClient,
+    readonly address: MaybeHexString,
+    readonly switchboardAddress: MaybeHexString,
+    readonly coinType: MoveStructTag = "0x1::aptos_coin::AptosCoin"
+  ) {}
+
+  /**
+   * Initialize an OracleWallet
+   * @param client
+   * @param account account that will be the authority of the OracleWallet
+   * @param params OracleWalletInitParams initialization params
+   */
+  static async init(
+    client: AptosClient,
+    account: AptosAccount,
+    params: OracleWalletInitParams,
+    switchboardAddress: MaybeHexString
+  ): Promise<[OracleWallet, string]> {
+    const tx = await sendAptosTx(
+      client,
+      account,
+      `${switchboardAddress}::oracle_wallet_init_action::run`,
+      [
+        HexString.ensure(params.oracleAddress),
+        HexString.ensure(params.queueAddress),
+      ],
+      [params.coinType ?? "0x1::aptos_coin::AptosCoin"]
+    );
+
+    return [
+      new OracleWallet(
+        client,
+        account.address(),
+        switchboardAddress,
+        params.coinType ?? "0x1::aptos_coin::AptosCoin"
+      ),
+      tx,
+    ];
+  }
+
+  /**
+   * Contributes to an oracle wallet
+   * @param params OracleWalletContributeParams
+   */
+  async contribute(
+    account: AptosAccount,
+    params: OracleWalletContributeParams
+  ): Promise<string> {
+    return await sendAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::oracle_wallet_contribute_action::run`,
+      [
+        HexString.ensure(this.address).hex(),
+        HexString.ensure(params.queueAddress).hex(),
+        params.loadAmount,
+      ],
+      [this.coinType]
+    );
+  }
+
+  /**
+   * Withdraw from an OracleWallet
+   */
+  async withdraw(
+    account: AptosAccount,
+    params: OracleWalletWithdrawParams
+  ): Promise<string> {
+    return await sendAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::oracle_wallet_withdraw_action::run`,
+      [
+        [
+          HexString.ensure(this.address).hex(),
+          HexString.ensure(params.queueAddress).hex(),
+          params.amount,
+        ],
+      ],
+      [this.coinType]
+    );
+  }
+
+  async loadData(queueAddress: MaybeHexString): Promise<any> {
+    const handle = (
+      (await this.client.getAccountResource(
+        this.address,
+        `${this.switchboardAddress}::escrow::EscrowManager<${
+          this.coinType ?? "0x1::aptos_coin::AptosCoin"
+        }>`
+      )) as any
+    ).data.escrows.handle;
+    return await this.client.getTableItem(handle, {
+      key_type: `address`,
+      value_type: `${this.switchboardAddress}::escrow::Escrow<${
+        this.coinType ?? "0x1::aptos_coin::AptosCoin"
+      }>`,
+      key: HexString.ensure(queueAddress).hex(),
+    });
+  }
+}
+
+export class Permission {
+  constructor(
+    readonly client: AptosClient,
+    readonly switchboardAddress: MaybeHexString
+  ) {}
+
+  /**
+   * Initialize a Permission
+   * @param client
+   * @param account
+   * @param params PermissionInitParams initialization params
+   */
+  static async init(
+    client: AptosClient,
+    account: AptosAccount,
+    params: PermissionInitParams,
+    switchboardAddress: MaybeHexString
+  ): Promise<[Permission, string]> {
+    const tx = await sendRawAptosTx(
+      client,
+      account,
+      `${switchboardAddress}::permission_init_action::run`,
+      [
+        BCS.bcsToBytes(
+          TxnBuilderTypes.AccountAddress.fromHex(params.authority)
+        ),
+        BCS.bcsToBytes(TxnBuilderTypes.AccountAddress.fromHex(params.granter)),
+        BCS.bcsToBytes(TxnBuilderTypes.AccountAddress.fromHex(params.grantee)),
+      ]
+    );
+
+    return [new Permission(client, switchboardAddress), tx];
+  }
+
+  /**
+   * Set a Permission
+   */
+  async set(
+    account: AptosAccount,
+    params: PermissionSetParams
+  ): Promise<string> {
+    const tx = await sendRawAptosTx(
+      this.client,
+      account,
+      `${this.switchboardAddress}::permission_set_action::run`,
+      [
+        BCS.bcsToBytes(
+          TxnBuilderTypes.AccountAddress.fromHex(params.authority)
+        ),
+        BCS.bcsToBytes(TxnBuilderTypes.AccountAddress.fromHex(params.granter)),
+        BCS.bcsToBytes(TxnBuilderTypes.AccountAddress.fromHex(params.grantee)),
+        BCS.bcsSerializeUint64(params.permission),
+        BCS.bcsSerializeBool(params.enable),
+      ]
+    );
+    return tx;
+  }
+}
+
+function safeDiv(number_: Big, denominator: Big, decimals = 20): Big {
+  const oldDp = Big.DP;
+  Big.DP = decimals;
+  const result = number_.div(denominator);
+  Big.DP = oldDp;
+  return result;
+}
+
+interface CreateFeedParams extends AggregatorInitParams {
+  jobs: JobInitParams[];
+  initialLoadAmount: number;
+}
+
+type CreateOracleParams = OracleInitParams;
+
+export async function createFeedTx(
+  client: AptosClient,
+  authority: MaybeHexString,
+  params: CreateFeedParams,
+  switchboardAddress: MaybeHexString
+): Promise<[AggregatorAccount, Types.TransactionPayload]> {
+  const seed = params.seed
+    ? HexString.ensure(HexString.ensure(params.seed))
+    : new AptosAccount().address();
+  const resource_address = generateResourceAccountAddress(
+    HexString.ensure(authority),
+    bcsAddressToBytes(HexString.ensure(seed))
+  );
+
+  if (params.jobs.length > 8) {
+    throw new Error(
+      "Max Job limit exceeded. The create_feed_action can only create up to 8 jobs at a time."
+    );
+  }
+
+  const { mantissa: vtMantissa, scale: vtScale } = AptosDecimal.fromBig(
+    params.varianceThreshold ?? new Big(0)
+  );
+
+  // enforce size 8 jobs array
+  const jobs =
+    params.jobs.length < 8
+      ? [
+          ...params.jobs,
+          ...new Array<JobInitParams>(8 - params.jobs.length).fill({
+            name: "",
+            metadata: "",
+            authority: "",
+            data: "",
+            weight: 1,
+          }),
+        ]
+      : params.jobs;
+
+  return [
+    new AggregatorAccount(
+      client,
+      resource_address,
+      switchboardAddress,
+      params.coinType ?? "0x1::aptos_coin::AptosCoin"
+    ),
+    getAptosTx(
+      `${switchboardAddress}::create_feed_action::run`,
+      [
+        // authority will own everything
+        HexString.ensure(params.authority).hex(),
+
+        // aggregator
+        params.name ?? "",
+        params.metadata ?? "",
+        HexString.ensure(params.queueAddress).hex(),
+        params.batchSize,
+        params.minOracleResults,
+        params.minJobResults,
+        params.minUpdateDelaySeconds,
+        params.startAfter ?? 0,
+        Number(vtMantissa),
+        vtScale,
+        params.forceReportPeriod ?? 0,
+        params.expiration ?? 0,
+        params.disableCrank ?? false,
+        params.historySize ?? 0,
+        params.readCharge ?? 0,
+        params.rewardEscrow
+          ? HexString.ensure(params.rewardEscrow).hex()
+          : HexString.ensure(params.authority).hex(),
+        params.readWhitelist ?? [],
+        params.limitReadsToWhitelist ?? false,
+
+        // lease
+        params.initialLoadAmount,
+
+        // jobs
+        ...jobs.flatMap((jip) => {
+          return [jip.name, jip.metadata, jip.data, jip.weight || 1];
+        }),
+
+        // crank
+        HexString.ensure(params.crankAddress).hex(),
+
+        // seed
+        seed.hex(),
+      ],
+      [params.coinType ?? "0x1::aptos_coin::AptosCoin"]
+    ),
+  ];
+}
+
+// Create a feed with jobs, a lease, then optionally push the lease to the specified crank
+export async function createFeed(
+  client: AptosClient,
+  account: AptosAccount,
+  params: CreateFeedParams,
+  switchboardAddress: MaybeHexString
+): Promise<[AggregatorAccount, string]> {
+  const [aggregator, txn] = await createFeedTx(
+    client,
+    account.address(),
+    params,
+    switchboardAddress
+  );
+
+  const tx = await simulateAndRun(client, account, txn);
+  return [aggregator, tx];
+}
+
+// Create an oracle, oracle wallet, permisison, and set the heartbeat permission if user is the queue authority
+export async function createOracle(
+  client: AptosClient,
+  account: AptosAccount,
+  params: CreateOracleParams,
+  switchboardAddress: MaybeHexString
+): Promise<[OracleAccount, string]> {
+  const seed = params.seed
+    ? HexString.ensure(HexString.ensure(params.seed))
+    : new AptosAccount().address();
+  const resource_address = generateResourceAccountAddress(
+    HexString.ensure(account.address()),
+    bcsAddressToBytes(HexString.ensure(seed))
+  );
+
+  const tx = await sendAptosTx(
+    client,
+    account,
+    `${switchboardAddress}::create_oracle_action::run`,
+    [
+      HexString.ensure(params.authority).hex(),
+      params.name,
+      params.metadata,
+      HexString.ensure(params.queue).hex(),
+      seed.hex(),
+    ],
+    [params.coinType ?? "0x1::aptos_coin::AptosCoin"]
+  );
+
+  return [
+    new OracleAccount(
+      client,
+      resource_address,
+      switchboardAddress,
+      params.coinType ?? "0x1::aptos_coin::AptosCoin"
+    ),
+    tx,
+  ];
+}
+
+export function bcsAddressToBytes(hexStr: HexString): Uint8Array {
+  return BCS.bcsToBytes(TxnBuilderTypes.AccountAddress.fromHex(hexStr));
+}
+
+export function generateResourceAccountAddress(
+  origin: HexString,
+  seed: Uint8Array
+): MaybeHexString {
+  const hash = SHA3.sha3_256.create();
+  const userAddressBCS = bcsAddressToBytes(origin);
+  hash.update(userAddressBCS);
+  hash.update(new Uint8Array([...seed, 255]));
+  return `0x${hash.hex()}`;
+}
+
+export async function fetchAggregators(
+  client: AptosClient,
+  authority: MaybeHexString,
+  switchboardAddress: MaybeHexString
+): Promise<any[]> {
+  const handle = (
+    (await client.getAccountResource(
+      switchboardAddress,
+      `${switchboardAddress}::switchboard::State`
+    )) as any
+  ).data.aggregator_authorities.handle;
+  const tableItems = await client.getTableItem(handle, {
+    key_type: `address`,
+    value_type: `vector<address>`,
+    key: HexString.ensure(authority).hex(),
+  });
+  return (
+    await Promise.all(
+      tableItems.map((aggregatorAddress: MaybeHexString) =>
+        new AggregatorAccount(
+          client,
+          aggregatorAddress,
+          switchboardAddress
+        ).loadData()
+      )
+    )
+  ).map((aggregator: any, i) => {
+    aggregator.address = tableItems[i];
+    return aggregator; // map addresses back to the aggregator object
+  });
+}

@@ -70,3 +70,34 @@ describe("Decimal tests", () => {
     if (parsedDecimal.mantissa !== sbv2Decimal.mantissa) {
       throw new Error("Wrong mantissa");
     }
+    if (parsedDecimal.scale !== sbv2Decimal.scale) {
+      throw new Error("Wrong scale");
+    }
+  });
+
+  it("Converts a SwitchboardDecimal", async () => {
+    const parsedDecimal = AptosDecimal.fromBig(new Big("1"));
+    const sbv2Decimal: AptosDecimal = new AptosDecimal("1", 0, false);
+    console.log(parsedDecimal);
+    console.log(sbv2Decimal);
+    if (parsedDecimal.mantissa !== sbv2Decimal.mantissa) {
+      throw new Error("Wrong mantissa");
+    }
+    if (parsedDecimal.scale !== sbv2Decimal.scale) {
+      throw new Error("Wrong scale");
+    }
+  });
+
+  it("Converts a SwitchboardDecimal", async () => {
+    const parsedDecimal = AptosDecimal.fromBig(new Big("-1"));
+    const sbv2Decimal: AptosDecimal = new AptosDecimal("1", 0, true);
+    console.log(parsedDecimal);
+    console.log(sbv2Decimal);
+    if (parsedDecimal.mantissa !== sbv2Decimal.mantissa) {
+      throw new Error("Wrong mantissa");
+    }
+    if (parsedDecimal.scale !== sbv2Decimal.scale) {
+      throw new Error("Wrong scale");
+    }
+  });
+});

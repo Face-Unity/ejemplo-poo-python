@@ -39,3 +39,11 @@ describe("Decimal tests", () => {
       sbv2.types.SwitchboardDecimal.fromMoveStruct(sbv2Decimal_100);
 
     console.log(parsedDecimal);
+  });
+
+  it("Converts an AggregatorRound", async () => {
+    const parsedRound = sbv2.types.AggregatorRound.fromMoveStruct(round);
+
+    console.log(parsedRound);
+  });
+});

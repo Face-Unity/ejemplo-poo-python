@@ -25,4 +25,16 @@ The oracle is ready to fulfill updates when it sees the following logs:
 {"timestamp":"2022-09-23T19:24:11.885Z","level":"info","message":"started health check handler"}
 {"timestamp":"2022-09-23T19:24:11.886Z","level":"info","message":"Heartbeat routine started with an interval of 15 seconds."}
 {"timestamp":"2022-09-23T19:24:11.887Z","level":"info","message":"Watching event: AggregatorOpenRoundEvent ..."}
-{"timestamp":"2022-09-23T19:24:11.893Z","level":"info","message":"Watchin
+{"timestamp":"2022-09-23T19:24:11.893Z","level":"info","message":"Watching event: VrfRequestRandomnessEvent ..."}
+{"timestamp":"2022-09-23T19:24:11.894Z","level":"info","message":"Using default performance monitoring"}
+```
+
+Example Output:
+
+```bash
+$ ts-node src/main
+######## Switchboard Setup ########
+Program State            BYM81n8HvTJuqZU1PmTVcwZ9G8uoji7FKM6EaPkwphPt
+Oracle Queue             AVbBmSeKJppRcphaPY1fPbFQW48Eg851G4XfqyTPMZNF
+Crank                    6fNsrJhaB2MPpwpcxW7AL5zyoiq7Gyz2mM6q3aVz7xxh
+Oracle                   CmTr9FSeuhMPBLEPa3o2M71RwRnBz6LMcsf

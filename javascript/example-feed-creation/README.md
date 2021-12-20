@@ -47,4 +47,13 @@ Aggregator (SOL/USD)     FLixyyJVzfCF4PmDG2VcFm1LUBu1aBTXox3oCWNVU88m
 ######## Start the Oracle ########
 Run the following command in a new shell
 
-      ORACLE_KEY=CmTr9FSeuhMPBLEPa3o2M7
+      ORACLE_KEY=CmTr9FSeuhMPBLEPa3o2M71RwRnBz6LMcsfzHaW721Ak PAYER_KEYPAIR=/Users/switchboard/.config/solana/id.json RPC_URL=https://api.devnet.solana.com docker-compose up
+
+Select 'Y' when the docker container displays Starting listener... [y/n]: y
+
+✔ Crank turned
+######## Aggregator Result ########
+Result: 30.91
+
+✔ Aggregator succesfully updated!
+```

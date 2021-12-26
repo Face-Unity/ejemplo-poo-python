@@ -13,4 +13,13 @@ This example will walk you through
 ts-node src/main [PAYER_KEYPAIR_PATH]
 ```
 
-where **PAYER_KEYPAIR_P
+where **PAYER_KEYPAIR_PATH** is the location of your Solana keypair, defaulting
+to `~/.config/solana/id.json` if not provided
+
+When prompted, run the docker compose script in a new shell to start your local
+oracle then confirm the prompt to turn the crank and request an update on-chain.
+The oracle is ready to fulfill updates when it sees the following logs:
+
+```bash
+{"timestamp":"2022-09-23T19:24:11.874Z","level":"info","message":"Loaded 1000 nonce accounts"}
+{"timestamp":"2022-09-23T19:24:11.885Z","level":"info","message":"started health check han

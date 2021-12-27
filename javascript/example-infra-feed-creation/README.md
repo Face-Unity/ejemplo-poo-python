@@ -22,4 +22,15 @@ The oracle is ready to fulfill updates when it sees the following logs:
 
 ```bash
 {"timestamp":"2022-09-23T19:24:11.874Z","level":"info","message":"Loaded 1000 nonce accounts"}
-{"timestamp":"2022-09-23T19:24:11.885Z","level":"info","message":"started health check han
+{"timestamp":"2022-09-23T19:24:11.885Z","level":"info","message":"started health check handler"}
+{"timestamp":"2022-09-23T19:24:11.886Z","level":"info","message":"Heartbeat routine started with an interval of 15 seconds."}
+{"timestamp":"2022-09-23T19:24:11.887Z","level":"info","message":"Watching event: AggregatorOpenRoundEvent ..."}
+{"timestamp":"2022-09-23T19:24:11.893Z","level":"info","message":"Watching event: VrfRequestRandomnessEvent ..."}
+{"timestamp":"2022-09-23T19:24:11.894Z","level":"info","message":"Using default performance monitoring"}
+```
+
+Example Output:
+
+```bash
+$ ts-node src/main
+###

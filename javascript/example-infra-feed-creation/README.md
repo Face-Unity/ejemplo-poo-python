@@ -33,4 +33,12 @@ Example Output:
 
 ```bash
 $ ts-node src/main
-###
+######## Switchboard Setup ########
+Program State            BYM81n8HvTJuqZU1PmTVcwZ9G8uoji7FKM6EaPkwphPt
+Oracle Queue             AVbBmSeKJppRcphaPY1fPbFQW48Eg851G4XfqyTPMZNF
+Crank                    6fNsrJhaB2MPpwpcxW7AL5zyoiq7Gyz2mM6q3aVz7xxh
+Oracle                   CmTr9FSeuhMPBLEPa3o2M71RwRnBz6LMcsfzHaW721Ak
+  Permission             2pC5ESkVKGx4yowGrVB21f6eXaaMRQY5cBazfqn1bAQs
+Aggregator (SOL/USD)     FLixyyJVzfCF4PmDG2VcFm1LUBu1aBTXox3oCWNVU88m
+  Permission             EVerqanwRrHRvtPXDRdFHPc7VnXuyEPRr9XA5udpFA4E
+  Lease   

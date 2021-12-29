@@ -41,4 +41,12 @@ Oracle                   CmTr9FSeuhMPBLEPa3o2M71RwRnBz6LMcsfzHaW721Ak
   Permission             2pC5ESkVKGx4yowGrVB21f6eXaaMRQY5cBazfqn1bAQs
 Aggregator (SOL/USD)     FLixyyJVzfCF4PmDG2VcFm1LUBu1aBTXox3oCWNVU88m
   Permission             EVerqanwRrHRvtPXDRdFHPc7VnXuyEPRr9XA5udpFA4E
-  Lease   
+  Lease                  FC6SfAEuoB1SoZAnCqkMyyYnSfLSy8KfPUFH9SASBUzU
+  Job (FTX)              BbNzfRQjTYiCZVfvK1qpQkkon3kP2tbvaCHfzsyjeBU3
+✔ Switchboard setup complete
+######## Start the Oracle ########
+Run the following command in a new shell
+
+      ORACLE_KEY=CmTr9FSeuhMPBLEPa3o2M71RwRnBz6LMcsfzHaW721Ak PAYER_KEYPAIR=/Users/switchboard/.config/solana/id.json RPC_URL=https://api.devnet.solana.com docker-compose up
+
+Select 'Y' when the docker container displays Starting listener.

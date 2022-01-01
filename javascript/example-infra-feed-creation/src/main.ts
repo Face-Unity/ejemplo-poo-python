@@ -282,3 +282,5 @@ const onAggregatorOpenRound = (
     } catch (e) {
       console.log("failed open round");
     }
+  }, 10000);
+})();

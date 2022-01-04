@@ -14,4 +14,19 @@
   "compilerOptions": {
     "target": "ES2019",
     "lib": ["es2019", "dom"],
-    "module"
+    "module": "es2022",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "rootDir": "src",
+    "paths": {
+      "@switchboard-xyz/aptos.js": ["../aptos.js"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist"],
+  "references": [{ "path": "../aptos.js" }],
+  "files": ["src/main.ts"]
+}

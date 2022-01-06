@@ -5,4 +5,19 @@ module switchboard::aggregator {
     use aptos_std::ed25519;
     use switchboard::serialization;
     use switchboard::math::{Self, SwitchboardDecimal};
-    use
+    use switchboard::vec_utils;
+    use switchboard::errors;
+    use std::option::{Self, Option};
+    use std::signer; 
+    use std::vector;
+    use std::coin::{Self, Coin};
+    
+    // Aggregator Round Data
+    struct LatestConfirmedRound {}
+    struct CurrentRound {}
+    struct AggregatorRound<phantom T> has key, store, copy, drop {
+        // Maintains the current update count
+        id: u128,
+        // Maintains the time that the round was opened at.
+        round_open_timestamp: u64,
+        // Maintain

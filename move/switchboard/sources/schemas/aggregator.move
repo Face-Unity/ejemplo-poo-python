@@ -20,4 +20,14 @@ module switchboard::aggregator {
         id: u128,
         // Maintains the time that the round was opened at.
         round_open_timestamp: u64,
-        // Maintain
+        // Maintain the blockheight at the time that the round was opened
+        round_open_block_height: u64,
+        // Maintains the current median of all successful round responses.
+        result: SwitchboardDecimal,
+        // Standard deviation of the accepted results in the round.
+        std_deviation: SwitchboardDecimal,
+        // Maintains the minimum node response this round.
+        min_response: SwitchboardDecimal,
+        // Maintains the maximum node response this round.
+        max_response: SwitchboardDecimal,
+        // Pubkeys of the oracles

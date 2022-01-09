@@ -30,4 +30,14 @@ module switchboard::aggregator {
         min_response: SwitchboardDecimal,
         // Maintains the maximum node response this round.
         max_response: SwitchboardDecimal,
-        // Pubkeys of the oracles
+        // Pubkeys of the oracles fulfilling this round.
+        oracle_keys: vector<address>,
+        // Represents all successful node responses this round. `NaN` if empty.
+        medians: vector<Option<SwitchboardDecimal>>,
+        // Payouts so far in a given round
+        current_payout: vector<SwitchboardDecimal>,
+        // could do specific error codes
+        errors_fulfilled: vector<bool>,
+        // Maintains the number of successful responses received from nodes.
+        // Nodes can submit one successful response per round.
+     

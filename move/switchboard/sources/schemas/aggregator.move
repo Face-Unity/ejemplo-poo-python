@@ -40,4 +40,20 @@ module switchboard::aggregator {
         errors_fulfilled: vector<bool>,
         // Maintains the number of successful responses received from nodes.
         // Nodes can submit one successful response per round.
-     
+        num_success: u64,
+        num_error: u64,
+        // Maintains whether or not the round is closed
+        is_closed: bool,
+        // Maintains the round close timestamp
+        round_confirmed_timestamp: u64,
+    }
+
+    fun default_round<T>(): AggregatorRound<T> {
+        
+        AggregatorRound<T> {
+            id: 0,
+            round_open_timestamp: 0,
+            round_open_block_height: block::get_current_block_height(),
+            result: math::zero(),
+            std_deviation: math::zero(),
+            min_response: mat

@@ -56,4 +56,23 @@ module switchboard::aggregator {
             round_open_block_height: block::get_current_block_height(),
             result: math::zero(),
             std_deviation: math::zero(),
-            min_response: mat
+            min_response: math::zero(),
+            max_response: math::zero(),
+            oracle_keys: vector::empty(),
+            medians: vector::empty(),
+            errors_fulfilled: vector::empty(),
+            num_error: 0,
+            num_success: 0,
+            is_closed: false,
+            round_confirmed_timestamp: 0,
+            current_payout: vector::empty(),
+        }
+    }
+
+    struct Aggregator has key, store, drop {
+        
+        // Aggregator account signer cap
+        signer_cap: SignerCapability,
+
+        // Configs
+        authority: addres

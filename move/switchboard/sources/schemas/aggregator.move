@@ -75,4 +75,22 @@ module switchboard::aggregator {
         signer_cap: SignerCapability,
 
         // Configs
-        authority: addres
+        authority: address,
+        name: vector<u8>,
+        metadata: vector<u8>,
+
+        // Aggregator data that's fairly fixed
+        created_at: u64,
+        is_locked: bool,
+        _ebuf: vector<u8>,
+        features: vector<bool>,
+    }
+
+    // Frequently used configs 
+    struct AggregatorConfig has key {
+        queue_addr: address,
+        batch_size: u64,
+        min_oracle_results: u64,
+        min_update_delay_seconds: u64,
+        history_limit: u64,
+        variance_threshold: 

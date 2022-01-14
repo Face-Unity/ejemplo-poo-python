@@ -108,4 +108,24 @@ module switchboard::aggregator {
     // Configuation items that are only used on the Oracle side
     struct AggregatorResultsConfig has key {
         variance_threshold: SwitchboardDecimal,
-        force_
+        force_report_period: u64,
+        min_job_results: u64,
+        expiration: u64,
+    }
+
+    struct AggregatorReadConfig has key {
+        read_charge: u64,
+        reward_escrow: address,
+        read_whitelist: vector<address>,
+        limit_reads_to_whitelist: bool,
+    }
+
+    struct AggregatorJobData has key {
+        job_keys: vector<address>,
+        job_weights: vector<u8>,
+        jobs_checksum: vector<u8>,
+    }
+
+    struct AggregatorHistoryData has key {
+        history: vector<AggregatorHistoryRow>,
+        hist

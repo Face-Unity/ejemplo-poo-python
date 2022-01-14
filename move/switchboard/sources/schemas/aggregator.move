@@ -93,4 +93,19 @@ module switchboard::aggregator {
         min_oracle_results: u64,
         min_update_delay_seconds: u64,
         history_limit: u64,
-        variance_threshold: 
+        variance_threshold: SwitchboardDecimal, 
+        force_report_period: u64,
+        min_job_results: u64,
+        expiration: u64,
+        crank_addr: address,
+        crank_disabled: bool,
+        crank_row_count: u64,
+        next_allowed_update_time: u64,
+        consecutive_failure_count: u64,
+        start_after: u64,
+    }
+
+    // Configuation items that are only used on the Oracle side
+    struct AggregatorResultsConfig has key {
+        variance_threshold: SwitchboardDecimal,
+        force_

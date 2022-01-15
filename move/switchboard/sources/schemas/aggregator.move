@@ -128,4 +128,23 @@ module switchboard::aggregator {
 
     struct AggregatorHistoryData has key {
         history: vector<AggregatorHistoryRow>,
-        hist
+        history_write_idx: u64,
+    }
+
+    struct AggregatorHistoryRow has drop, copy, store {
+        value: SwitchboardDecimal,
+        timestamp: u64,
+        round_id: u128,
+    }
+
+    struct AggregatorConfigParams has drop, copy {
+        addr: address,
+        name: vector<u8>,
+        metadata: vector<u8>,
+        queue_addr: address,
+        crank_addr: address,
+        batch_size: u64,
+        min_oracle_results: u64,
+        min_job_results: u64,
+        min_update_delay_seconds: u64,
+        start_after: u64,

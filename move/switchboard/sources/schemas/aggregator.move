@@ -165,4 +165,24 @@ module switchboard::aggregator {
         authority: address,
     }
 
-    public fun addr_from_conf(conf: &AggregatorConfigPa
+    public fun addr_from_conf(conf: &AggregatorConfigParams): address {
+        conf.addr
+    }
+
+    public fun queue_from_conf(conf: &AggregatorConfigParams): address {
+        conf.queue_addr
+    }
+
+    public fun authority_from_conf(conf: &AggregatorConfigParams): address {
+        conf.authority
+    }
+
+    public fun history_limit_from_conf(conf: &AggregatorConfigParams): u64 {
+        conf.history_limit
+    }
+    
+    public fun batch_size_from_conf(conf: &AggregatorConfigParams): u64 {
+        conf.batch_size
+    }
+
+    public fun min_oracle_results_from_con

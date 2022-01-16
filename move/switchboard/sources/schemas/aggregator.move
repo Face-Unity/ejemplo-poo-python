@@ -148,3 +148,21 @@ module switchboard::aggregator {
         min_job_results: u64,
         min_update_delay_seconds: u64,
         start_after: u64,
+        variance_threshold: SwitchboardDecimal,
+        force_report_period: u64,
+        expiration: u64,
+        disable_crank: bool,
+        history_limit: u64,
+        read_charge: u64,
+        reward_escrow: address,
+        read_whitelist: vector<address>,
+        limit_reads_to_whitelist: bool,
+        authority: address,
+    }
+
+    struct FeedRelay has key {
+        oracle_keys: vector<vector<u8>>, 
+        authority: address,
+    }
+
+    public fun addr_from_conf(conf: &AggregatorConfigPa

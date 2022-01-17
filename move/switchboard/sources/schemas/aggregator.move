@@ -185,4 +185,21 @@ module switchboard::aggregator {
         conf.batch_size
     }
 
-    public fun min_oracle_results_from_con
+    public fun min_oracle_results_from_conf(conf: &AggregatorConfigParams): u64 {
+        conf.min_oracle_results
+    }
+
+    public fun min_update_delay_seconds_from_conf(conf: &AggregatorConfigParams): u64 {
+        conf.min_update_delay_seconds
+    }
+
+    public fun exist(addr: address): bool {
+        exists<Aggregator>(addr)
+    }
+
+    public fun has_authority(addr: address, account: &signer): bool acquires Aggregator {
+        let ref = borrow_global<Aggregator>(addr);
+        ref.authority == signer::address_of(account)
+    }
+
+    public

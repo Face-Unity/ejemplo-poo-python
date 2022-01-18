@@ -202,4 +202,12 @@ module switchboard::aggregator {
         ref.authority == signer::address_of(account)
     }
 
-    public
+    public fun buy_latest_value<CoinType>(
+        account: &signer, 
+        addr: address, 
+        fee: Coin<CoinType>
+    ): SwitchboardDecimal acquires AggregatorConfig, AggregatorReadConfig, AggregatorRound {
+        let _aggregator_config = borrow_global<AggregatorConfig>(addr);
+        let aggregator_read_config = borrow_global<AggregatorReadConfig>(addr);
+        if (aggregator_read_config.limit_reads_to_whitelist) {
+            assert!(vector::contains(&aggregator_read_config.read_whitelist, &signer::address_of(acc

@@ -210,4 +210,13 @@ module switchboard::aggregator {
         let _aggregator_config = borrow_global<AggregatorConfig>(addr);
         let aggregator_read_config = borrow_global<AggregatorReadConfig>(addr);
         if (aggregator_read_config.limit_reads_to_whitelist) {
-            assert!(vector::contains(&aggregator_read_config.read_whitelist, &signer::address_of(acc
+            assert!(vector::contains(&aggregator_read_config.read_whitelist, &signer::address_of(account)), errors::PermissionDenied());
+        } else {
+            assert!(
+                coin::value(&fee) == aggregator_read_config.read_charge ||
+                vector::contains(&aggregator_read_config.read_whitelist, &signer::address_of(account)), 
+                errors::InvalidArgument()
+            );
+        };
+        coin::deposit(aggregator_read_config.reward_escrow, fee);
+        borrow_global<AggregatorRound<LatestConfirmedRound>>(a

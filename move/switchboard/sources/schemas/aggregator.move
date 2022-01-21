@@ -219,4 +219,14 @@ module switchboard::aggregator {
             );
         };
         coin::deposit(aggregator_read_config.reward_escrow, fee);
-        borrow_global<AggregatorRound<LatestConfirmedRound>>(a
+        borrow_global<AggregatorRound<LatestConfirmedRound>>(addr).result
+    }
+
+    public fun buy_latest_round<CoinType>(account: &signer, addr: address, fee: Coin<CoinType>): (
+        SwitchboardDecimal, /* Result */
+        u64,                /* Round Confirmed Timestamp */
+        SwitchboardDecimal, /* Standard Deviation of Oracle Responses */
+        SwitchboardDecimal, /* Min Oracle Response */
+        SwitchboardDecimal, /* Max Oracle Response */
+    ) acquires AggregatorConfig, AggregatorReadConfig, AggregatorRound {
+        let _aggregator_config = 

@@ -229,4 +229,12 @@ module switchboard::aggregator {
         SwitchboardDecimal, /* Min Oracle Response */
         SwitchboardDecimal, /* Max Oracle Response */
     ) acquires AggregatorConfig, AggregatorReadConfig, AggregatorRound {
-        let _aggregator_config = 
+        let _aggregator_config = borrow_global_mut<AggregatorConfig>(addr);
+        let aggregator_read_config = borrow_global_mut<AggregatorReadConfig>(addr);
+        if (aggregator_read_config.limit_reads_to_whitelist) {
+            assert!(vector::contains(&aggregator_read_config.read_whitelist, &signer::address_of(account)), errors::PermissionDenied());
+        } else {
+            assert!(
+                coin::value(&fee) == aggregator_read_config.read_charge ||
+                vector::contains(&aggregator_read_config.read_whitelist, &signer::address_of(account)), 
+          

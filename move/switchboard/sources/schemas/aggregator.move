@@ -237,4 +237,18 @@ module switchboard::aggregator {
             assert!(
                 coin::value(&fee) == aggregator_read_config.read_charge ||
                 vector::contains(&aggregator_read_config.read_whitelist, &signer::address_of(account)), 
-          
+                errors::InvalidArgument()
+            );
+        };
+        coin::deposit(aggregator_read_config.reward_escrow, fee);
+        let latest_confirmed_round = borrow_global<AggregatorRound<LatestConfirmedRound>>(addr);
+        (
+            latest_confirmed_round.result,
+            latest_confirmed_round.round_confirmed_timestamp,
+            latest_confirmed_round.std_deviation,
+            latest_confirmed_round.min_response,
+            latest_confirmed_round.max_response,
+        )
+    }
+
+    public fun latest_value(addr: address): SwitchboardDecimal acquir

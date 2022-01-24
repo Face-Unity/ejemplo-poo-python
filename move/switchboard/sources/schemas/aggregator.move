@@ -251,4 +251,12 @@ module switchboard::aggregator {
         )
     }
 
-    public fun latest_value(addr: address): SwitchboardDecimal acquir
+    public fun latest_value(addr: address): SwitchboardDecimal acquires AggregatorRound, AggregatorReadConfig {
+        let aggregator_read_config = borrow_global_mut<AggregatorReadConfig>(addr);
+        assert!(aggregator_read_config.read_charge == 0 && !aggregator_read_config.limit_reads_to_whitelist, errors::PermissionDenied());
+        borrow_global<AggregatorRound<LatestConfirmedRound>>(addr).result
+    }
+
+
+    public fun latest_value_in_threshold(addr: address, max_confidence_interval: &SwitchboardDecimal): (SwitchboardDecimal, bool) acquires AggregatorRound, AggregatorReadConfig {
+   

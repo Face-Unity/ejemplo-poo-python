@@ -259,4 +259,9 @@ module switchboard::aggregator {
 
 
     public fun latest_value_in_threshold(addr: address, max_confidence_interval: &SwitchboardDecimal): (SwitchboardDecimal, bool) acquires AggregatorRound, AggregatorReadConfig {
-   
+        let aggregator_read_config = borrow_global_mut<AggregatorReadConfig>(addr);
+        assert!(aggregator_read_config.read_charge == 0 && !aggregator_read_config.limit_reads_to_whitelist, errors::PermissionDenied());
+        let latest_confirmed_round = borrow_global<AggregatorRound<LatestConfirmedRound>>(addr);
+        let uwm = vec_utils::unwrap(&latest_confirmed_round.medians);
+        let std_deviation = math::std_deviation(&uwm, &latest_confirmed_round.result);
+        let is_within_bound = math::

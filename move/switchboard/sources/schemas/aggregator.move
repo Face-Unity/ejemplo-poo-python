@@ -264,4 +264,15 @@ module switchboard::aggregator {
         let latest_confirmed_round = borrow_global<AggregatorRound<LatestConfirmedRound>>(addr);
         let uwm = vec_utils::unwrap(&latest_confirmed_round.medians);
         let std_deviation = math::std_deviation(&uwm, &latest_confirmed_round.result);
-        let is_within_bound = math::
+        let is_within_bound = math::gt(&std_deviation, max_confidence_interval);
+        (borrow_global<AggregatorRound<LatestConfirmedRound>>(addr).result, is_within_bound)
+    }
+
+
+    public fun latest_round(addr: address): (
+        SwitchboardDecimal, /* Result */
+        u64,                /* Round Confirmed Timestamp */
+        SwitchboardDecimal, /* Standard Deviation of Oracle Responses */
+        SwitchboardDecimal, /* Min Oracle Response */
+        SwitchboardDecimal, /* Max Oracle Response */
+    ) acquires AggregatorRound, AggregatorReadConfig 

@@ -275,4 +275,12 @@ module switchboard::aggregator {
         SwitchboardDecimal, /* Standard Deviation of Oracle Responses */
         SwitchboardDecimal, /* Min Oracle Response */
         SwitchboardDecimal, /* Max Oracle Response */
-    ) acquires AggregatorRound, AggregatorReadConfig 
+    ) acquires AggregatorRound, AggregatorReadConfig {
+        let aggregator = borrow_global_mut<AggregatorReadConfig>(addr);
+        assert!(aggregator.read_charge == 0, errors::PermissionDenied());
+        let latest_confirmed_round = borrow_global<AggregatorRound<LatestConfirmedRound>>(addr);
+        (
+            latest_confirmed_round.result,
+            latest_confirmed_round.round_confirmed_timestamp,
+            latest_confirmed_round.std_deviation,
+            latest_confirmed_round.min_res

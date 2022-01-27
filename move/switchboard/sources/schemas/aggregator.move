@@ -296,4 +296,15 @@ module switchboard::aggregator {
     }
 
     public fun latest_round_open_timestamp(addr: address): u64 acquires AggregatorRound {
-        let latest_confirmed_round = borrow_global<AggregatorRound<LatestConfirmedRoun
+        let latest_confirmed_round = borrow_global<AggregatorRound<LatestConfirmedRound>>(addr);
+        latest_confirmed_round.round_open_timestamp
+    }
+
+    public fun lastest_round_min_response(addr: address): SwitchboardDecimal acquires AggregatorRound {
+        let latest_confirmed_round = borrow_global<AggregatorRound<LatestConfirmedRound>>(addr);
+        latest_confirmed_round.min_response
+    }
+
+    public fun lastest_round_max_response(addr: address): SwitchboardDecimal acquires AggregatorRound {
+        let latest_confirmed_round = borrow_global<AggregatorRound<LatestConfirmedRound>>(addr);
+    

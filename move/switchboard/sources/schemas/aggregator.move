@@ -307,4 +307,19 @@ module switchboard::aggregator {
 
     public fun lastest_round_max_response(addr: address): SwitchboardDecimal acquires AggregatorRound {
         let latest_confirmed_round = borrow_global<AggregatorRound<LatestConfirmedRound>>(addr);
-    
+        latest_confirmed_round.max_response
+    }
+
+    public fun authority(addr: address): address acquires Aggregator {
+        let aggregator = borrow_global<Aggregator>(addr);
+        aggregator.authority
+    }
+
+    public fun is_locked(addr: address): bool acquires Aggregator {
+        let aggregator = borrow_global<Aggregator>(addr);
+        aggregator.is_locked
+    }
+
+    public fun read_charge(addr: address): u64 acquires AggregatorReadConfig {
+        let aggregator = borrow_global<AggregatorReadConfig>(addr);
+        aggrega

@@ -322,4 +322,17 @@ module switchboard::aggregator {
 
     public fun read_charge(addr: address): u64 acquires AggregatorReadConfig {
         let aggregator = borrow_global<AggregatorReadConfig>(addr);
-        aggrega
+        aggregator.read_charge
+    }
+
+    public fun next_allowed_timestamp(addr: address): u64 acquires AggregatorConfig {
+        let aggregator = borrow_global<AggregatorConfig>(addr);
+        aggregator.next_allowed_update_time
+    }
+
+    public fun job_keys(addr: address): vector<address> acquires AggregatorJobData {
+        borrow_global<AggregatorJobData>(addr).job_keys
+    }
+
+    public fun min_oracle_results(addr: address): u64 acquires AggregatorConfig {
+        borrow_global<AggregatorConfig

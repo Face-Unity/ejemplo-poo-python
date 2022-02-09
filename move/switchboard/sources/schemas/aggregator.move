@@ -347,4 +347,18 @@ module switchboard::aggregator {
     }
 
     public fun current_round_num_success(addr: address): u64 acquires AggregatorRound {
-        let current_round = borrow_global<AggregatorRound<CurrentRound>>(ad
+        let current_round = borrow_global<AggregatorRound<CurrentRound>>(addr);
+        current_round.num_success
+    }
+
+    public fun current_round_open_timestamp(addr: address): u64 acquires AggregatorRound {
+        let current_round = borrow_global<AggregatorRound<CurrentRound>>(addr);
+        current_round.round_open_timestamp
+    }
+
+    public fun current_round_num_error(addr: address): u64 acquires AggregatorRound {
+        let current_round = borrow_global<AggregatorRound<CurrentRound>>(addr);
+        current_round.num_error
+    }
+
+    public fun curent_round_oracle_key_at_idx(addr: address, idx: u64

@@ -335,4 +335,16 @@ module switchboard::aggregator {
     }
 
     public fun min_oracle_results(addr: address): u64 acquires AggregatorConfig {
-        borrow_global<AggregatorConfig
+        borrow_global<AggregatorConfig>(addr).min_oracle_results
+    }
+
+    public fun crank_addr(addr: address): address acquires AggregatorConfig {
+        borrow_global<AggregatorConfig>(addr).crank_addr
+    }
+
+    public fun crank_disabled(addr: address): bool acquires AggregatorConfig {
+        borrow_global<AggregatorConfig>(addr).crank_disabled
+    }
+
+    public fun current_round_num_success(addr: address): u64 acquires AggregatorRound {
+        let current_round = borrow_global<AggregatorRound<CurrentRound>>(ad

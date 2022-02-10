@@ -372,4 +372,15 @@ module switchboard::aggregator {
         *option::borrow<SwitchboardDecimal>(median)
     }
     
-    public fun current_round_std_dev(addr: address): S
+    public fun current_round_std_dev(addr: address): SwitchboardDecimal acquires AggregatorRound {
+        let current_round = borrow_global<AggregatorRound<CurrentRound>>(addr);
+        current_round.std_deviation
+    }
+
+    public fun current_round_result(addr: address): SwitchboardDecimal acquires AggregatorRound {
+        let current_round = borrow_global<AggregatorRound<CurrentRound>>(addr);
+        current_round.result
+    }
+
+    public fun is_median_fulfilled(addr: address, idx: u64): bool acquires AggregatorRound {
+        let current_round = borrow_global<AggregatorRo

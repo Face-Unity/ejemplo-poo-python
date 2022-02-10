@@ -361,4 +361,15 @@ module switchboard::aggregator {
         current_round.num_error
     }
 
-    public fun curent_round_oracle_key_at_idx(addr: address, idx: u64
+    public fun curent_round_oracle_key_at_idx(addr: address, idx: u64): address acquires AggregatorRound {
+        let current_round = borrow_global<AggregatorRound<CurrentRound>>(addr);
+        *vector::borrow(&current_round.oracle_keys, idx)
+    }
+
+    public fun curent_round_median_at_idx(addr: address, idx: u64): SwitchboardDecimal acquires AggregatorRound {
+        let current_round = borrow_global<AggregatorRound<CurrentRound>>(addr);
+        let median = vector::borrow(&current_round.medians, idx);
+        *option::borrow<SwitchboardDecimal>(median)
+    }
+    
+    public fun current_round_std_dev(addr: address): S

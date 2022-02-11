@@ -383,4 +383,17 @@ module switchboard::aggregator {
     }
 
     public fun is_median_fulfilled(addr: address, idx: u64): bool acquires AggregatorRound {
-        let current_round = borrow_global<AggregatorRo
+        let current_round = borrow_global<AggregatorRound<CurrentRound>>(addr);
+        let val = vector::borrow(&current_round.medians, idx);
+        option::is_some(val)
+    }
+
+    public fun is_error_fulfilled(addr: address, idx: u64): bool acquires AggregatorRound {
+        let current_round = borrow_global<AggregatorRound<CurrentRound>>(addr);
+        *vector::borrow(&current_round.errors_fulfilled, idx)
+    }
+
+    public fun configs(self: address): (
+        address, // Queue Address
+        u64,     // Batch Size
+        u64,     // Min Oracle Results

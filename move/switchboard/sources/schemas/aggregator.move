@@ -397,3 +397,18 @@ module switchboard::aggregator {
         address, // Queue Address
         u64,     // Batch Size
         u64,     // Min Oracle Results
+    ) acquires AggregatorConfig {
+        let aggregator = borrow_global<AggregatorConfig>(self);
+        (
+            aggregator.queue_addr,
+            aggregator.batch_size,
+            aggregator.min_oracle_results,
+        )
+    }
+
+    public fun batch_size(self: address): u64 acquires AggregatorConfig {
+        borrow_global<AggregatorConfig>(self).batch_size
+    }
+    
+    public fun queue_addr(addr: address): address acquires AggregatorConfig {
+        borrow_global<AggregatorConfi

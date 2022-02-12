@@ -411,4 +411,17 @@ module switchboard::aggregator {
     }
     
     public fun queue_addr(addr: address): address acquires AggregatorConfig {
-        borrow_global<AggregatorConfi
+        borrow_global<AggregatorConfig>(addr).queue_addr
+    }
+
+    public fun history_limit(self: address): u64 acquires AggregatorConfig {
+        borrow_global<AggregatorConfig>(self).history_limit
+    }
+    
+    public fun can_open_round(addr: address): bool acquires AggregatorConfig {
+        let ref = borrow_global<AggregatorConfig>(addr);
+        timestamp::now_seconds() >= ref.start_after &&
+        timestamp::now_seconds() >= ref.next_allowed_update_time
+    }
+
+    public fun is_jobs_checksum_equal(addr: address, ve

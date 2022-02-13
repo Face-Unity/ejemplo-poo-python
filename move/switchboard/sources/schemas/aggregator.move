@@ -424,4 +424,16 @@ module switchboard::aggregator {
         timestamp::now_seconds() >= ref.next_allowed_update_time
     }
 
-    public fun is_jobs_checksum_equal(addr: address, ve
+    public fun is_jobs_checksum_equal(addr: address, vec: &vector<u8>): bool acquires AggregatorJobData {
+        let checksum = borrow_global<AggregatorJobData>(addr).jobs_checksum; // copy
+        &checksum == vec
+    }
+
+    // set feed relay info for a feed
+    public entry fun set_feed_relay(
+        account: signer, 
+        aggregator_addr: address, 
+        authority: address, 
+        oracle_keys: vector<vector<u8>>
+    ) acquires Aggregator, FeedRelay {
+        assert!(has_authority(aggregator_addr, &account), errors::PermissionDenied());

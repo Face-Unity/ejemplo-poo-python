@@ -437,3 +437,17 @@ module switchboard::aggregator {
         oracle_keys: vector<vector<u8>>
     ) acquires Aggregator, FeedRelay {
         assert!(has_authority(aggregator_addr, &account), errors::PermissionDenied());
+        let feed_relay = borrow_global_mut<FeedRelay>(aggregator_addr);
+        feed_relay.oracle_keys = oracle_keys;
+        feed_relay.authority = authority;
+    }
+
+    public entry fun set_feed_relay_oracle_keys(
+        account: signer, 
+        aggregator_addr: address, 
+        oracle_keys: vector<vector<u8>>
+    ) acquires Aggregator, FeedRelay {
+        let feed_relay = borrow_global_mut<FeedRelay>(aggregator_addr);
+        assert!(
+            feed_relay.authority == signer::address_of(&account) || 
+      

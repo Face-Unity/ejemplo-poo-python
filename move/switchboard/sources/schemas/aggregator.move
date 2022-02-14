@@ -465,4 +465,12 @@ module switchboard::aggregator {
     ) acquires AggregatorRound, AggregatorConfig, AggregatorJobData, FeedRelay {
         assert!(exists<FeedRelay>(addr), errors::FeedRelayNotFound());
 
-    
+        // wipe current round oracle keys - to avoid anachronic / unwanted updates until open round
+        {
+            borrow_global_mut<AggregatorRound<CurrentRound>>(addr).oracle_keys = vector::empty();
+        };
+
+        let latest_confirmed_round = borrow_global_mut<AggregatorRound<LatestConfirmedRound>>(addr);
+        let job_checksum = borrow_global<AggregatorJobData>(addr).jobs_checksum;
+        let last_round_confirmed_timestamp = latest_confirmed_round.round_confirmed_timestamp;
+        let updates_length = vect

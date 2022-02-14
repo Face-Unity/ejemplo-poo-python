@@ -450,4 +450,19 @@ module switchboard::aggregator {
         let feed_relay = borrow_global_mut<FeedRelay>(aggregator_addr);
         assert!(
             feed_relay.authority == signer::address_of(&account) || 
-      
+            has_authority(aggregator_addr, &account),
+            errors::PermissionDenied()
+        );
+        feed_relay.oracle_keys = oracle_keys;
+    }
+
+    /**
+     * Update Aggregator with oracle keys 
+     */
+    public entry fun relay_value(
+        addr: address, 
+        updates: &mut vector<vector<u8>>
+    ) acquires AggregatorRound, AggregatorConfig, AggregatorJobData, FeedRelay {
+        assert!(exists<FeedRelay>(addr), errors::FeedRelayNotFound());
+
+    

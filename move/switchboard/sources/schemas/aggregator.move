@@ -485,3 +485,13 @@ module switchboard::aggregator {
             let sb_update = vector::borrow_mut(updates, i);
             i = i + 1;
             let (
+                value,             // SwitchboardDecimal
+                min_value,         // SwitchboardDecimal
+                max_value,         // SwitchboardDecimal
+                timestamp_seconds, // u64,
+                aggregator_addr,   // aggregator address
+                checksum,          // jobs checksum
+                _oracle_addr,      // oracle address
+                oracle_public_key, // oracle public_key
+                signature,         // message signature
+                

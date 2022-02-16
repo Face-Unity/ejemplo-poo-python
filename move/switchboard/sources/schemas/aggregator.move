@@ -473,4 +473,15 @@ module switchboard::aggregator {
         let latest_confirmed_round = borrow_global_mut<AggregatorRound<LatestConfirmedRound>>(addr);
         let job_checksum = borrow_global<AggregatorJobData>(addr).jobs_checksum;
         let last_round_confirmed_timestamp = latest_confirmed_round.round_confirmed_timestamp;
-        let updates_length = vect
+        let updates_length = vector::length(updates);
+        let (_queue_addr, _batch_size, min_oracle_results) = configs(addr);
+        let force_report_period = borrow_global<AggregatorConfig>(addr).force_report_period;
+        let feed_relay = borrow_global<FeedRelay>(addr);
+        let i = 0;
+        let min = math::zero();
+        let max = math::zero();
+        let medians = vector::empty<SwitchboardDecimal>();
+        while (i < updates_length) {
+            let sb_update = vector::borrow_mut(updates, i);
+            i = i + 1;
+            let (

@@ -494,4 +494,14 @@ module switchboard::aggregator {
                 _oracle_addr,      // oracle address
                 oracle_public_key, // oracle public_key
                 signature,         // message signature
-                
+                message,           // message
+            ) = serialization::read_update(sb_update);
+
+            assert!(job_checksum == checksum, errors::JobsChecksumMismatch());
+
+            // validate that this oracle can make updates
+            assert!(vector::contains(&feed_relay.oracle_keys, &oracle_public_key), errors::OracleMismatch());
+            let public_key = ed25519::new_unvalidated_public_key_from_bytes(oracle_public_key);
+            serialization::validate(message, signature, public_key);
+
+            // here we at le

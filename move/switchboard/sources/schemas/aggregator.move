@@ -504,4 +504,11 @@ module switchboard::aggregator {
             let public_key = ed25519::new_unvalidated_public_key_from_bytes(oracle_public_key);
             serialization::validate(message, signature, public_key);
 
-            // here we at le
+            // here we at least know that oracle_addr signed this update
+            // we want to make sure that it's actually meant for this feed
+            assert!(aggregator_addr == addr, errors::FeedRelayIncorrectAggregator());
+
+            // check that the timestamp is valid - don't punish old timestamps if within threshold
+            assert!(timestamp_seconds >= timestamp::now_seconds() - force_report_period, errors::InvalidArgument());
+
+            // ignore values that fall within acceptable timestamp range, but 

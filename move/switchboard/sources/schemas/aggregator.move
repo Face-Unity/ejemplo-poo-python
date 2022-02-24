@@ -511,4 +511,19 @@ module switchboard::aggregator {
             // check that the timestamp is valid - don't punish old timestamps if within threshold
             assert!(timestamp_seconds >= timestamp::now_seconds() - force_report_period, errors::InvalidArgument());
 
-            // ignore values that fall within acceptable timestamp range, but 
+            // ignore values that fall within acceptable timestamp range, but are technically stale
+            if (timestamp_seconds < last_round_confirmed_timestamp) {
+                continue
+            };
+
+            vector::push_back(&mut medians, value);
+            if (i == 1) {
+                min = min_value;
+                max = max_value;
+            } else {
+                if (math::gt(&min, &min_value)) {
+                    min = min_value;
+                };
+                if (math::lt(&max, &max_value)) {
+                    max = max_value;
+                };

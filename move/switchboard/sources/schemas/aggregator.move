@@ -527,3 +527,15 @@ module switchboard::aggregator {
                 if (math::lt(&max, &max_value)) {
                     max = max_value;
                 };
+            };
+        };
+        
+        // if we met the threshold of fresh updates to trigger a new result (but within the staleness threshold)
+        // then override latest round
+        let successes = vector::length(&medians);
+        if (successes >= min_oracle_results) {
+            let wrapped_medians = {
+                let i = 0;
+                let vec = vector::empty<Option<SwitchboardDecimal>>();
+                while (i < successes) {
+                    vector::push_back(&mut vec, option::some(*

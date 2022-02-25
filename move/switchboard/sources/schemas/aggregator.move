@@ -538,4 +538,15 @@ module switchboard::aggregator {
                 let i = 0;
                 let vec = vector::empty<Option<SwitchboardDecimal>>();
                 while (i < successes) {
-                    vector::push_back(&mut vec, option::some(*
+                    vector::push_back(&mut vec, option::some(*vector::borrow(&medians, i)));
+                    i = i + 1;
+                };
+                vec
+            };
+
+            // Update latest round
+            latest_confirmed_round.id = latest_confirmed_round.id + 1;
+            latest_confirmed_round.round_open_timestamp = timestamp::now_seconds();
+            latest_confirmed_round.round_open_block_height = block::get_current_block_height();
+            latest_confirmed_round.result = math::median(&mut medians);
+            latest_confirmed

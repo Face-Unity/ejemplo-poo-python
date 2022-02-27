@@ -549,4 +549,11 @@ module switchboard::aggregator {
             latest_confirmed_round.round_open_timestamp = timestamp::now_seconds();
             latest_confirmed_round.round_open_block_height = block::get_current_block_height();
             latest_confirmed_round.result = math::median(&mut medians);
-            latest_confirmed
+            latest_confirmed_round.std_deviation = math::std_deviation(&medians, &latest_confirmed_round.result);
+            latest_confirmed_round.min_response = min;
+            latest_confirmed_round.max_response = max;
+            latest_confirmed_round.oracle_keys = vector::empty();
+            latest_confirmed_round.medians = wrapped_medians;
+            latest_confirmed_round.errors_fulfilled = vector::empty();
+            latest_confirmed_round.num_success = successes;
+            latest_confirmed_r

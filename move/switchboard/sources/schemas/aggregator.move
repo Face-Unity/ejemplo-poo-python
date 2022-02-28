@@ -570,4 +570,21 @@ module switchboard::aggregator {
             Aggregator {
                 signer_cap: cap,
 
-             
+                // Configs
+                authority: signer::address_of(account),
+                name: b"Switchboard Aggregator",
+                metadata: b"",
+
+                // Aggregator data that's fairly fixed
+                created_at: timestamp::now_seconds(),
+                is_locked: false,
+                _ebuf: vector::empty(),
+                features: vector::empty(),
+            }
+        );
+        
+        move_to(
+            account, 
+            AggregatorConfig {
+                queue_addr: @0x51,
+                ba

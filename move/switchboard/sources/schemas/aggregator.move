@@ -556,4 +556,18 @@ module switchboard::aggregator {
             latest_confirmed_round.medians = wrapped_medians;
             latest_confirmed_round.errors_fulfilled = vector::empty();
             latest_confirmed_round.num_success = successes;
-            latest_confirmed_r
+            latest_confirmed_round.num_error = 0;
+            latest_confirmed_round.is_closed = true;
+            latest_confirmed_round.round_confirmed_timestamp = timestamp::now_seconds();
+        }
+    }
+
+    #[test_only]
+    public entry fun new_test(account: &signer, value: u128, dec: u8, neg: bool) {
+        let cap = account::create_test_signer_cap(signer::address_of(account));
+        move_to(
+            account, 
+            Aggregator {
+                signer_cap: cap,
+
+             

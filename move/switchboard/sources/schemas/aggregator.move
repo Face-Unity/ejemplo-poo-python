@@ -587,4 +587,17 @@ module switchboard::aggregator {
             account, 
             AggregatorConfig {
                 queue_addr: @0x51,
-                ba
+                batch_size: 1,
+                min_oracle_results: 1,
+                min_update_delay_seconds: 5,
+                history_limit: 0,
+                crank_addr: @0x5,
+                crank_disabled: false,
+                crank_row_count: 0,
+                next_allowed_update_time: 0,
+                consecutive_failure_count: 0,
+                start_after: 0,
+                variance_threshold: math::zero(),
+                force_report_period: 0,
+                min_job_results: 1,
+  

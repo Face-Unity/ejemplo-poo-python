@@ -600,4 +600,21 @@ module switchboard::aggregator {
                 variance_threshold: math::zero(),
                 force_report_period: 0,
                 min_job_results: 1,
-  
+                expiration: 0,
+            }
+        );
+        move_to(
+            account, 
+            AggregatorReadConfig {
+                read_charge: 0,
+                reward_escrow: @0x55,
+                read_whitelist: vector::empty(),
+                limit_reads_to_whitelist: false,
+            }
+        );
+        move_to(
+            account, 
+            AggregatorJobData {
+                job_keys: vector::empty(),
+                job_weights: vector::empty(),
+                jobs_checksum: vector::emp

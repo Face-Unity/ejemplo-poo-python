@@ -617,4 +617,21 @@ module switchboard::aggregator {
             AggregatorJobData {
                 job_keys: vector::empty(),
                 job_weights: vector::empty(),
-                jobs_checksum: vector::emp
+                jobs_checksum: vector::empty(),
+            }
+        );
+        move_to(
+            account, 
+            AggregatorHistoryData {
+                history: vector::empty(),
+                history_write_idx: 0,
+            }
+        );
+        move_to(account, AggregatorRound<LatestConfirmedRound> {
+            id: 0,
+            round_open_timestamp: 0,
+            round_open_block_height: block::get_current_block_height(),
+            result: math::new(value, dec, neg),
+            std_deviation: math::zero(),
+            min_response: math::zero(),
+ 

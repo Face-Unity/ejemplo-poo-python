@@ -634,4 +634,18 @@ module switchboard::aggregator {
             result: math::new(value, dec, neg),
             std_deviation: math::zero(),
             min_response: math::zero(),
- 
+            max_response: math::zero(),
+            oracle_keys: vector::empty(),
+            medians: vector::empty(),
+            errors_fulfilled: vector::empty(),
+            num_error: 0,
+            num_success: 0,
+            is_closed: false,
+            round_confirmed_timestamp: 0,
+            current_payout: vector::empty(),
+        });
+        move_to(
+            account,
+            AggregatorResultsConfig {
+                variance_threshold: math::zero(),
+                f

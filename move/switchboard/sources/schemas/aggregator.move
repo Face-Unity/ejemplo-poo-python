@@ -648,4 +648,19 @@ module switchboard::aggregator {
             account,
             AggregatorResultsConfig {
                 variance_threshold: math::zero(),
-                f
+                force_report_period: 0,
+                min_job_results: 1,
+                expiration: 0,
+            }
+        );
+        move_to(account, default_round<CurrentRound>());
+    }
+
+    #[test_only]
+    public entry fun update_value(account: &signer, value: u128, dec: u8, neg: bool) acquires AggregatorRound {
+        let latest_confirmed_round = borrow_global_mut<AggregatorRound<LatestConfirmedRound>>(signer::address_of(account));
+        latest_confirmed_round.result = math::new(value, dec, neg);
+    }
+
+    #[test_only]
+    public entr

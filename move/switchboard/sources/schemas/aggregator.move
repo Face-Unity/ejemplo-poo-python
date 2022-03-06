@@ -670,4 +670,7 @@ module switchboard::aggregator {
 
     #[test_only]
     public entry fun update_confirmed_timestamp(account: &signer, timestamp: u64) acquires AggregatorRound {
-        let latest_confirmed_round = borrow_global_mut<AggregatorRound<LatestConfirmedRound>>(signer:
+        let latest_confirmed_round = borrow_global_mut<AggregatorRound<LatestConfirmedRound>>(signer::address_of(account));
+        latest_confirmed_round.round_confirmed_timestamp = timestamp;
+    }
+}

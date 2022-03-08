@@ -27,4 +27,25 @@ module switchboard::math {
         let num = SwitchboardDecimal { value, dec, neg };
 
         // expand nums out 
-        num.value = scale_to_decimals(&num, MAX_
+        num.value = scale_to_decimals(&num, MAX_DECIMALS);
+        num.dec = MAX_DECIMALS;
+
+        num
+    }
+
+    public fun pow(base: u64, exp: u8): u128 {
+        let result_val = 1u128;
+        let i = 0;
+        while (i < exp) {
+            result_val = result_val * (base as u128);
+            i = i + 1;
+        };
+        result_val
+    }
+
+    public fun unpack(num: SwitchboardDecimal): (u128, u8, bool) {
+        let SwitchboardDecimal { value, dec, neg } = num;
+        (value, dec, neg)
+    }
+
+    fun max(a: u8, b: u8): u8 {

@@ -49,3 +49,30 @@ module switchboard::math {
     }
 
     fun max(a: u8, b: u8): u8 {
+        if (a > b) a else b
+    }
+
+    fun min(a: u8, b: u8): u8 {
+        if (a > b) b else a
+    }
+
+    // abs(a - b)
+    fun sub_abs_u8(a: u8, b: u8): u8 {
+        if (a > b) {
+            a - b
+        } else {
+            b - a
+        }
+    }
+
+    public fun zero(): SwitchboardDecimal {
+      SwitchboardDecimal {
+        value: 0,
+        dec: 0,
+        neg: false
+      }
+    }
+
+    public fun median(v: &mut vector<SwitchboardDecimal>): SwitchboardDecimal {
+        let size = vector::length(v);
+     

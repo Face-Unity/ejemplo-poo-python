@@ -75,4 +75,17 @@ module switchboard::math {
 
     public fun median(v: &mut vector<SwitchboardDecimal>): SwitchboardDecimal {
         let size = vector::length(v);
-     
+        if (size % 2 == 0) {
+            let result = zero();
+            let lower_idx = little_floyd_rivest(v, size / 2, 0, size - 1);
+            let upper_idx = little_floyd_rivest(v, (size / 2) - 1, 0, size - 1);
+            let sum = add(&lower_idx, &upper_idx);
+            div(&sum, &new(2, 0, false), &mut result);
+            result
+        } else {
+            little_floyd_rivest(v, size / 2, 0, size - 1)
+        }
+        
+    }
+
+    public fun std_deviation(medians: &vector<SwitchboardDecimal>, me

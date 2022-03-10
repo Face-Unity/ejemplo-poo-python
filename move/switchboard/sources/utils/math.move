@@ -88,4 +88,21 @@ module switchboard::math {
         
     }
 
-    public fun std_deviation(medians: &vector<SwitchboardDecimal>, me
+    public fun std_deviation(medians: &vector<SwitchboardDecimal>, median: &SwitchboardDecimal): SwitchboardDecimal {
+
+        // length of decimals
+        let length = vector::length<SwitchboardDecimal>(medians);
+
+        // check that there are medians passed in
+        assert!(length != 0, error::internal(ENO_LENGTH_PASSED_IN_STD_DEV));
+
+        // zero out response
+        let res = zero();
+        let distance = zero();
+        let variance = zero();
+
+        let i = 0;
+        while (i < length) {
+
+            // get median i
+            let median_i = vector::borrow<SwitchboardDecimal>(medians,

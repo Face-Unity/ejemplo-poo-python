@@ -105,4 +105,21 @@ module switchboard::math {
         while (i < length) {
 
             // get median i
-            let median_i = vector::borrow<SwitchboardDecimal>(medians,
+            let median_i = vector::borrow<SwitchboardDecimal>(medians, i);
+
+            // subtract the median from the result
+            distance = sub(median_i, median);
+
+            // handle overflows
+            let skip = will_multiplication_overflow(distance.value, distance.value);
+            if (skip) {
+                i = i + 1;
+                continue
+            };
+
+            // square res (copies on each operation)
+            mul(
+                &distance, 
+                &distance,
+                &mut variance
+         

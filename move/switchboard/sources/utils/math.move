@@ -122,4 +122,26 @@ module switchboard::math {
                 &distance, 
                 &distance,
                 &mut variance
-         
+            );
+
+            // add distance to res, write it to distance
+            distance = add(&res, &variance);
+
+            res.value = distance.value;
+            res.dec = distance.dec;
+            res.neg = distance.neg;
+
+            // iterate
+            i = i + 1;
+        };
+
+        // divide by length
+        div(&res, &new((length as u128), 0, false), &mut distance);
+
+        // get sqrt
+        sqrt(&distance, &mut res);
+
+        res
+    }
+
+    public fun will_multiplication_overflow(a: u128, b: u128): b

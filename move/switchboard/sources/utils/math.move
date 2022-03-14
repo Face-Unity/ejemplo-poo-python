@@ -161,4 +161,10 @@ module switchboard::math {
    
 
         loop {
-            let left_len = vector::length<SwitchboardDecimal>(&left)
+            let left_len = vector::length<SwitchboardDecimal>(&left);
+            let right_len = vector::length<SwitchboardDecimal>(&right);
+            if (left_len != 0 && right_len != 0) {
+                if (gt(vector::borrow<SwitchboardDecimal>(&right, 0), vector::borrow<SwitchboardDecimal>(&left, 0))) {
+                   vector::push_back<SwitchboardDecimal>(&mut alloc, vector::remove<SwitchboardDecimal>(&mut left, 0));
+                } else {
+                    vector::push_back<SwitchboardDecimal>(&mut alloc, vector::remove<SwitchboardD

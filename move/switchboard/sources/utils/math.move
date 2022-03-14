@@ -144,4 +144,21 @@ module switchboard::math {
         res
     }
 
-    public fun will_multiplication_overflow(a: u128, b: u128): b
+    public fun will_multiplication_overflow(a: u128, b: u128): bool {
+       b > 0 && a > MAX_VALUE_ALLOWED / b
+    }
+
+    public fun sort(v: &vector<SwitchboardDecimal>): vector<SwitchboardDecimal> {
+        let size = vector::length(v);
+        let alloc = vector::empty();
+        if (size <= 1) {
+            return *v
+        };
+
+        let (left, right) = vec_utils::esplit(v);
+        let left = sort(&left);
+        let right = sort(&right);
+   
+
+        loop {
+            let left_len = vector::length<SwitchboardDecimal>(&left)

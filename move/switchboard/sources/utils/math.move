@@ -167,4 +167,16 @@ module switchboard::math {
                 if (gt(vector::borrow<SwitchboardDecimal>(&right, 0), vector::borrow<SwitchboardDecimal>(&left, 0))) {
                    vector::push_back<SwitchboardDecimal>(&mut alloc, vector::remove<SwitchboardDecimal>(&mut left, 0));
                 } else {
-                    vector::push_back<SwitchboardDecimal>(&mut alloc, vector::remove<SwitchboardD
+                    vector::push_back<SwitchboardDecimal>(&mut alloc, vector::remove<SwitchboardDecimal>(&mut right, 0));
+                }
+            } else if (left_len != 0) {
+                vector::push_back<SwitchboardDecimal>(&mut alloc, vector::remove<SwitchboardDecimal>(&mut left, 0));
+            } else if (right_len != 0) {
+                vector::push_back<SwitchboardDecimal>(&mut alloc, vector::remove<SwitchboardDecimal>(&mut right, 0));
+            } else {
+                return alloc
+            };
+        }
+    }
+
+    public fun insertion_sort(v: &mut vector<SwitchboardDec

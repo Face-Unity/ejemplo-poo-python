@@ -179,4 +179,17 @@ module switchboard::math {
         }
     }
 
-    public fun insertion_sort(v: &mut vector<SwitchboardDec
+    public fun insertion_sort(v: &mut vector<SwitchboardDecimal>) {
+        let length = vector::length(v);
+        let i = 1;
+        while (i < length) {
+            let key = *vector::borrow<SwitchboardDecimal>(v, i);
+            let j = i - 1;
+            let cont = true;
+            while (j >= 0 && cont && gt(vector::borrow<SwitchboardDecimal>(v, j), &key)) {
+                
+                 *vector::borrow_mut<SwitchboardDecimal>(v, j + 1) = *vector::borrow<SwitchboardDecimal>(v, j);
+                 if (j == 0) {
+                    cont = false;
+                 } else {
+          

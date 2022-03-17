@@ -192,4 +192,26 @@ module switchboard::math {
                  if (j == 0) {
                     cont = false;
                  } else {
-          
+                    j = j - 1;
+                 }
+            };  
+
+            let swap_idx = if (!cont) {
+                0
+            } else {
+                j + 1
+            };
+            
+            *vector::borrow_mut<SwitchboardDecimal>(v, swap_idx) = key;
+
+            i = i + 1;
+        }; 
+    }
+
+    // By reference 
+
+    fun abs_gt(val1: &SwitchboardDecimal, val2: &SwitchboardDecimal): bool {
+        val1.value > val2.value
+    }
+
+    fun abs_lt(val1: &SwitchboardDecimal, val2: &Switc

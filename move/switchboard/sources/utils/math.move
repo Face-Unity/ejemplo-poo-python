@@ -214,4 +214,22 @@ module switchboard::math {
         val1.value > val2.value
     }
 
-    fun abs_lt(val1: &SwitchboardDecimal, val2: &Switc
+    fun abs_lt(val1: &SwitchboardDecimal, val2: &SwitchboardDecimal): bool {
+        val1.value < val2.value
+    }
+
+    public fun add(val1: &SwitchboardDecimal, val2: &SwitchboardDecimal): SwitchboardDecimal {
+        // -x + -y
+        if (val1.neg && val2.neg) {
+            let sum = add_internal(val1, val2);
+            sum.neg = true;
+            sum
+        // -x + y
+        } else if (val1.neg) {
+            sub_internal(val2, val1)
+            
+        // x + -y
+        } else if (val2.neg) {
+            sub_internal(val1, val2)
+
+        

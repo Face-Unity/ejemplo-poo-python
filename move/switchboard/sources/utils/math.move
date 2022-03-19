@@ -249,4 +249,22 @@ module switchboard::math {
             sum.neg = abs_gt(val1, val2);
             sum
         // -x - y
-        } else if (val1.n
+        } else if (val1.neg) {
+            let sum = add_internal(val1, val2);
+            sum.neg = true;
+            sum
+        // x - -y
+        } else if (val2.neg) {
+            add_internal(val1, val2)
+
+         // x - y
+        } else {
+            sub_internal(val1, val2)
+        }
+    }
+
+    fun sub_internal(val1: &SwitchboardDecimal, val2: &SwitchboardDecimal): SwitchboardDecimal {
+        if (val2.value > val1.value) {
+            new(val2.value - val1.value, MAX_DECIMALS, true)
+        } else {
+            new(val1.valu

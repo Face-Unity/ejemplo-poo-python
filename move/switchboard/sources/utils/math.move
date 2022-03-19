@@ -232,4 +232,21 @@ module switchboard::math {
         } else if (val2.neg) {
             sub_internal(val1, val2)
 
-        
+        // x + y
+        } else {
+            add_internal(val1, val2)
+        }
+    }
+
+    fun add_internal(val1: &SwitchboardDecimal, val2: &SwitchboardDecimal): SwitchboardDecimal {
+        new(val1.value + val2.value, MAX_DECIMALS, false)
+    }
+
+    public fun sub(val1: &SwitchboardDecimal, val2: &SwitchboardDecimal): SwitchboardDecimal {
+        // -x - -y
+        if (val1.neg && val2.neg) {
+            let sum = add_internal(val1, val2);
+            sum.neg = abs_gt(val1, val2);
+            sum
+        // -x - y
+        } else if (val1.n

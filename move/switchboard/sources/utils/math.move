@@ -267,4 +267,17 @@ module switchboard::math {
         if (val2.value > val1.value) {
             new(val2.value - val1.value, MAX_DECIMALS, true)
         } else {
-            new(val1.valu
+            new(val1.value - val2.value, MAX_DECIMALS, false)
+        }
+    }
+
+
+    public fun mul(val1: &SwitchboardDecimal, val2: &SwitchboardDecimal, out: &mut SwitchboardDecimal) {
+        let neg = !((val1.neg && val2.neg) || (!val1.neg && !val2.neg));
+        mul_internal(val1, val2, out);
+        out.neg = neg;
+    }
+
+    fun mul_internal(val1: &SwitchboardDecimal, val2: &SwitchboardDecimal, out: &mut SwitchboardDecimal) {
+        let multiplied = val1.value * val2.value;
+        let new_decimals = val1.dec + val2.

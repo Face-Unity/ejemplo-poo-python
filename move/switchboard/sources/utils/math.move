@@ -280,4 +280,20 @@ module switchboard::math {
 
     fun mul_internal(val1: &SwitchboardDecimal, val2: &SwitchboardDecimal, out: &mut SwitchboardDecimal) {
         let multiplied = val1.value * val2.value;
-        let new_decimals = val1.dec + val2.
+        let new_decimals = val1.dec + val2.dec;
+        let multiplied_scaled = if (new_decimals < MAX_DECIMALS) {
+            let decimals_underflow = MAX_DECIMALS - new_decimals;
+            multiplied * pow_10(decimals_underflow)
+        } else if (new_decimals > MAX_DECIMALS) {
+            let decimals_overflow = new_decimals - MAX_DECIMALS;
+            multiplied / pow_10(decimals_overflow)
+        } else {
+            multiplied
+        };
+
+        out.value = multiplied_scaled;
+        out.dec = MAX_DECIMALS;
+        out.neg = false;
+    }
+
+  

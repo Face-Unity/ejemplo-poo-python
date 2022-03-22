@@ -315,4 +315,23 @@ module switchboard::math {
         let x = add(&out1, &one);
 
         // x < z && x != y
-        while (gt(out, &
+        while (gt(out, &x) && x.value != 0 || equals(&x, y)) {
+            out.value = x.value;
+            out.dec = x.dec;
+            out.neg = x.neg; 
+
+            // x = (x + (y / x))) * 0.5
+            div(y, &x, &mut out1);
+            let out2 = add(&out1, &x);
+            div(&out2, &two, &mut x);
+        }
+    }
+
+    public fun normalize(num: &mut SwitchboardDecimal) {
+        while (num.value % 10 == 0 && num.dec > 0) {
+            num.value = num.value / 10;
+            num.dec = num.dec - 1;
+        };
+    }
+
+    public 

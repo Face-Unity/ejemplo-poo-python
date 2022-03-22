@@ -296,4 +296,23 @@ module switchboard::math {
         out.neg = false;
     }
 
-  
+    // babylonian
+    public fun sqrt(num: &SwitchboardDecimal, out: &mut SwitchboardDecimal) {
+        let y = num;
+
+        // z = y
+        out.value = y.value;
+        out.neg = y.neg;
+        out.dec = y.dec;
+
+        // intermediate variables for outputs
+        let out1 = zero();
+        let two = new(2, 0, false);
+        let one = new(1, 0, false);
+
+        // x = y / 2 + 1
+        div(y, &two, &mut out1);
+        let x = add(&out1, &one);
+
+        // x < z && x != y
+        while (gt(out, &

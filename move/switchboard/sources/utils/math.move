@@ -334,4 +334,14 @@ module switchboard::math {
         };
     }
 
-    public 
+    public fun div(val1: &SwitchboardDecimal, val2: &SwitchboardDecimal, out: &mut SwitchboardDecimal) {
+        let neg = !((val1.neg && val2.neg) || (!val1.neg && !val2.neg));
+        let num1_scaled_with_overflow = val1.value * POW_10_TO_MAX_DECIMALS;
+        out.value = num1_scaled_with_overflow / val2.value;
+        out.dec = MAX_DECIMALS;
+        out.neg = neg;
+    }
+
+    public fun gt(val1: &SwitchboardDecimal, val2: &SwitchboardDecimal): bool {
+        if (val1.neg && val2.neg) {
+            r

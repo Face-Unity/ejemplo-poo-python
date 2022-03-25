@@ -361,4 +361,21 @@ module switchboard::math {
         } else if (val2.neg) {
             return false
         };
-        val1.value < val2.va
+        val1.value < val2.value
+    }
+
+    public fun gte(val1: &SwitchboardDecimal, val2: &SwitchboardDecimal): bool {
+        if (val1.neg && val2.neg) {
+            return val1.value <= val2.value
+        } else if (val1.neg) {
+            return false
+        } else if (val2.neg) {
+            return true
+        };
+        val1.value >= val2.value
+    }
+
+    public fun lte(val1: &SwitchboardDecimal, val2: &SwitchboardDecimal): bool {
+       if (val1.neg && val2.neg) {
+            return val1.value >= val2.value
+       

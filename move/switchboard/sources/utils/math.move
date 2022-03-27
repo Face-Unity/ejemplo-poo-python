@@ -378,4 +378,19 @@ module switchboard::math {
     public fun lte(val1: &SwitchboardDecimal, val2: &SwitchboardDecimal): bool {
        if (val1.neg && val2.neg) {
             return val1.value >= val2.value
-       
+        } else if (val1.neg) {
+            return true
+        } else if (val2.neg) {
+            return false
+        };
+        val1.value <= val2.value
+    }
+
+    public fun equals(val1: &SwitchboardDecimal, val2: &SwitchboardDecimal): bool {
+        let num1 = scale_to_decimals(val1, MAX_DECIMALS);
+        let num2 = scale_to_decimals(val2, MAX_DECIMALS);
+        num1 == num2 && val1.neg == val2.neg
+    }
+
+    public fun scale_to_decimals(num: &SwitchboardDecimal, scale_dec: u8): u128 {
+        if (num

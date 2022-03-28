@@ -393,4 +393,14 @@ module switchboard::math {
     }
 
     public fun scale_to_decimals(num: &SwitchboardDecimal, scale_dec: u8): u128 {
-        if (num
+        if (num.dec < scale_dec) {
+            return (num.value * pow_10(scale_dec - num.dec))
+        } else {
+            return (num.value / pow_10(num.dec - scale_dec))
+        }
+    }
+
+    // floyd rivest https://en.wikipedia.org/wiki/Floyd%E2%80%93Rivest_algorithm
+    // except only for input len < 600 
+    // find `k`th smallest element where left is start index, right is end index
+    public fun little_floyd_rivest(vec: &mut vector<SwitchboardDecimal>, k: u64, left: u64, right: u64): SwitchboardDecimal {

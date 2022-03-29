@@ -416,4 +416,22 @@ module switchboard::math {
             vector::swap(vec, left, k);
             
             // if vec[right] > t
-            if (gt(vector::borrow(v
+            if (gt(vector::borrow(vec, right), &t)) {
+                vector::swap(vec, left, right);
+            };
+
+            while (i < j) {
+                // swap vec[i] and vec[j]
+                vector::swap(vec, i, j);
+                i = i + 1;
+                j = j - 1;
+
+                while (lt(vector::borrow(vec, i), &t)) {
+                    i = i + 1;
+                };
+                while (gt(vector::borrow(vec, j), &t)) {
+                    j = j - 1;
+                };
+            };
+
+            if (equals(vect

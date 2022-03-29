@@ -404,3 +404,16 @@ module switchboard::math {
     // except only for input len < 600 
     // find `k`th smallest element where left is start index, right is end index
     public fun little_floyd_rivest(vec: &mut vector<SwitchboardDecimal>, k: u64, left: u64, right: u64): SwitchboardDecimal {
+        let size = vector::length<SwitchboardDecimal>(vec);
+        assert!(size < 600, EINPUT_TOO_LARGE);
+        while (right > left) {
+            let i = left;
+            let j = right;
+            let t = *vector::borrow(vec, k);
+
+            // partition the elements between left and right around vec[k]
+            // swap vec[left] and vec[k]
+            vector::swap(vec, left, k);
+            
+            // if vec[right] > t
+            if (gt(vector::borrow(v

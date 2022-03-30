@@ -434,4 +434,17 @@ module switchboard::math {
                 };
             };
 
-            if (equals(vect
+            if (equals(vector::borrow(vec, left), &t)) {
+                // swap vec[left] and vec[j]
+                vector::swap(vec, left, j);
+             } else {
+                j = j + 1; // swap vec[right] and vec[j]
+                vector::swap(vec, right, j);
+            };
+
+            // Adjust left and right towards the boundaries of the subset
+            // containing the (k - left + 1)th smallest element.
+            if (j <= k) {
+                left = j + 1;
+            };
+          

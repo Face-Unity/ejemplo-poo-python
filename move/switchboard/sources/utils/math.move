@@ -447,4 +447,25 @@ module switchboard::math {
             if (j <= k) {
                 left = j + 1;
             };
-          
+            if (k <= j) {
+                if (j != 0) {
+                    right = j - 1;
+                } else {
+                    right = j;
+                }
+            };
+        };
+        
+        *vector::borrow(vec, k)
+    }
+
+    // Exponents.
+    const F0 : u128 = 1;
+    const F1 : u128 = 10;
+    const F2 : u128 = 100;
+    const F3 : u128 = 1000;
+    const F4 : u128 = 10000;
+    const F5 : u128 = 100000;
+    const F6 : u128 = 1000000;
+    const F7 : u128 = 10000000;
+    const F8 

@@ -468,4 +468,27 @@ module switchboard::math {
     const F5 : u128 = 100000;
     const F6 : u128 = 1000000;
     const F7 : u128 = 10000000;
-    const F8 
+    const F8 : u128 = 100000000;
+    const F9 : u128 = 1000000000;
+
+    // Programatic way to get a power of 10.
+    fun pow_10(e: u8): u128 {
+        if (e == 0) {
+            F0
+        } else if (e == 1) {
+            F1
+        } else if (e == 2) {
+            F2
+        } else if (e == 3) {
+            F3
+        } else if (e == 4) {
+            F4
+        } else if (e == 5) {
+            F5
+        } else if (e == 5) {
+            F5
+        } else if (e == 6) {
+            F6
+        } else if (e == 7) {
+            F7
+        } else if (e == 8) {

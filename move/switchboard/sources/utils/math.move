@@ -492,3 +492,19 @@ module switchboard::math {
         } else if (e == 7) {
             F7
         } else if (e == 8) {
+            F8
+        } else if (e == 9) {
+            F9
+        } else {
+            0
+        }
+    }
+
+    #[test(account = @0x1)]
+    public entry fun test_math() {
+
+        let vec: vector<SwitchboardDecimal> = vector::empty();
+        vector::push_back(&mut vec, new(20000012342, 0, false));
+        vector::push_back(&mut vec, new(20000012341, 0, false));
+        vector::push_back(&mut vec, new(20000012343, 0, false));
+        vector::push_back(&mut vec, new(200000123

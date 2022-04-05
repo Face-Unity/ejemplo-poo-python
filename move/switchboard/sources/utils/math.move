@@ -515,4 +515,17 @@ module switchboard::math {
         vector::push_back(&mut vec, new(20000012342, 0, false));
         vector::push_back(&mut vec, new(20000012341, 0, false));
         vector::push_back(&mut vec, new(20000012342, 0, false));
-        vector::push_back(&mut vec, new
+        vector::push_back(&mut vec, new(20000012342, 0, false));
+        vector::push_back(&mut vec, new(20000012341, 0, false));
+        vector::push_back(&mut vec, new(20000012344, 0, false));
+        vector::push_back(&mut vec, new(20000012341, 0, false));
+        vector::push_back(&mut vec, new(20000012342, 0, false));
+        let median = median(&mut vec);
+
+
+        let sqrt = zero();
+        sqrt(&new(20000012342, 0, false), &mut sqrt);
+        std::debug::print(&sqrt);
+
+        std::debug::print(&median);
+        let med = std_deviation(&mut vec, &mut median

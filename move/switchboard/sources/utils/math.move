@@ -528,4 +528,7 @@ module switchboard::math {
         std::debug::print(&sqrt);
 
         std::debug::print(&median);
-        let med = std_deviation(&mut vec, &mut median
+        let med = std_deviation(&mut vec, &mut median);
+        std::debug::print(&med);
+    }
+}

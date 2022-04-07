@@ -39,4 +39,25 @@ module switchboard::vec_utils {
       let alloc: vector<T> = vector::empty();
       let i = 0;
       while (i < vector::length(v)) {
-        let item: Option<T> = 
+        let item: Option<T> = *vector::borrow(v, i);
+        if (option::is_some(&item)) {
+          vector::push_back(&mut alloc, option::extract(&mut item));
+        };
+        i = i + 1;
+      };
+      alloc
+    }
+
+    public fun sum_flags(v: &vector<bool>): u64 {
+      let r = 0;
+      let i = 0;
+      while (i < vector::length(v)) {
+        if (*vector::borrow(v, i) == true) {
+          r = r + 1;
+        };
+        i = i + 1;
+      };
+      r
+    }
+
+}

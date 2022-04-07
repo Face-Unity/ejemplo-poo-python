@@ -22,3 +22,21 @@ module switchboard::vec_utils {
         if (i < idx) {
           vector::push_back(&mut left, *vector::borrow(v, i));
         } else {
+          vector::push_back(&mut right, *vector::borrow(v, i));
+        };
+        i = i + 1;
+      };
+      (left, right)
+    }
+
+    /// Evenly split a copy of the vector
+    public fun esplit<T: copy + drop>(v: &vector<T>): (vector<T>, vector<T>) {
+      split(v, vector::length(v) / 2)
+    }
+
+    /// Unwrap a vector of Optionals.
+    public fun unwrap<T: copy + drop>(v: &vector<Option<T>>): vector<T> {
+      let alloc: vector<T> = vector::empty();
+      let i = 0;
+      while (i < vector::length(v)) {
+        let item: Option<T> = 

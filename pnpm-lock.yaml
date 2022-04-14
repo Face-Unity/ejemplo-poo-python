@@ -142,4 +142,24 @@ packages:
     dev: false
 
   /@commitlint/cli/17.4.4:
-    resolution: {integrity: sha512-HwKlD7CPVMVGTAeFZylVNy14Vm5POVY0WxPkZr7EXLC/os0LH/obs6z4HRvJtH/n
+    resolution: {integrity: sha512-HwKlD7CPVMVGTAeFZylVNy14Vm5POVY0WxPkZr7EXLC/os0LH/obs6z4HRvJtH/nHCMYBvUBQhGwnufKfTjd5g==}
+    engines: {node: '>=v14'}
+    hasBin: true
+    dependencies:
+      '@commitlint/format': 17.4.4
+      '@commitlint/lint': 17.4.4
+      '@commitlint/load': 17.4.4
+      '@commitlint/read': 17.4.4
+      '@commitlint/types': 17.4.4
+      execa: 5.1.1
+      lodash.isfunction: 3.0.9
+      resolve-from: 5.0.0
+      resolve-global: 1.0.0
+      yargs: 17.5.1
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+    dev: true
+
+  /@commitlint/config-conventional/17.4.4:
+    res

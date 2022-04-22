@@ -248,4 +248,17 @@ packages:
     dev: true
 
   /@commitlint/parse/17.4.4:
-    resolution: {integrity: sha
+    resolution: {integrity: sha512-EKzz4f49d3/OU0Fplog7nwz/lAfXMaDxtriidyGF9PtR+SRbgv4FhsfF310tKxs6EPj8Y+aWWuX3beN5s+yqGg==}
+    engines: {node: '>=v14'}
+    dependencies:
+      '@commitlint/types': 17.4.4
+      conventional-changelog-angular: 5.0.13
+      conventional-commits-parser: 3.2.4
+    dev: true
+
+  /@commitlint/read/17.4.4:
+    resolution: {integrity: sha512-B2TvUMJKK+Svzs6eji23WXsRJ8PAD+orI44lVuVNsm5zmI7O8RSGJMvdEZEikiA4Vohfb+HevaPoWZ7PiFZ3zA==}
+    engines: {node: '>=v14'}
+    dependencies:
+      '@commitlint/top-level': 17.4.0
+      

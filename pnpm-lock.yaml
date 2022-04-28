@@ -335,4 +335,21 @@ packages:
 
   /@eslint/eslintrc/2.0.0:
     resolution: {integrity: sha512-fluIaaV+GyV24CCu/ggiHdV+j4RNh85yQnAYS/G2mZODZgGmmlrgCydjUcV3YvxCm9x8nMAfThsqTni4KiXT4A==}
-    
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    dependencies:
+      ajv: 6.12.6
+      debug: 4.3.4
+      espree: 9.4.1
+      globals: 13.20.0
+      ignore: 5.2.4
+      import-fresh: 3.3.0
+      js-yaml: 4.1.0
+      minimatch: 3.1.2
+      strip-json-comments: 3.1.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@eslint/js/8.35.0:
+    resolution: {integrity: sha512-JXdzbRiWclLVoD8sNUjR443VVlYqiYmDVT6rGUEIEHU5YJW0gaVZwV2xgM7D4arkvASqD0IlLUVjHiFuxaftRw==}
+    engi

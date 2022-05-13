@@ -550,4 +550,14 @@ packages:
     dev: false
 
   /@switchboard-xyz/eslint-config/0.1.8:
-    resolution: {integrity: sha512-ZlWCsFuyAqqALEIT6UVHNQGQRs0Oxe3p9fLLI86QpQ52aOtM96Y2N5PkfTRTCKVtGmtpO
+    resolution: {integrity: sha512-ZlWCsFuyAqqALEIT6UVHNQGQRs0Oxe3p9fLLI86QpQ52aOtM96Y2N5PkfTRTCKVtGmtpOOm+QaDcDowQcSeeUw==}
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 5.54.1_mlk7dnz565t663n4razh6a6v6i
+      '@typescript-eslint/parser': 5.54.1_ycpbpc6yetojsgtrx3mwntkhsu
+      '@typescript-eslint/type-utils': 5.54.1_ycpbpc6yetojsgtrx3mwntkhsu
+      eslint: 8.35.0
+      eslint-config-prettier: 8.7.0_eslint@8.35.0
+      eslint-plugin-import: 2.27.5_uyiasnnzcqrxqkfvjklwnmwcha
+      eslint-plugin-node: 11.1.0_eslint@8.35.0
+      eslint-plugin-prettier: 4.2.1_xprnzp4ul2bcpmfe73av4voica
+ 

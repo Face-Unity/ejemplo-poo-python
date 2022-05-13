@@ -532,4 +532,22 @@ packages:
     dev: false
 
   /@switchboard-xyz/common/2.1.33:
-    resolution: {integrity: sha512-cZ+OPxYdD4Z3qBWlhWWgemXQDQoNiPh6mgd2bcF8mIGvdl
+    resolution: {integrity: sha512-cZ+OPxYdD4Z3qBWlhWWgemXQDQoNiPh6mgd2bcF8mIGvdlJ1WzE5rD7UqfpuBM8Sq9bHe9c2oNDzGRGuNUtG0w==}
+    dependencies:
+      '@solana/web3.js': 1.73.2
+      '@types/big.js': 6.1.6
+      '@types/bn.js': 5.1.1
+      big.js: 6.2.1
+      bn.js: 5.2.1
+      decimal.js: 10.4.3
+      protobufjs: 7.2.1
+      yaml: 2.2.1
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /@switchboard-xyz/eslint-config/0.1.8:
+    resolution: {integrity: sha512-ZlWCsFuyAqqALEIT6UVHNQGQRs0Oxe3p9fLLI86QpQ52aOtM96Y2N5PkfTRTCKVtGmtpO

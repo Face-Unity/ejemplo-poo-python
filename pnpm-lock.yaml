@@ -719,4 +719,18 @@ packages:
       '@types/json-schema': 7.0.11
       '@typescript-eslint/scope-manager': 4.33.0
       '@typescript-eslint/types': 4.33.0
-      '@typescript-eslint/typescript-estree': 4.33.0_typ
+      '@typescript-eslint/typescript-estree': 4.33.0_typescript@4.7.4
+      eslint: 7.32.0
+      eslint-scope: 5.1.1
+      eslint-utils: 3.0.0_eslint@7.32.0
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+    dev: true
+
+  /@typescript-eslint/parser/4.33.0_hxadhbs2xogijvk7vq4t2azzbu:
+    resolution: {integrity: sha512-ZohdsbXadjGBSK0/r+d87X0SBmKzOq4/S5nzK6SBgJspFo9/CUDJ7hjayuze+JK7CZQLDMroqytp7pOcFKTxZA==}
+    engines: {node: ^10.12.0 || >=12.0.0}
+    peerDependencies:
+      eslint: ^5.0.0 || ^6.0.0 || ^7.0.0
+      typesc

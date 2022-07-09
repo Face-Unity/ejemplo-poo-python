@@ -1331,4 +1331,18 @@ packages:
     dependencies:
       delayed-stream: 1.0.0
 
-  /commander/2.20
+  /commander/2.20.3:
+    resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
+    dev: false
+
+  /commitlint/17.4.4:
+    resolution: {integrity: sha512-trjD7/aJ3FyCMNRhP27QorPjvlE9m0AIlLKcusS6r8aDaDJQ8/MQMmANMv3LvjVx1SKy1MTSF0/oUw3T3If/EA==}
+    engines: {node: '>=v14'}
+    hasBin: true
+    dependencies:
+      '@commitlint/cli': 17.4.4
+      '@commitlint/types': 17.4.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+    dev: true

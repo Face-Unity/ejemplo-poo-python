@@ -1543,4 +1543,19 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /doct
+  /doctrine/3.0.0:
+    resolution: {integrity: sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==}
+    engines: {node: '>=6.0.0'}
+    dependencies:
+      esutils: 2.0.3
+    dev: true
+
+  /dot-prop/5.3.0:
+    resolution: {integrity: sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==}
+    engines: {node: '>=8'}
+    dependencies:
+      is-obj: 2.0.0
+    dev: true
+
+  /emoji-regex/8.0.0:
+    resolution: {

@@ -2382,4 +2382,17 @@ packages:
     dev: true
 
   /gts/3.1.1_typescript@4.7.4:
-    resolution: {integrity: sha512-Jw44aBbzMnd1vtZs7tZt3LMstKQukCBg7N4C
+    resolution: {integrity: sha512-Jw44aBbzMnd1vtZs7tZt3LMstKQukCBg7N4CKVGzviIQ45Cz5b9lxDJGXVKj/9ySuGv6TYEeijZJGbiiVcM27w==}
+    engines: {node: '>=10'}
+    hasBin: true
+    peerDependencies:
+      typescript: '>=3'
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 4.33.0_3ekaj7j3owlolnuhj3ykrb7u7i
+      '@typescript-eslint/parser': 4.33.0_hxadhbs2xogijvk7vq4t2azzbu
+      chalk: 4.1.2
+      eslint: 7.32.0
+      eslint-config-prettier: 7.2.0_eslint@7.32.0
+      eslint-plugin-node: 11.1.0_eslint@7.32.0
+      eslint-plugin-prettier: 3.4.1_qw22266jc4bxgzaxteviiakqha
+      ex

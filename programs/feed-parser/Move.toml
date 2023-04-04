@@ -1,0 +1,12 @@
+[package]
+name = "SwitchboardFeedParser"
+version = "0.1.0"
+
+[addresses]
+std = "0x1"
+aptos_framework = "0x1"
+switchboard = "0x7d7e436f0b2aafde60774efb26ccc432cf881b677aca7faaf2a01879bd19fb8" # Will change as we iterate on devnet
+switchboard_feed_parser = "_"
+
+[dependencies]
+MoveStdlib = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/fra
